@@ -1,12 +1,52 @@
 <template>
-  <div class="footer">
-    <div class="footer-inner">
+  <div id="footer">
+    <div class="footer-wrap">
       <a-row :gutter="24">
         <a-col :md="6" :xs="24" :sm="24">
-          <div class="links">
-            <h2>关于</h2>
+          <div class="footer-center">
+            <h2>深泉心理</h2>
             <div>
-              <a href>关于我们</a>
+              <a href>深泉书院</a>
+            </div>
+            <div>
+              <a href>深泉咨询</a>
+            </div>
+            <div>
+              <a href>深泉大众</a>
+            </div>
+            <div>
+              <a href="#" target="_blank">IANCHINA</a>
+            </div>
+          </div>
+        </a-col>
+        <a-col :md="6" :xs="24" :sm="24">
+          <div class="footer-center">
+            <h2>关于我们</h2>
+
+            <div>
+              <a href>深泉简介</a>
+            </div>
+            <div>
+              <a href="mailto:125@qq.com">联系我们</a>
+            </div>
+            <div>
+              <span>服务热线：010-89789999</span>
+            </div>
+          </div>
+        </a-col>
+        <a-col :md="6" :xs="24" :sm="24">
+          <div class="footer-center">
+            <h2>公众号</h2>
+            <div>
+              <img style="width:96px;height:96px" />
+            </div>
+          </div>
+        </a-col>
+        <a-col :md="6" :xs="24" :sm="24">
+          <div class="footer-center">
+            <h2>Copyright © 2019</h2>
+            <div>
+              <span>深泉心理出品 Build with 小听风</span>
             </div>
           </div>
         </a-col>
@@ -16,47 +56,74 @@
 </template>
 
 <script>
+import { mixinDevice } from '@/utils/mixin'
 export default {
   name: 'GlobalFooter',
-  data() {
+  data () {
     return {}
-  }
+  },
+  mixins: [mixinDevice]
 }
 </script>
 
 <style lang="less" scoped>
-.footer {
-  margin-top:10px;
+@import url('../index.less');
+@site-text-color: #fff;
+#footer {
+  a {
+    color: rgba(255, 255, 255, 0.65);
+    &:hover {
+      color: @site-text-color;
+    }
+  }
+  margin-top: 20px;
   clear: both;
   font-size: 14px;
-  background-color: #002147;
+  background: #002147;
   position: relative;
   z-index: 100;
-  margin-left: -1px;
-  color: fff;
-  text-align: center;
-  .footer-inner {
+  color: @site-text-color;
+  box-shadow: 0 1000px 0 1000px #002147;
+  .ant-row {
+    text-align: center;
+    .footer-center {
+      display: inline-block;
+      text-align: left;
+      > h2 {
+        font-size: 16px;
+        margin: 0 auto 24px;
+        font-weight: 500;
+        position: relative;
+        color: @site-text-color;
+
+        > .title-icon {
+          width: 27px;
+          margin-right: 16px;
+        }
+        > .anticon {
+          font-size: 16px;
+          position: absolute;
+          left: -22px;
+          top: 3px;
+          color: #aaa;
+        }
+      }
+      > div {
+        margin: 12px 0;
+      }
+    }
+  }
+  .footer-wrap {
     position: relative;
-    padding: 90px 150px 90px 150px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 86px @padding-space 93px @padding-space;
   }
-  h2 {
-    color: #ffffff;
+}
+@media only screen and (max-width: 767.99px) {
+  #footer .footer-wrap {
+    padding: 40px 16px;
   }
-  a {
-    color: #fff;
-
-    &:hover {
-      color: #fff;
-    }
-
-    &:not(:last-child) {
-      margin-right: 40px;
-    }
-  }
-  .copyright {
-    color: #fff;
-    font-size: 14px;
+  #footer .ant-row .footer-center {
+    text-align: center;
   }
 }
 </style>

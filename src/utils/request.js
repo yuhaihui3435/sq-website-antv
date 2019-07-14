@@ -11,6 +11,9 @@ const service = axios.create({
   timeout: 6000 // 请求超时时间
 })
 
+service.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+service.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+service.defaults.withCredentials = true; 
 const err = (error) => {
   if (error.response) {
     const data = error.response.data
@@ -42,7 +45,7 @@ const err = (error) => {
 service.interceptors.request.use(config => {
   const token = Vue.ls.get(ACCESS_TOKEN)
   if (token) {
-    config.headers['Access-Token'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
+    config.headers['token'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
   }
   return config
 }, err)

@@ -1,215 +1,81 @@
 <template>
   <div class="home">
-    <div class="banner">
-      <img alt="Vue logo" style="width: 64px; height: 64px" src="../assets/logo.png">
-      <h3 style="margin-top: 1rem">Welcome to Your Vue.js App</h3>
-    </div>
+      <a-carousel autoplay v-show="imgList.length>0">
+        <img v-for="img in imgList" :key="img.id" :src="img.img"/>
+      </a-carousel>
+      <a-row :gutter="24">
+        <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
+            <a-card
+            class="project-list"
+            :loading="loading"
+            style="margin-bottom: 24px;"
+            :bordered="false"
+            title="书院·研究·学习"
+            :body-style="{ padding: 0 }">
+            <a slot="extra">所有课程</a>
+            <div>
+              <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in lessonList">
+                <a-card :bordered="false" :body-style="{ padding: 0 }">
+                  <a-card-meta>
+                    <div slot="title" class="card-title">
+                      <a-avatar size="small" :src="item.cover"/>
+                      <a>{{ item.title }}</a>
+                    </div>
+                    <div slot="description" class="card-description">
+                      {{ item.description }}
+                    </div>
+                  </a-card-meta>
+                  <div class="project-item">
+                    <a href="/#/">科学搬砖组</a>
+                    <span class="datetime">9小时前</span>
+                  </div>
+                </a-card>
+              </a-card-grid>
+            </div>
+          </a-card>
+        </a-col>
+        <a-col
+          style="padding: 0 12px"
+          :xl="8"
+          :lg="24"
+          :md="24"
+          :sm="24"
+          :xs="24">
 
-    <br/>
 
-    <h2># Trend 组件 </h2>
-
-    <a-divider> 正常 </a-divider>
-
-    <a-card>
-
-      <trend flag="up" style="margin-right: 16px;">
-        <span slot="term">工资</span>
-        5%
-      </trend>
-      <trend flag="up" style="margin-right: 16px;">
-        <span slot="term">工作量</span>
-        50%
-      </trend>
-      <trend flag="down">
-        <span slot="term">身体状态</span>
-        50%
-      </trend>
-
-    </a-card>
-
-    <a-divider> 颜色反转 </a-divider>
-
-    <a-card style="margin-bottom: 3rem">
-
-      <trend flag="up" :reverse-color="true" style="margin-right: 16px;">
-        <span slot="term">工资</span>
-        5%
-      </trend>
-      <trend flag="down" :reverse-color="true" style="margin-right: 16px;">
-        <span slot="term">工作量</span>
-        50%
-      </trend>
-
-    </a-card>
-
-    <h2># AvatarList 组件 </h2>
-
-    <a-divider> AvatarList </a-divider>
-    <a-card style="margin-bottom: 3rem">
-      <avatar-list :max-length="3">
-        <avatar-list-item tips="Jake" src="https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png" />
-        <avatar-list-item tips="Andy" src="https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png" />
-        <avatar-list-item tips="Niko" src="https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png" />
-        <avatar-list-item tips="Niko" src="https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png" />
-        <avatar-list-item tips="Niko" src="https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png" />
-        <avatar-list-item tips="Niko" src="https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png" />
-        <avatar-list-item tips="Niko" src="https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png" />
-
-      </avatar-list>
-
-      <a-divider type="vertical" style="margin: 0 16px" />
-
-      <avatar-list size="mini">
-        <avatar-list-item tips="Jake" src="https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png" />
-        <avatar-list-item tips="Andy" src="https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png" />
-        <avatar-list-item tips="Niko" src="https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png" />
-      </avatar-list>
-    </a-card>
-
-    <h2># CountDown 组件 </h2>
-
-    <a-divider> CountDown </a-divider>
-    <a-card style="margin-bottom: 3rem">
-      <count-down
-        style="font-size: 2rem"
-        :target="new Date().getTime() + 3000000"
-        :on-end="onEndHandle">
-      </count-down>
-
-      <a-divider type="vertical" style="margin: 0 16px" />
-
-      <count-down
-        style="font-size: 2rem"
-        :target="new Date().getTime() + 10000"
-        :on-end="onEndHandle2">
-      </count-down>
-    </a-card>
-
-    <h2># Ellipsis 组件 </h2>
-
-    <a-divider> Ellipsis </a-divider>
-    <a-card style="margin-bottom: 3rem">
-      <ellipsis :length="100" tooltip>
-        There were injuries alleged in three cases in 2015, and a
-        fourth incident in September, according to the safety recall report. After meeting with US regulators in October, the firm decided to issue a voluntary recall.
-      </ellipsis>
-    </a-card>
-
-    <h2># NumberInfo 组件 </h2>
-
-    <a-divider> NumberInfo </a-divider>
-    <a-card style="margin-bottom: 3rem">
-      <number-info
-        :sub-title="() => { return 'Visits this week' }"
-        :total="12321"
-        status="up"
-        :sub-total="17.1"></number-info>
-    </a-card>
-
-    <h2># TagSelect 组件 </h2>
-
-    <a-divider> TagSelect </a-divider>
-    <a-card style="margin-bottom: 3rem">
-      <tag-select>
-        <tag-select-option value="cat1">类目1</tag-select-option>
-        <tag-select-option value="cat2">类目2</tag-select-option>
-        <tag-select-option value="cat3">类目3</tag-select-option>
-        <tag-select-option value="cat4">类目4</tag-select-option>
-        <tag-select-option value="cat5">类目5</tag-select-option>
-        <tag-select-option value="cat6">类目6</tag-select-option>
-        <tag-select-option value="cat7">类目7</tag-select-option>
-      </tag-select>
-    </a-card>
-
-    <h2># DescriptionList 组件 </h2>
-
-    <a-divider> DescriptionList </a-divider>
-    <a-card style="margin-bottom: 3rem">
-      <description-list title="组名称" size="small">
-        <description-list-item term="负责人">林东东</description-list-item>
-        <description-list-item term="角色码">1234567</description-list-item>
-        <description-list-item term="所属部门">XX公司-YY部</description-list-item>
-        <description-list-item term="过期时间">2018-08-08</description-list-item>
-        <description-list-item term="描述">这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...</description-list-item>
-      </description-list>
-    </a-card>
-
-    <a-divider> TagCloud </a-divider>
-    <a-card style="margin-bottom: 3rem">
-      <tag-cloud :tag-list="tagCloudData"></tag-cloud>
-    </a-card>
+        </a-col>
+      </a-row>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
-import Trend from '@/components/Trend'
-import AvatarList from '@/components/AvatarList'
-import CountDown from '@/components/CountDown/CountDown'
-import Ellipsis from '@/components/Ellipsis'
-import NumberInfo from '@/components/NumberInfo'
-import TagSelect from '@/components/TagSelect'
-import { DescriptionList, TagCloud } from '@/components/'
-
-const AvatarListItem = AvatarList.AvatarItem
-const TagSelectOption = TagSelect.Option
-
-const DescriptionListItem = DescriptionList.Item
-
 export default {
   name: 'Home',
-  components: {
-    NumberInfo,
-    Ellipsis,
-    CountDown,
-    Trend,
-    AvatarList,
-    AvatarListItem,
-    TagSelect,
-    TagSelectOption,
-    TagCloud,
-    DescriptionList,
-    DescriptionListItem
-  },
-  data () {
+  components: {},
+  data() {
     return {
-      targetTime: new Date().getTime() + 3900000,
-      tagCloudData: []
+      lessonList:[],
+      imgList:[
+        {
+          img:'http://pic25.nipic.com/20121205/10197997_003647426000_2.jpg',
+          id:1
+        },
+        {
+          img:'http://img.redocn.com/sheji/20141219/zhongguofengdaodeliyizhanbanzhijing_3744115.jpg',
+          id:2
+        },
+        {
+          img:'http://pic16.nipic.com/20111006/6239936_092702973000_2.jpg',
+          id:3
+        }
+      ]
+
     }
   },
-  created () {
-    this.getTagCloudData()
-  },
-  methods: {
-    onEndHandle () {
-      this.$message.success('CountDown callback!!!')
-    },
-    onEndHandle2 () {
-      this.$notification.open({
-        message: 'Notification Title',
-        description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.'
-      })
-    },
-    getTagCloudData () {
-      this.$http.get('/data/antv/tag-cloud').then(res => {
-        this.tagCloudData = res.result
-      })
-    }
-  }
+  created() {},
+  methods: {}
 }
 </script>
 
-<style scoped>
-  .home {
-    width: 900px;
-    margin: 0 auto;
-    padding: 25px 0;
-  }
-  .home > .banner {
-    text-align: center;
-    padding: 25px 0;
-    margin: 25px 0;
-  }
+<style type="less" scoped>
 </style>
