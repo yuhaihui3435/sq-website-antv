@@ -58,3 +58,29 @@ export function removeLoadingAnimate (id = '', timeout = 1500) {
     document.body.removeChild(document.getElementById(id))
   }, timeout)
 }
+
+
+export function formatDate(date, format) {
+  if (date == undefined) {
+    return "";
+  }
+  if(format){
+    return moment(date).format(format);
+  }else{
+    return moment(date).format("YYYY-MM-DD HH:mm:ss");
+  }
+  
+}
+
+export function cleanObj(obj){
+  for(let key in obj){
+    if(obj[key] instanceof Object&&!Array.isArray(obj[key])){
+      obj[key]={};
+    }else if(obj[key] instanceof Array){
+      obj[key]=[];
+    }else{
+      obj[key]  = ''
+    }
+    
+  }
+}
