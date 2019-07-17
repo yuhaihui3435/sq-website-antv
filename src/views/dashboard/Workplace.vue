@@ -1,11 +1,11 @@
 
 <template>
-  <page-view :avatar="avatar" :title="false">
-    <div slot="headerContent">
-      <div class="title">{{ timeFix }}，{{ user.name }}<span class="welcome-text">，{{ welcome() }}</span></div>
-      <div>前端工程师 | 蚂蚁金服 - 某某某事业群 - VUE平台</div>
-    </div>
-    <div slot="extra">
+  <page-view :title="false">
+    <!-- <div slot="headerContent"> -->
+      <!-- <div class="title">{{ timeFix }}，{{ user.name }}<span class="welcome-text">，{{ welcome() }}</span></div> -->
+      <!-- <div>前端工程师 | 蚂蚁金服 - 某某某事业群 - VUE平台</div> -->
+    <!-- </div> -->
+    <!-- <div slot="extra">
       <a-row class="more-info">
         <a-col :span="8">
           <head-info title="项目数" content="56" :center="false" :bordered="false"/>
@@ -17,7 +17,7 @@
           <head-info title="项目访问" content="2,223" :center="false" />
         </a-col>
       </a-row>
-    </div>
+    </div> -->
 
     <div>
       <a-row :gutter="24">
