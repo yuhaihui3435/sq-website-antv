@@ -1,16 +1,20 @@
 <template>
   <div>
     <a-card :bordered="false" class="ant-pro-components-tag-select">
-      <!-- 省市区选择 -->
       <standard-form-row block style="padding-bottom: 11px;">
-        <strong :style="{ marginRight: 8 }">课程状态：</strong>
-        <template v-for=" lessonStatus in lessonStatusOptions">
-          <a-checkable-tag
-            style="font-size:14px;"
-            :key="lessonStatus.value"
-            :checked="lessonStatus.checked"
-            @change="lessonStatusChange(lessonStatus)"
-          >{{lessonStatus.label}}</a-checkable-tag>
+        <!-- <a-row>
+          <a-col :span="2"></a-col>
+          <a-col :span="22"></a-col>
+        </a-row>-->
+        <strong :style="{ marginRight: 8 }">关键字搜索：</strong>
+        <template>
+          <a-input-search
+            style="width:80%;"
+            placeholder="请输入关键字"
+            @search="onSearch"
+            enterButton="Search"
+            size="large"
+          />
         </template>
       </standard-form-row>
       <!-- 课程状态选择 -->
@@ -27,27 +31,71 @@
       </standard-form-row>
       <!-- 授课方式选择 -->
       <standard-form-row block style="padding-bottom: 11px;">
-        <strong :style="{ marginRight: 8 }">课程状态：</strong>
-        <template v-for=" lessonStatus in lessonStatusOptions">
+        <strong :style="{ marginRight: 8 }">授课方式：</strong>
+        <template v-for=" theWay in theWayOptions">
           <a-checkable-tag
             style="font-size:14px;"
-            :key="lessonStatus.value"
-            :checked="lessonStatus.checked"
-            @change="lessonStatusChange(lessonStatus)"
-          >{{lessonStatus.label}}</a-checkable-tag>
+            :key="theWay.value"
+            :checked="theWay.checked"
+            @change="theWayChange(theWay)"
+          >{{theWay.label}}</a-checkable-tag>
         </template>
       </standard-form-row>
-      <!-- 授课老师 -->
+      <!-- 省市区选择 -->
       <standard-form-row block style="padding-bottom: 11px;">
-        <strong :style="{ marginRight: 8 }">课程状态：</strong>
-        <template v-for=" lessonStatus in lessonStatusOptions">
-          <a-checkable-tag
-            style="font-size:14px;"
-            :key="lessonStatus.value"
-            :checked="lessonStatus.checked"
-            @change="lessonStatusChange(lessonStatus)"
-          >{{lessonStatus.label}}</a-checkable-tag>
-        </template>
+        <a-row>
+          <a-col :span="8">
+            <a-row>
+              <a-col :span="5" style="padding-top:10px;">
+                <strong :style="{ marginRight: 8 }">省市区：</strong>
+              </a-col>
+              <a-col :span="19">
+                <div id="app" style="width:100%">
+                  <el-cascader
+                    size="large"
+                    :options="options"
+                    :value="selectedOptions"
+                    @change="handleChangeArea"
+                  ></el-cascader>
+                </div>
+              </a-col>
+            </a-row>
+          </a-col>
+          <a-col :span="8">
+            <a-row>
+              <a-col :span="5" style="padding-top:10px;">
+                <strong :style="{ marginRight: 8 }">授课教师：</strong>
+              </a-col>
+              <a-col :span="19">
+                <div id="app" style="width:100%">
+                  <el-cascader
+                    size="large"
+                    :options="options"
+                    :value="selectedOptions"
+                    @change="handleChangeArea"
+                  ></el-cascader>
+                </div>
+              </a-col>
+            </a-row>
+          </a-col>
+          <a-col :span="8">
+            <a-row>
+              <a-col :span="5" style="padding-top:10px;">
+                <strong :style="{ marginRight: 8 }">省市区：</strong>
+              </a-col>
+              <a-col :span="19">
+                <div id="app" style="width:100%">
+                  <el-cascader
+                    size="large"
+                    :options="options"
+                    :value="selectedOptions"
+                    @change="handleChangeArea"
+                  ></el-cascader>
+                </div>
+              </a-col>
+            </a-row>
+          </a-col>
+        </a-row>
       </standard-form-row>
     </a-card>
 
@@ -96,11 +144,21 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import moment from 'moment'
 import { TagSelect, StandardFormRow, Ellipsis, AvatarList } from '@/components'
 const TagSelectOption = TagSelect.Option
 const AvatarListItem = AvatarList.AvatarItem
-
+import { Cascader } from 'element-ui'
+Vue.component(Cascader.name, Cascader)
+import {
+  provinceAndCityData,
+  regionData,
+  provinceAndCityDataPlus,
+  regionDataPlus,
+  CodeToText,
+  TextToCode
+} from 'element-china-area-data'
 export default {
   components: {
     AvatarList,
@@ -108,7 +166,8 @@ export default {
     Ellipsis,
     TagSelect,
     TagSelectOption,
-    StandardFormRow
+    StandardFormRow,
+    Cascader
   },
   data() {
     return {
@@ -120,7 +179,11 @@ export default {
         { label: '进行中', value: '1', checked: false },
         { label: '已结课', value: '2', checked: false }
       ],
-      lessonStatus: []
+      lessonStatus: [],
+      theWayOptions: [{ label: '线下', value: '00', checked: false }, { label: '线上', value: '01', checked: false }],
+      theWay: [],
+      options: regionDataPlus,
+      selectedOptions: []
     }
   },
   filters: {
@@ -132,6 +195,9 @@ export default {
     this.getList()
   },
   methods: {
+    handleChangeArea(value) {
+      console.log(value)
+    },
     // 课程状态选择
     lessonStatusChange(lessonStatus) {
       lessonStatus.checked = !lessonStatus.checked
@@ -142,6 +208,17 @@ export default {
         this.lessonStatus.splice(index, 1)
       }
       console.log('课程状态选择结果', this.lessonStatus)
+    },
+    // 授课方式选择
+    theWayChange(theWay) {
+      theWay.checked = !theWay.checked
+      if (theWay.checked) {
+        this.theWay.push(theWay.value)
+      } else {
+        let index = this.theWay.indexOf(theWay)
+        this.theWay.splice(index, 1)
+      }
+      console.log('授课方式选择结果', this.theWay)
     },
     handleChange(value) {
       console.log(`selected ${value}`)
