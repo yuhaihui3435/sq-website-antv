@@ -1,8 +1,8 @@
 <template>
-  <div class="logo">
+  <div class="logo" >
     <router-link :to="{name:'index'}">
-      <LogoSvg alt="logo" />
-      <h1 style="font-size:22px" v-if="showTitle">{{ title }}</h1>
+      <LogoSvg alt="logo" :style="{width:'120px',height:'100%'}" />
+      <!-- <h1 style="font-size:22px" v-if="showTitle">{{ title }}</h1> -->
     </router-link>
   </div>
 </template>
@@ -29,3 +29,17 @@ export default {
   }
 }
 </script>
+<style scoped lang="less">
+.layout.ant-layout.mobile,.layout.ant-layout.tablet{
+  .top-nav-header-index{
+    .header-index-wide{
+      .header-index-left{
+        .logo.top-nav-header{
+          flex:none
+        }
+      }
+    }
+  }
+}
+</style>
+

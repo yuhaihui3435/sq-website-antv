@@ -6,14 +6,14 @@ export const asyncRouterMap = [
     name: 'index',
     component: BasicLayout,
     redirect: '/',
-    meta: { title: '首页'},
+    meta: { title: '首页' },
     children: [
       // 首页
       {
         path: '/',
         name: 'index',
         component: () => import('@/views/dashboard/Workplace'),
-        meta: { title: '首页',hiddenHeaderContent:true }
+        meta: { title: '首页', hiddenHeaderContent: true }
       },
       // 课程
       {
@@ -51,16 +51,14 @@ export const asyncRouterMap = [
         name: 'aboutMe',
         component: () => import('@/views/account/center/Index'),
         meta: { title: '关于我们' }
-      }
-      
-      , 
+      },
       // account
       {
         path: '/account',
         component: RouteView,
         redirect: '/account/center',
         name: 'account',
-        hidden:true,
+        hidden: true,
         meta: { title: '个人页', icon: 'user', keepAlive: true },
         children: [
           {
@@ -73,7 +71,7 @@ export const asyncRouterMap = [
             path: '/account/settings',
             name: 'settings',
             component: () => import('@/views/account/settings/Index'),
-            meta: { title: '个人设置', hideHeader: true, permission: [ 'user' ] },
+            meta: { title: '个人设置', hideHeader: true, permission: ['user'] },
             redirect: '/account/settings/base',
             hideChildrenInMenu: true,
             children: [
@@ -81,26 +79,25 @@ export const asyncRouterMap = [
                 path: '/account/settings/base',
                 name: 'BaseSettings',
                 component: () => import('@/views/account/settings/BaseSetting'),
-                meta: { title: '基本设置', hidden: true, permission: [ 'user' ] }
+                meta: { title: '基本设置', hidden: true, permission: ['user'] }
               },
               {
                 path: '/account/settings/security',
                 name: 'SecuritySettings',
                 component: () => import('@/views/account/settings/Security'),
-                meta: { title: '安全设置', hidden: true, keepAlive: true, permission: [ 'user' ] }
-              },
+                meta: { title: '安全设置', hidden: true, keepAlive: true, permission: ['user'] }
+              }
             ]
           }
         ]
-      },
+      }
     ]
   },
   {
     path: '*',
     redirect: '/404',
     hidden: true
-  },
-
+  }
 ]
 
 /**
