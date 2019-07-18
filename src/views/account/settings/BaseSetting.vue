@@ -1,76 +1,114 @@
 <template>
-  <page-view :title="false">
-    <div class="account-settings-info-view">
-      <a-row :gutter="16">
-        <a-col :md="24" :lg="16">
-          <a-form layout="vertical">
-            <a-form-item label="昵称">
-              <a-input placeholder="给自己起个名字" />
-            </a-form-item>
-            <a-form-item label="Bio">
+  <!-- <page-view :title="false"> -->
+  <!-- <div class="account-settings-info-view"> -->
+  <a-row :gutter="16">
+    <a-col :md="24" :lg="16">
+      <a-form layout="vertical">
+        <a-form-item label="昵称">
+          <a-input placeholder="给自己起个名字" :value="form.nickName" />
+        </a-form-item>
+        <!-- <a-form-item label="Bio">
               <a-textarea rows="4" placeholder="You are not alone." />
-            </a-form-item>
-
-            <a-form-item label="电子邮件" :required="false">
-              <a-input placeholder="exp@admin.com" />
-            </a-form-item>
-            <a-form-item label="加密方式" :required="false">
-              <a-select defaultValue="aes-256-cfb">
-                <a-select-option value="aes-256-cfb">aes-256-cfb</a-select-option>
-                <a-select-option value="aes-128-cfb">aes-128-cfb</a-select-option>
-                <a-select-option value="chacha20">chacha20</a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item label="连接密码" :required="false">
-              <a-input placeholder="h3gSbecd" />
-            </a-form-item>
-            <a-form-item label="登录密码" :required="false">
-              <a-input placeholder="密码" />
-            </a-form-item>
-
-            <a-form-item>
-              <a-button type="primary">提交</a-button>
-              <a-button style="margin-left: 8px">保存</a-button>
-            </a-form-item>
-          </a-form>
-        </a-col>
-        <a-upload
-          name="avatar"
-          listType="picture-card"
-          class="avatar-uploader"
-          :showUploadList="false"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          :beforeUpload="beforeUpload"
-          @change="handleChange"
-        >
-          <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
-          <div v-else>
-            <a-icon :type="loading ? 'loading' : 'plus'" />
-            <div class="ant-upload-text">Upload</div>
+        </a-form-item>-->
+        <a-form-item label="性别" :required="false">
+          <a-select :value="form.sex">
+            <a-select-option value="00">男</a-select-option>
+            <a-select-option value="01">女</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="真实姓名" :required="false">
+          <a-input placeholder="请输入真实姓名" :value="form.realName" />
+        </a-form-item>
+        <a-form-item label="省市区" :required="false">
+          <!-- <a-input placeholder="密码" /> -->
+          <div id="app" style="width:100%">
+            <el-cascader
+              size="large"
+              :options="options"
+              :value="selectedOptions"
+              @change="handleChangeArea"
+            ></el-cascader>
           </div>
-        </a-upload>
-        <!-- <a-col :md="24" :lg="8" :style="{ minHeight: '180px' }">
-          <div class="ant-upload-preview" @click="$refs.modal.edit(1)">
+        </a-form-item>
+        <a-form-item label="地址" :required="false">
+          <a-input placeholder="请输入地址" :value="form.address" />
+        </a-form-item>
+        <a-form-item label="学历" :required="false">
+          <a-select placeholder="请选择学历">
+            <a-select-option value="00">初中</a-select-option>
+            <a-select-option value="01">高中</a-select-option>
+            <a-select-option value="02">中专</a-select-option>
+            <a-select-option value="03">大专</a-select-option>
+            <a-select-option value="04">本科</a-select-option>
+            <a-select-option value="05">研究生</a-select-option>
+            <a-select-option value="06">硕士</a-select-option>
+            <a-select-option value="07">博士</a-select-option>
+            <a-select-option value="08">博士后</a-select-option>
+            <a-select-option value="09">其他</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary">提交</a-button>
+          <a-button style="margin-left: 8px">保存</a-button>
+        </a-form-item>
+      </a-form>
+    </a-col>
+
+    <a-col :md="24" :lg="8" :style="{ minHeight: '180px'}" style="padding-left:60px;">
+      <!-- <div class="ant-upload-preview" @click="$refs.modal.edit(1)">
             <a-icon type="cloud-upload-o" class="upload-icon" />
             <div class="mask">
               <a-icon type="plus" />
             </div>
             <img :src="option.img" />
-          </div>
-        </a-col>-->
-      </a-row>
+      </div>-->
+      <a-upload
+        name="avatar"
+        listType="picture-card"
+        class="avatar-uploader"
+        :showUploadList="false"
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        :beforeUpload="beforeUpload"
+        @change="handleChange"
+      >
+        <img v-if="imageUrl" :src="imageUrl" alt="avatar" height="260" />
+        <div v-else>
+          <a-icon :type="loading ? 'loading' : 'plus'" />
+          <div class="ant-upload-text">头像</div>
+        </div>
+      </a-upload>
+    </a-col>
+  </a-row>
 
-      <!-- <avatar-modal ref="modal"></avatar-modal> -->
-    </div>
-  </page-view>
+  <!-- <avatar-modal ref="modal"></avatar-modal> -->
+  <!-- </div>
+  </page-view>-->
 </template>
 
 <script>
+import Vue from 'vue'
 import AvatarModal from './AvatarModal'
-
+import { PageView } from '@/layouts'
+import { Cascader } from 'element-ui'
+Vue.component(Cascader.name, Cascader)
+import {
+  provinceAndCityData,
+  regionData,
+  provinceAndCityDataPlus,
+  regionDataPlus,
+  CodeToText,
+  TextToCode
+} from 'element-china-area-data'
+function getBase64(img, callback) {
+  const reader = new FileReader()
+  reader.addEventListener('load', () => callback(reader.result))
+  reader.readAsDataURL(img)
+}
 export default {
   components: {
-    AvatarModal
+    AvatarModal,
+    PageView,
+    Cascader
   },
   data() {
     return {
@@ -90,10 +128,54 @@ export default {
         // 开启宽度和高度比例
         fixed: true,
         fixedNumber: [1, 1]
-      }
+      },
+      loading: false,
+      imageUrl: '',
+      form: {
+        avatar: '',
+        nickName: '',
+        type: '00',
+        realName: '',
+        province: '',
+        city: '',
+        area: '',
+        address: '',
+        education: '',
+        sex: '00'
+      },
+      options: regionDataPlus,
+      selectedOptions: []
     }
   },
-  methods: {}
+  methods: {
+    handleChangeArea(value) {
+      console.log(value)
+    },
+    handleChange(info) {
+      if (info.file.status === 'uploading') {
+        this.loading = true
+        return
+      }
+      if (info.file.status === 'done') {
+        // Get this url from response in real world.
+        getBase64(info.file.originFileObj, imageUrl => {
+          this.imageUrl = imageUrl
+          this.loading = false
+        })
+      }
+    },
+    beforeUpload(file) {
+      // const isJPG = file.type === 'image/jpeg'
+      // if (!isJPG) {
+      //   this.$message.error('You can only upload JPG file!')
+      // }
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('Image must smaller than 2MB!')
+      }
+      return isLt2M
+    }
+  }
 }
 </script>
 
@@ -151,5 +233,18 @@ export default {
     border-radius: 50%;
     overflow: hidden;
   }
+}
+.avatar-uploader > .ant-upload {
+  width: 128px;
+  height: 128px;
+}
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="logo">
     <router-link :to="{name:'index'}">
       <LogoSvg alt="logo" />
-      <h1 style="font-size:22px" v-if="showTitle">{{ title }}</h1>
+      <!-- <h1 style="font-size:22px" v-if="showTitle">{{ title }}</h1> -->
     </router-link>
   </div>
 </template>
