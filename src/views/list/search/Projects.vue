@@ -1,64 +1,126 @@
 <template>
   <div>
     <a-card :bordered="false" class="ant-pro-components-tag-select">
-      <a-form :form="form" layout="inline">
-        <standard-form-row title="所属类目" block style="padding-bottom: 11px;">
-          <a-form-item>
-            <tag-select>
-              <tag-select-option value="Category1">类目一</tag-select-option>
-              <tag-select-option value="Category2">类目二</tag-select-option>
-              <tag-select-option value="Category3">类目三</tag-select-option>
-              <tag-select-option value="Category4">类目四</tag-select-option>
-              <tag-select-option value="Category5">类目五</tag-select-option>
-              <tag-select-option value="Category6">类目六</tag-select-option>
-              <tag-select-option value="Category7">类目七</tag-select-option>
-              <tag-select-option value="Category8">类目八</tag-select-option>
-              <tag-select-option value="Category9">类目九</tag-select-option>
-              <tag-select-option value="Category10">类目十</tag-select-option>
-            </tag-select>
-          </a-form-item>
-        </standard-form-row>
-
-        <standard-form-row title="其它选项" grid last>
-          <a-row>
-            <a-col :lg="8" :md="10" :sm="10" :xs="24">
-              <a-form-item :wrapper-col="{ sm: { span: 16 }, xs: { span: 24 } }" label="作者">
-                <a-select
-                  style="max-width: 200px; width: 100%;"
-                  mode="multiple"
-                  placeholder="不限"
-                  v-decorator="['author']"
-                  @change="handleChange"
-                >
-                  <a-select-option value="lisa">王昭君</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :lg="8" :md="10" :sm="10" :xs="24">
-              <a-form-item :wrapper-col="{ sm: { span: 16 }, xs: { span: 24 } }" label="好评度">
-                <a-select
-                  style="max-width: 200px; width: 100%;"
-                  placeholder="不限"
-                  v-decorator="['rate']"
-                >
-                  <a-select-option value="good">优秀</a-select-option>
-                  <a-select-option value="normal">普通</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-          </a-row>
-        </standard-form-row>
-      </a-form>
+      <standard-form-row block style="padding-bottom: 11px;">
+        <!-- <a-row>
+          <a-col :span="2"></a-col>
+          <a-col :span="22"></a-col>
+        </a-row>-->
+        <strong :style="{ marginRight: 8 }">关键字搜索：</strong>
+        <template>
+          <a-input-search
+            style="width:80%;"
+            placeholder="请输入关键字"
+            @search="onSearch"
+            enterButton="Search"
+            size="large"
+          />
+        </template>
+      </standard-form-row>
+      <!-- 课程状态选择 -->
+      <standard-form-row block style="padding-bottom: 11px;">
+        <strong :style="{ marginRight: 8 }">课程状态：</strong>
+        <template v-for=" lessonStatus in lessonStatusOptions">
+          <a-checkable-tag
+            style="font-size:14px;"
+            :key="lessonStatus.value"
+            :checked="lessonStatus.checked"
+            @change="lessonStatusChange(lessonStatus)"
+          >{{lessonStatus.label}}</a-checkable-tag>
+        </template>
+      </standard-form-row>
+      <!-- 授课方式选择 -->
+      <standard-form-row block style="padding-bottom: 11px;">
+        <strong :style="{ marginRight: 8 }">授课方式：</strong>
+        <template v-for=" theWay in theWayOptions">
+          <a-checkable-tag
+            style="font-size:14px;"
+            :key="theWay.value"
+            :checked="theWay.checked"
+            @change="theWayChange(theWay)"
+          >{{theWay.label}}</a-checkable-tag>
+        </template>
+      </standard-form-row>
+      <!-- 省市区选择 -->
+      <standard-form-row block style="padding-bottom: 11px;">
+        <a-row>
+          <a-col :span="8">
+            <a-row>
+              <a-col :span="5" style="padding-top:10px;">
+                <strong :style="{ marginRight: 8 }">省市区：</strong>
+              </a-col>
+              <a-col :span="19">
+                <div id="app" style="width:100%">
+                  <el-cascader
+                    size="large"
+                    :options="options"
+                    :value="selectedOptions"
+                    @change="handleChangeArea"
+                  ></el-cascader>
+                </div>
+              </a-col>
+            </a-row>
+          </a-col>
+          <a-col :span="8">
+            <a-row>
+              <a-col :span="5" style="padding-top:10px;">
+                <strong :style="{ marginRight: 8 }">授课教师：</strong>
+              </a-col>
+              <a-col :span="19">
+                <div id="app" style="width:100%">
+                  <el-cascader
+                    size="large"
+                    :options="options"
+                    :value="selectedOptions"
+                    @change="handleChangeArea"
+                  ></el-cascader>
+                </div>
+              </a-col>
+            </a-row>
+          </a-col>
+          <a-col :span="8">
+            <a-row>
+              <a-col :span="5" style="padding-top:10px;">
+                <strong :style="{ marginRight: 8 }">省市区：</strong>
+              </a-col>
+              <a-col :span="19">
+                <div id="app" style="width:100%">
+                  <el-cascader
+                    size="large"
+                    :options="options"
+                    :value="selectedOptions"
+                    @change="handleChangeArea"
+                  ></el-cascader>
+                </div>
+              </a-col>
+            </a-row>
+          </a-col>
+        </a-row>
+      </standard-form-row>
     </a-card>
 
     <div class="ant-pro-pages-list-projects-cardList">
-      <a-list :loading="loading" :data-source="data" :grid="{ gutter: 24, xl: 4, lg: 3, md: 3, sm: 2, xs: 1 }">
+      <!-- <a-card hoverable style="width: 240px">
+        <img
+          alt="example"
+          src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+          slot="cover"
+        />
+        <a-card-meta title="Europe Street beat">
+          <template slot="description">www.instagram.com</template>
+        </a-card-meta>
+      </a-card>-->
+      <a-list
+        :loading="loading"
+        :data-source="data"
+        :grid="{ gutter: 24, xl: 4, lg: 3, md: 3, sm: 2, xs: 1 }"
+      >
         <a-list-item slot="renderItem" slot-scope="item">
           <a-card class="ant-pro-pages-list-projects-card" hoverable>
             <img slot="cover" :src="item.cover" :alt="item.title" />
-            <a-card-meta :title="item.title">
+            <a-card-meta title="课程名称">
               <template slot="description">
-                <ellipsis :length="50">{{ item.description }}</ellipsis>
+                <ellipsis :length="50">描述</ellipsis>
               </template>
             </a-card-meta>
             <div class="cardItemContent">
@@ -82,11 +144,21 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import moment from 'moment'
 import { TagSelect, StandardFormRow, Ellipsis, AvatarList } from '@/components'
 const TagSelectOption = TagSelect.Option
 const AvatarListItem = AvatarList.AvatarItem
-
+import { Cascader } from 'element-ui'
+Vue.component(Cascader.name, Cascader)
+import {
+  provinceAndCityData,
+  regionData,
+  provinceAndCityDataPlus,
+  regionDataPlus,
+  CodeToText,
+  TextToCode
+} from 'element-china-area-data'
 export default {
   components: {
     AvatarList,
@@ -94,31 +166,68 @@ export default {
     Ellipsis,
     TagSelect,
     TagSelectOption,
-    StandardFormRow
+    StandardFormRow,
+    Cascader
   },
-  data () {
+  data() {
     return {
       data: [],
       form: this.$form.createForm(this),
-      loading: true
+      loading: true,
+      lessonStatusOptions: [
+        { label: '未开始', value: '00', checked: false },
+        { label: '进行中', value: '1', checked: false },
+        { label: '已结课', value: '2', checked: false }
+      ],
+      lessonStatus: [],
+      theWayOptions: [{ label: '线下', value: '00', checked: false }, { label: '线上', value: '01', checked: false }],
+      theWay: [],
+      options: regionDataPlus,
+      selectedOptions: []
     }
   },
   filters: {
-    fromNow (date) {
+    fromNow(date) {
       return moment(date).fromNow()
     }
   },
-  mounted () {
+  mounted() {
     this.getList()
   },
   methods: {
-    handleChange (value) {
+    handleChangeArea(value) {
+      console.log(value)
+    },
+    // 课程状态选择
+    lessonStatusChange(lessonStatus) {
+      lessonStatus.checked = !lessonStatus.checked
+      if (lessonStatus.checked) {
+        this.lessonStatus.push(lessonStatus.value)
+      } else {
+        let index = this.lessonStatus.indexOf(lessonStatus)
+        this.lessonStatus.splice(index, 1)
+      }
+      console.log('课程状态选择结果', this.lessonStatus)
+    },
+    // 授课方式选择
+    theWayChange(theWay) {
+      theWay.checked = !theWay.checked
+      if (theWay.checked) {
+        this.theWay.push(theWay.value)
+      } else {
+        let index = this.theWay.indexOf(theWay)
+        this.theWay.splice(index, 1)
+      }
+      console.log('授课方式选择结果', this.theWay)
+    },
+    handleChange(value) {
       console.log(`selected ${value}`)
     },
-    getList () {
+    getList() {
       this.$http.get('/list/article', { params: { count: 8 } }).then(res => {
         console.log('res', res)
         this.data = res.result
+        console.log(this.data)
         this.loading = false
       })
     }
@@ -148,6 +257,7 @@ export default {
   }
 
   .cardItemContent {
+    // border: solid black 1px;
     display: flex;
     height: 20px;
     margin-top: 16px;
@@ -156,7 +266,7 @@ export default {
 
     > span {
       flex: 1 1;
-      color: rgba(0,0,0,.45);
+      color: rgba(0, 0, 0, 0.45);
       font-size: 12px;
     }
 

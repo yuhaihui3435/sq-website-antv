@@ -19,7 +19,8 @@ export const asyncRouterMap = [
       {
         path: '/sqsy',
         name: 'sqsy',
-        component: () => import('@/views/dashboard/Workplace'),
+        // component: () => import('@/views/dashboard/Workplace'),
+        component: () => import('@/views/list/search/Projects'),
         meta: { title: '深泉书院' }
       },
       //  医生
@@ -51,7 +52,13 @@ export const asyncRouterMap = [
         name: 'aboutMe',
         component: () => import('@/views/account/center/Index'),
         meta: { title: '关于我们' }
+<<<<<<< HEAD
       },
+=======
+      }
+
+      ,
+>>>>>>> 2d8a84501b36fa5f81e224084b2722e371857bb2
       // account
       {
         path: '/account',
@@ -86,11 +93,67 @@ export const asyncRouterMap = [
                 name: 'SecuritySettings',
                 component: () => import('@/views/account/settings/Security'),
                 meta: { title: '安全设置', hidden: true, keepAlive: true, permission: ['user'] }
+              },
+            ]
+          }
+        ]
+      },
+      // list
+      {
+        path: '/list',
+        name: 'list',
+        component: PageView,
+        redirect: '/list/table-list',
+        meta: { title: '深泉书院', permission: ['table'] },
+        children: [
+          {
+            path: '/list/table-list/:pageNo([1-9]\\d*)?',
+            name: 'TableListWrapper',
+            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+            component: () => import('@/views/list/TableList'),
+            meta: { title: '查询表格', keepAlive: true, permission: ['table'] }
+          },
+          {
+            path: '/list/basic-list',
+            name: 'BasicList',
+            component: () => import('@/views/list/StandardList'),
+            meta: { title: '标准列表', keepAlive: true, permission: ['table'] }
+          },
+          {
+            path: '/list/card',
+            name: 'CardList',
+            component: () => import('@/views/list/CardList'),
+            meta: { title: '卡片列表', keepAlive: true, permission: ['table'] }
+          },
+          {
+            path: '/list/search',
+            name: 'SearchList',
+            component: () => import('@/views/list/search/SearchLayout'),
+            redirect: '/list/search/article',
+            meta: { title: '搜索列表', keepAlive: true, permission: ['table'] },
+            children: [
+              {
+                path: '/list/search/article',
+                name: 'SearchArticles',
+                component: () => import('../views/list/search/Article'),
+                meta: { title: '搜索列表（文章）', permission: ['table'] }
+              },
+              {
+                path: '/list/search/project',
+                name: 'SearchProjects',
+                component: () => import('../views/list/search/Projects'),
+                meta: { title: '搜索列表（项目）', permission: ['table'] }
+              },
+              {
+                path: '/list/search/application',
+                name: 'SearchApplications',
+                component: () => import('../views/list/search/Applications'),
+                meta: { title: '搜索列表（应用）', permission: ['table'] }
               }
             ]
           }
         ]
-      }
+      },
     ]
   },
   {
