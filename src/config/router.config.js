@@ -87,7 +87,7 @@ export const asyncRouterMap = [
                 name: 'SecuritySettings',
                 component: () => import('@/views/account/settings/Security'),
                 meta: { title: '安全设置', hidden: true, keepAlive: true, permission: ['user'] }
-              },
+              }
             ]
           }
         ]
@@ -147,7 +147,7 @@ export const asyncRouterMap = [
             ]
           }
         ]
-      },
+      }
     ]
   },
   {

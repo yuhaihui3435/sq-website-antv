@@ -2,10 +2,6 @@
   <div>
     <a-card :bordered="false" class="ant-pro-components-tag-select">
       <standard-form-row block style="padding-bottom: 11px;">
-        <!-- <a-row>
-          <a-col :span="2"></a-col>
-          <a-col :span="22"></a-col>
-        </a-row>-->
         <strong :style="{ marginRight: 8 }">关键字搜索：</strong>
         <template>
           <a-input-search
@@ -78,23 +74,7 @@
               </a-col>
             </a-row>
           </a-col>
-          <a-col :span="8">
-            <a-row>
-              <a-col :span="5" style="padding-top:10px;">
-                <strong :style="{ marginRight: 8 }">省市区：</strong>
-              </a-col>
-              <a-col :span="19">
-                <div id="app" style="width:100%">
-                  <el-cascader
-                    size="large"
-                    :options="options"
-                    :value="selectedOptions"
-                    @change="handleChangeArea"
-                  ></el-cascader>
-                </div>
-              </a-col>
-            </a-row>
-          </a-col>
+          <a-col :span="8"></a-col>
         </a-row>
       </standard-form-row>
     </a-card>
@@ -195,6 +175,9 @@ export default {
     this.getList()
   },
   methods: {
+    // 关键字搜索
+    onSearch() {},
+    // 省市区
     handleChangeArea(value) {
       console.log(value)
     },
