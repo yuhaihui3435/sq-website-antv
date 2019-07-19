@@ -35,7 +35,8 @@ export const asyncRouterMap = [
       {
         path: '/sqdz',
         name: 'sqdz',
-        component: () => import('@/views/profile/advanced/Advanced'),
+        // component: () => import('@/views/profile/advanced/Advanced'),
+        component: () => import('@/views/list/search/Article'),
         meta: { title: '深泉大众' }
       },
 

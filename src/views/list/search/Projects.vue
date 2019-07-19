@@ -1,12 +1,11 @@
 <template>
   <div>
     <a-card :bordered="false" class="ant-pro-components-tag-select">
-      <standard-form-row block style="padding-bottom: 11px;">
-        <strong :style="{ marginRight: 8 }">关键字搜索：</strong>
+      <standard-form-row block style="padding-bottom: 11px;text-align:center;">
         <template>
           <a-input-search
-            style="width:80%;"
-            placeholder="请输入关键字"
+            style="width:40%;"
+            placeholder="搜索课程"
             @search="onSearch"
             enterButton="Search"
             size="large"
