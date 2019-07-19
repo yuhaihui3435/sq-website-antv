@@ -52,13 +52,9 @@ export const asyncRouterMap = [
         name: 'aboutMe',
         component: () => import('@/views/account/center/Index'),
         meta: { title: '关于我们' }
-<<<<<<< HEAD
-      },
-=======
       }
 
       ,
->>>>>>> 2d8a84501b36fa5f81e224084b2722e371857bb2
       // account
       {
         path: '/account',
