@@ -40,6 +40,58 @@ export const asyncRouterMap = [
       //   meta: { title: '深泉大众' }
       // },
 
+      // 课程
+      {
+        path: '/sqsy',
+        name: 'sqsy',
+        component: PageView,
+        redirect: '/sqsy/Projects',
+        meta: { title: '深泉书院' },
+        hideChildrenInMenu: true,
+        children: [
+          {
+            path: '/sqsy/Projects',
+            name: 'SearchProjects',
+            component: () => import('../views/list/search/Projects'),
+            meta: { title: '深泉书院' }
+          }
+        ]
+      },
+      // 医生
+      {
+        path: '/sqzx',
+        name: 'sqzx',
+        component: PageView,
+        redirect: '/sqzx/CardList',
+        meta: { title: '深泉咨询' },
+        hideChildrenInMenu: true,
+        children: [
+          {
+            path: '/sqzx/CardList',
+            name: 'SearchCardList',
+            component: () => import('../views/list/CardList'),
+            meta: { title: '深泉咨询' }
+          }
+        ]
+      },
+      
+      // 文章
+      {
+        path: '/sqdz',
+        name: 'sqdz',
+        component: PageView,
+        redirect: '/sqdz/article',
+        meta: { title: '深泉大众' },
+        hideChildrenInMenu: true,
+        children: [
+          {
+            path: '/sqdz/article',
+            name: 'SearchArticles',
+            component: () => import('../views/list/search/Article'),
+            meta: { title: '深泉大众' }
+          }
+        ]
+      },
       // IANCHINA
       {
         name: 'iachina',
@@ -53,23 +105,6 @@ export const asyncRouterMap = [
         name: 'aboutMe',
         component: () => import('@/views/account/center/Index'),
         meta: { title: '关于我们' }
-      },
-      // list
-      {
-        path: '/list',
-        name: 'list',
-        component: PageView,
-        redirect: '/list/article',
-        meta: { title: '深泉大众' },
-        hideChildrenInMenu: true,
-        children: [
-          {
-            path: '/list/article',
-            name: 'SearchArticles',
-            component: () => import('../views/list/search/Article'),
-            meta: { title: '深泉大众' }
-          }
-        ]
       },
       // account
       {
