@@ -46,7 +46,7 @@
           <div class="footer-center">
             <h2>Copyright © 2019</h2>
             <div>
-              <span>深泉心理出品 Build with 小听风</span>
+              <span>深泉书院出品 Build with 小听风</span>
             </div>
           </div>
         </a-col>

@@ -198,7 +198,7 @@ export default {
       if (theWay.checked) {
         this.theWay.push(theWay.value)
       } else {
-        let index = this.theWay.indexOf(theWay)
+        const index = this.theWay.indexOf(theWay)
         this.theWay.splice(index, 1)
       }
       console.log('授课方式选择结果', this.theWay)

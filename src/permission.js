@@ -13,6 +13,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['login', 'register', 'registerResult'] // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
+  console.info('1')
   NProgress.start() // start progress bar
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`))
   if (Vue.ls.get(ACCESS_TOKEN)) {
@@ -58,7 +59,7 @@ router.beforeEach((to, from, next) => {
       // 在免登录白名单，直接进入
       next()
     } else {
-      // next({ path: '/user/login', query: { redirect: to.fullPath } })
+      next({ path: '/user/login', query: { redirect: to.fullPath } })
       next()
       NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
     }
