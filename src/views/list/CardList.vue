@@ -6,7 +6,7 @@
         <!-- <strong :style="{ marginRight: 8 }">关键字搜索：</strong> -->
         <h3 style="font-weight:700;text-decoration:underline;float:left;">全部</h3>
         <a-input-search
-          style="width:260px;float:right;"
+          style="width:30%;float:right;"
           placeholder="搜索咨询师"
           @search="onSearch"
           enterButton="搜索"

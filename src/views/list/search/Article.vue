@@ -2,21 +2,27 @@
   <div>
     <a-card :bordered="false" class="ant-pro-components-tag-select">
       <a-form :form="form" layout="inline">
-        <standard-form-row title="所属类目" block style="padding-bottom: 11px;">
-          <a-form-item>
-            <tag-select>
-              <tag-select-option value="Category1">类目一</tag-select-option>
-              <tag-select-option value="Category2">类目二</tag-select-option>
-              <tag-select-option value="Category3">类目三</tag-select-option>
-              <tag-select-option value="Category4">类目四</tag-select-option>
-              <tag-select-option value="Category5">类目五</tag-select-option>
-              <tag-select-option value="Category6">类目六</tag-select-option>
-              <tag-select-option value="Category7">类目七</tag-select-option>
-              <tag-select-option value="Category8">类目八</tag-select-option>
-              <tag-select-option value="Category9">类目九</tag-select-option>
-              <tag-select-option value="Category10">类目十</tag-select-option>
-            </tag-select>
-          </a-form-item>
+        <!-- 关键字搜索 -->
+        <standard-form-row block style="padding-bottom: 11px;text-align:center;">
+          <!-- <strong :style="{ marginRight: 8 }">关键字搜索：</strong> -->
+          <a-input-search
+            style="width:40%;"
+            placeholder="搜索文章"
+            @search="onSearch"
+            enterButton="搜索"
+            size="large"
+          />
+        </standard-form-row>
+        <standard-form-row block style="padding-bottom: 11px;">
+          <strong :style="{ marginRight: 8 }">栏目：</strong>
+          <template v-for=" column in columnOptions">
+            <a-checkable-tag
+              style="font-size:14px;"
+              :key="column.value"
+              :checked="column.checked"
+              @change="columnChange(column)"
+            >{{column.label}}</a-checkable-tag>
+          </template>
         </standard-form-row>
 
         <standard-form-row title="owner" grid>
@@ -60,13 +66,7 @@
     </a-card>
 
     <a-card style="margin-top: 24px;" :bordered="false">
-      <a-list
-        size="large"
-        rowKey="id"
-        :loading="loading"
-        itemLayout="vertical"
-        :dataSource="data"
-      >
+      <a-list size="large" rowKey="id" :loading="loading" itemLayout="vertical" :dataSource="data">
         <a-list-item :key="item.id" slot="renderItem" slot-scope="item">
           <template slot="actions">
             <icon-text type="star-o" :text="item.star" />
@@ -83,7 +83,13 @@
               </span>
             </template>
           </a-list-item-meta>
-          <article-list-content :description="item.description" :owner="item.owner" :avatar="item.avatar" :href="item.href" :updateAt="item.updatedAt" />
+          <article-list-content
+            :description="item.description"
+            :owner="item.owner"
+            :avatar="item.avatar"
+            :href="item.href"
+            :updateAt="item.updatedAt"
+          />
         </a-list-item>
         <div slot="footer" v-if="data.length > 0" style="text-align: center; margin-top: 16px;">
           <a-button @click="loadMore" :loading="loadingMore">加载更多</a-button>
@@ -129,39 +135,74 @@ export default {
     ArticleListContent,
     IconText
   },
-  data () {
+  data() {
     return {
       owners,
       loading: true,
       loadingMore: false,
       data: [],
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
+      columnOptions: [
+        { label: '不限', value: '0', checked: true },
+        { label: '国内新闻', value: '00', checked: false },
+        { label: '娱乐头条', value: '01', checked: false },
+        { label: '花边', value: '02', checked: false },
+        { label: '国际新闻', value: '03', checked: false }
+      ],
+      column: []
     }
   },
-  mounted () {
+  mounted() {
     this.getList()
   },
   methods: {
-    handleChange (value) {
+    // 领域选择
+    columnChange(column) {
+      if (column.value == '0') {
+        if (!column.checked) {
+          column.checked = !column.checked
+        }
+        this.column = []
+        for (let i = 1; i < this.columnOptions.length; i++) {
+          this.columnOptions[i].checked = false
+        }
+      } else {
+        column.checked = !column.checked
+        this.columnOptions[0].checked = false
+        if (column.checked) {
+          this.column.push(column.value)
+        } else {
+          let index = this.column.indexOf(column)
+          this.column.splice(index, 1)
+        }
+      }
+      console.log('栏目选择结果', this.column)
+    },
+    handleChange(value) {
       console.log(`selected ${value}`)
     },
-    getList () {
+    getList() {
       this.$http.get('/list/article').then(res => {
         console.log('res', res)
         this.data = res.result
         this.loading = false
       })
     },
-    loadMore () {
+    loadMore() {
       this.loadingMore = true
-      this.$http.get('/list/article').then(res => {
-        this.data = this.data.concat(res.result)
-      }).finally(() => {
-        this.loadingMore = false
-      })
+      this.$http
+        .get('/list/article')
+        .then(res => {
+          this.data = this.data.concat(res.result)
+        })
+        .finally(() => {
+          this.loadingMore = false
+        })
     },
-    setOwner () {
-      const { form: { setFieldsValue } } = this
+    setOwner() {
+      const {
+        form: { setFieldsValue }
+      } = this
       setFieldsValue({
         owner: ['wzj']
       })
