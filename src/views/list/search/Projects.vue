@@ -38,43 +38,15 @@
       </standard-form-row>
       <!-- 省市区选择 -->
       <standard-form-row block style="padding-bottom: 11px;">
-        <a-row>
-          <a-col :span="8">
-            <a-row>
-              <a-col :span="5" style="padding-top:10px;">
-                <strong :style="{ marginRight: 8 }">省市区：</strong>
-              </a-col>
-              <a-col :span="19">
-                <div id="app" style="width:100%">
-                  <el-cascader
-                    size="large"
-                    :options="options"
-                    :value="selectedOptions"
-                    @change="handleChangeArea"
-                  ></el-cascader>
-                </div>
-              </a-col>
-            </a-row>
-          </a-col>
-          <a-col :span="8">
-            <a-row>
-              <a-col :span="5" style="padding-top:10px;">
-                <strong :style="{ marginRight: 8 }">授课教师：</strong>
-              </a-col>
-              <a-col :span="19">
-                <div id="app" style="width:100%">
-                  <el-cascader
-                    size="large"
-                    :options="options"
-                    :value="selectedOptions"
-                    @change="handleChangeArea"
-                  ></el-cascader>
-                </div>
-              </a-col>
-            </a-row>
-          </a-col>
-          <a-col :span="8"></a-col>
-        </a-row>
+        <strong :style="{ marginRight: 8 }" style="float:left;padding-top:10px;">省市区：</strong>
+        <div id="app" style="width:100%">
+          <el-cascader
+            size="large"
+            :options="options"
+            :value="selectedOptions"
+            @change="handleChangeArea"
+          ></el-cascader>
+        </div>
       </standard-form-row>
     </a-card>
 

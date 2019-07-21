@@ -13,6 +13,7 @@
             size="large"
           />
         </standard-form-row>
+        <!-- 栏目 -->
         <standard-form-row block style="padding-bottom: 11px;">
           <strong :style="{ marginRight: 8 }">栏目：</strong>
           <template v-for=" column in columnOptions">
@@ -24,67 +25,40 @@
             >{{column.label}}</a-checkable-tag>
           </template>
         </standard-form-row>
-
-        <standard-form-row title="owner" grid>
-          <a-row>
-            <a-col :md="24">
-              <a-form-item :wrapper-col="{ span: 24 }">
-                <a-select
-                  style="max-width: 268px; width: 100%;"
-                  mode="multiple"
-                  placeholder="选择 onwer"
-                  v-decorator="['owner']"
-                  @change="handleChange"
-                >
-                  <a-select-option v-for="item in owners" :key="item.id">{{ item.name }}</a-select-option>
-                </a-select>
-                <a class="list-articles-trigger" @click="setOwner">只看自己的</a>
-              </a-form-item>
-            </a-col>
-          </a-row>
-        </standard-form-row>
-
-        <standard-form-row title="其它选项" grid last>
-          <a-row :gutter="16">
-            <a-col :xs="24" :sm="24" :md="12" :lg="10" :xl="8">
-              <a-form-item label="活跃用户" :wrapper-col="{ xs: 24, sm: 24, md: 12 }">
-                <a-select placeholder="不限" style="max-width: 200px; width: 100%;">
-                  <a-select-option value="李三">李三</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :xs="24" :sm="24" :md="12" :lg="10" :xl="8">
-              <a-form-item label="好评度" :wrapper-col="{ xs: 24, sm: 24, md: 12 }">
-                <a-select placeholder="不限" style="max-width: 200px; width: 100%;">
-                  <a-select-option value="优秀">优秀</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-          </a-row>
+        <!-- 标签 -->
+        <standard-form-row block style="padding-bottom: 11px;">
+          <strong :style="{ marginRight: 8 }">标签：</strong>
+          <template v-for=" tag in tagOptions">
+            <a-checkable-tag
+              style="font-size:14px;"
+              :key="tag.value"
+              :checked="tag.checked"
+              @change="tagChange(tag)"
+            >{{tag.label}}</a-checkable-tag>
+          </template>
         </standard-form-row>
       </a-form>
     </a-card>
-
     <a-card style="margin-top: 24px;" :bordered="false">
       <a-list size="large" rowKey="id" :loading="loading" itemLayout="vertical" :dataSource="data">
         <a-list-item :key="item.id" slot="renderItem" slot-scope="item">
           <template slot="actions">
-            <icon-text type="star-o" :text="item.star" />
+            <!-- <icon-text type="star-o" :text="item.star" />
             <icon-text type="like-o" :text="item.like" />
-            <icon-text type="message" :text="item.message" />
+            <icon-text type="message" :text="item.message" /> -->
           </template>
           <a-list-item-meta>
-            <a slot="title" href="https://vue.ant.design/">{{ item.title }}</a>
+            <a slot="title" href="https://vue.ant.design/">标题</a>
             <template slot="description">
               <span>
-                <a-tag>Ant Design</a-tag>
-                <a-tag>设计语言</a-tag>
-                <a-tag>蚂蚁金服</a-tag>
+                <a-tag>标签1</a-tag>
+                <a-tag>标签2</a-tag>
+                <a-tag>标签3</a-tag>
               </span>
             </template>
           </a-list-item-meta>
           <article-list-content
-            :description="item.description"
+            description="内容"
             :owner="item.owner"
             :avatar="item.avatar"
             :href="item.href"
@@ -149,14 +123,21 @@ export default {
         { label: '花边', value: '02', checked: false },
         { label: '国际新闻', value: '03', checked: false }
       ],
-      column: []
+      column: [],
+      tagOptions: [
+        { label: '不限', value: '0', checked: true },
+        { label: '标签1', value: '00', checked: false },
+        { label: '标签2', value: '01', checked: false },
+        { label: '标签3', value: '02', checked: false }
+      ],
+      tag: []
     }
   },
   mounted() {
     this.getList()
   },
   methods: {
-    // 领域选择
+    // 栏目选择
     columnChange(column) {
       if (column.value == '0') {
         if (!column.checked) {
@@ -177,6 +158,28 @@ export default {
         }
       }
       console.log('栏目选择结果', this.column)
+    },
+    // 标签选择
+    tagChange(tag) {
+      if (tag.value == '0') {
+        if (!tag.checked) {
+          tag.checked = !tag.checked
+        }
+        this.tag = []
+        for (let i = 1; i < this.tagOptions.length; i++) {
+          this.tagOptions[i].checked = false
+        }
+      } else {
+        tag.checked = !tag.checked
+        this.tagOptions[0].checked = false
+        if (tag.checked) {
+          this.tag.push(tag.value)
+        } else {
+          let index = this.tag.indexOf(tag)
+          this.tag.splice(index, 1)
+        }
+      }
+      console.log('标签选择结果', this.tag)
     },
     handleChange(value) {
       console.log(`selected ${value}`)
