@@ -16,29 +16,29 @@ export const asyncRouterMap = [
         meta: { title: '首页' }
       },
       // 课程
-      {
-        path: '/sqsy',
-        name: 'sqsy',
-        // component: () => import('@/views/dashboard/Workplace'),
-        component: () => import('@/views/list/search/Projects'),
-        meta: { title: '深泉书院' }
-      },
+      // {
+      //   path: '/sqsy',
+      //   name: 'sqsy',
+      //   // component: () => import('@/views/dashboard/Workplace'),
+      //   component: () => import('@/views/list/search/Projects'),
+      //   meta: { title: '深泉书院' }
+      // },
       //  医生
-      {
-        path: '/sqzx',
-        name: 'sqzx',
-        component: () => import('@/views/list/CardList'),
-        meta: { title: '深泉咨询' }
-      },
+      // {
+      //   path: '/sqzx',
+      //   name: 'sqzx',
+      //   component: () => import('@/views/list/CardList'),
+      //   meta: { title: '深泉咨询' }
+      // },
 
       // 文章
-      {
-        path: '/sqdz',
-        name: 'sqdz',
-        // component: () => import('@/views/profile/advanced/Advanced'),
-        component: () => import('@/views/list/search/Article'),
-        meta: { title: '深泉大众' }
-      },
+      // {
+      //   path: '/sqdz',
+      //   name: 'sqdz',
+      //   // component: () => import('@/views/profile/advanced/Advanced'),
+      //   component: () => import('@/views/list/search/Article'),
+      //   meta: { title: '深泉大众' }
+      // },
 
       // IANCHINA
       {
