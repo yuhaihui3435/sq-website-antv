@@ -57,6 +57,8 @@ export default {
     DetailListItem,
     STable
   },
+  mounted(){
+  },
   data () {
     return {
       goodsColumns: [

@@ -167,7 +167,7 @@ export const asyncRouterMap = [
             meta: { title: '高级详情页', permission: ['profile'] }
           }
         ]
-      },
+      }
 
     ]
   },
