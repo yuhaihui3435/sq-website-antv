@@ -90,6 +90,15 @@
           </a-card>
         </a-list-item>
       </a-list>
+      <a-pagination
+        showSizeChanger
+        :pageSize.sync="pageSize"
+        @showSizeChange="onShowSizeChange"
+        :total="500"
+        v-model="current"
+        @change="pageChange"
+        :pageSizeOptions="['20','40']"
+      />
     </div>
   </div>
 </template>
@@ -97,6 +106,7 @@
 <script>
 import Vue from 'vue'
 import moment from 'moment'
+import { axios } from '../../../utils/request'
 import { TagSelect, StandardFormRow, Ellipsis, AvatarList } from '@/components'
 const TagSelectOption = TagSelect.Option
 const AvatarListItem = AvatarList.AvatarItem
@@ -126,15 +136,22 @@ export default {
       form: this.$form.createForm(this),
       loading: true,
       lessonStatusOptions: [
+        { label: '不限', value: '0', checked: true },
         { label: '未开始', value: '00', checked: false },
         { label: '进行中', value: '1', checked: false },
         { label: '已结课', value: '2', checked: false }
       ],
       lessonStatus: [],
-      theWayOptions: [{ label: '线下', value: '00', checked: false }, { label: '线上', value: '01', checked: false }],
+      theWayOptions: [
+        { label: '不限', value: '0', checked: true },
+        { label: '线下', value: '00', checked: false },
+        { label: '线上', value: '01', checked: false }
+      ],
       theWay: [],
       options: regionDataPlus,
-      selectedOptions: []
+      selectedOptions: [],
+      pageSize: 20,
+      current: 1
     }
   },
   filters: {
@@ -144,8 +161,27 @@ export default {
   },
   mounted() {
     this.getList()
+    this.pageLesson()
   },
   methods: {
+    // 查询课程列表
+    pageLesson() {
+      const vm = this
+      axios({
+        url: '/api/lesson/page',
+        method: 'post'
+      })
+        .then(res => {
+          console.log('查询结果', res)
+        })
+        .catch(err => {})
+    },
+    // 页码改变
+    pageChange() {},
+    // pageSize改变
+    onShowSizeChange(current, pageSize) {
+      console.log(current, pageSize)
+    },
     // 关键字搜索
     onSearch() {},
     // 省市区
@@ -154,23 +190,45 @@ export default {
     },
     // 课程状态选择
     lessonStatusChange(lessonStatus) {
-      lessonStatus.checked = !lessonStatus.checked
-      if (lessonStatus.checked) {
-        this.lessonStatus.push(lessonStatus.value)
+      if (lessonStatus.value == '0') {
+        if (!lessonStatus.checked) {
+          lessonStatus.checked = !lessonStatus.checked
+        }
+        this.lessonStatus = []
+        for (let i = 1; i < this.lessonStatusOptions.length; i++) {
+          this.lessonStatusOptions[i].checked = false
+        }
       } else {
-        let index = this.lessonStatus.indexOf(lessonStatus)
-        this.lessonStatus.splice(index, 1)
+        lessonStatus.checked = !lessonStatus.checked
+        this.lessonStatusOptions[0].checked = false
+        if (lessonStatus.checked) {
+          this.lessonStatus.push(lessonStatus.value)
+        } else {
+          let index = this.lessonStatus.indexOf(lessonStatus)
+          this.lessonStatus.splice(index, 1)
+        }
       }
       console.log('课程状态选择结果', this.lessonStatus)
     },
     // 授课方式选择
     theWayChange(theWay) {
-      theWay.checked = !theWay.checked
-      if (theWay.checked) {
-        this.theWay.push(theWay.value)
+      if (theWay.value == '0') {
+        if (!theWay.checked) {
+          theWay.checked = !theWay.checked
+        }
+        this.theWay = []
+        for (let i = 1; i < thistheWayOptions.length; i++) {
+          this.theWayOptions[i].checked = false
+        }
       } else {
-        let index = this.theWay.indexOf(theWay)
-        this.theWay.splice(index, 1)
+        theWay.checked = !theWay.checked
+        this.theWayOptions[0].checked = false
+        if (theWay.checked) {
+          this.theWay.push(theWay.value)
+        } else {
+          let index = this.theWay.indexOf(theWay)
+          this.theWay.splice(index, 1)
+        }
       }
       console.log('授课方式选择结果', this.theWay)
     },
