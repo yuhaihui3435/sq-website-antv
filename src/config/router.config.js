@@ -150,21 +150,21 @@ export const asyncRouterMap = [
         path: '/profile',
         name: 'profile',
         component: RouteView,
-        redirect: '/profile/basic',
+        redirect: '/profile/lesson',
         hidden: true,
-        meta: { title: '详情页', icon: 'profile', permission: ['profile'] },
+        meta: { title: '详情', icon: 'profile', permission: ['profile'] },
         children: [
           {
-            path: '/profile/basic',
-            name: 'ProfileBasic',
+            path: '/profile/lesson',
+            name: 'ProfileLesson',
             component: () => import('@/views/profile/basic/Index'),
-            meta: { title: '基础详情页', permission: ['profile'] }
+            meta: { title: '课程详情', permission: ['profile'], keepAlive: true }
           },
           {
             path: '/profile/advanced',
             name: 'ProfileAdvanced',
             component: () => import('@/views/profile/advanced/Advanced'),
-            meta: { title: '高级详情页', permission: ['profile'] }
+            meta: { title: '高级详情页', permission: ['profile'], keepAlive: true }
           }
         ]
       },

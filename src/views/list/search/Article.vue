@@ -48,12 +48,7 @@
             <icon-text type="message" :text="item.message" />-->
           </template>
           <a-list-item-meta>
-            <!-- <router-link :to="{ name: 'ProfileBasic' }">
-              <a slot="title">标题</a>
-            </router-link>-->
-            <router-link tag="li" to="/foo">
-              <a>/foo</a>
-            </router-link>
+            <a slot="title">标题</a>
             <template slot="description">
               <span>
                 <a-tag>标签1</a-tag>
