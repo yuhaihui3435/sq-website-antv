@@ -6,6 +6,7 @@
         <!-- <strong :style="{ marginRight: 8 }">关键字搜索：</strong> -->
         <h3 style="font-weight:700;text-decoration:underline;float:left;">全部</h3>
         <a-input-search
+          v-model="doctorName"
           style="width:30%;float:right;"
           placeholder="搜索咨询师"
           @search="onSearch"
@@ -27,16 +28,18 @@
       </standard-form-row>
       <!-- 省市区选择 -->
       <standard-form-row block style="padding-bottom: 11px;">
-        <strong :style="{ marginRight: 8 }" style="float:left;padding-top:10px;">城市：</strong>
+        <strong :style="{ marginRight: 8 }" style="float:left;padding-top:10px;">省市区：</strong>
         <div id="app" style="width:100%">
           <el-cascader
             size="large"
             :options="options"
             :value="selectedOptions"
+            v-model="selectedOptions"
             @change="handleChangeArea"
           ></el-cascader>
         </div>
       </standard-form-row>
+      <!-- 价格 -->
       <standard-form-row block style="padding-bottom: 11px;">
         <strong :style="{ marginRight: 8 }">价格：¥{{price[0]}}&nbsp;-&nbsp;¥{{price[1]}}</strong>
         <template>
@@ -101,50 +104,9 @@
         </template>
       </standard-form-row>
     </a-card>
-    <!-- <div class="card-list" ref="content" style="margin-top:24px;">
-      <a-card style="width: 100%;">
-        <a-row type="flex">
-          <a-col :span="3" style="border-right:dashed #ccc 1px;text-align:center;height:180px;">
-            <img
-              style="padding:5px;"
-              src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"
-              height="180"
-              width="85%"
-            />
-          </a-col>
-          <a-col :span="19">
-            <a-row>
-              <a-col :span="24" style="padding:2px 0px 2px 10px;">姓名：朱自强</a-col>
-            </a-row>
-            <a-row>
-              <a-col :span="24" style="padding:2px 0px 2px 10px;">级别：教授</a-col>
-            </a-row>
-            <a-row>
-              <a-col :span="24" style="padding:2px 0px 2px 10px;">所在区域：省市区</a-col>
-            </a-row>
-            <a-row>
-              <a-col :span="24" style="padding:2px 0px 2px 10px;">咨询经验：30年</a-col>
-            </a-row>
-            <a-row>
-              <a-col :span="24" style="padding:2px 0px 2px 10px;">咨询价格：500元/次</a-col>
-            </a-row>
-            <a-row>
-              <a-col
-                style="padding:2px 0px 2px 10px;"
-                :span="24"
-              >个人简介：在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽离成一套标准规范。</a-col>
-            </a-row>
-          </a-col>
-          <a-col :span="2">
-            <a-button type="primary">咨询</a-button>
-          </a-col>
-        </a-row>
-        <a-divider dashed />
-      </a-card>
-    </div>-->
     <div class="card-list" ref="content">
       <template>
-        <a-card :hoverable="true">
+        <a-card :hoverable="true" v-for="doctor in doctorList" :key="doctor.id">
           <a-card-meta>
             <div style="margin-bottom: 3px" slot="title">
               <div style="float:left;font-weight:700;font-size:22px;">朱自强</div>
@@ -155,7 +117,7 @@
             <a-avatar
               class="card-avatar"
               slot="avatar"
-              src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"
+              :src="doctor.imageUrl"
               size="large"
             />
             <div
@@ -174,36 +136,16 @@
             >500元/次</div>
           </a-card-meta>
         </a-card>
-        <a-card :hoverable="true">
-          <a-card-meta>
-            <div style="margin-bottom: 3px" slot="title">
-              <div style="float:left;font-weight:700;font-size:22px;">朱自强</div>
-              <div style="float:right;">
-                <a-icon type="environment" style="fontSize:14px;" />辽宁沈阳
-              </div>
-            </div>
-            <a-avatar
-              class="card-avatar"
-              slot="avatar"
-              src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"
-              size="large"
-            />
-            <div
-              class="meta-content"
-              slot="description"
-            >在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽离成一套标准规范。</div>
-            <div class="meta-content-biaoqian" slot="description">
-              <a-tag color="blue">标签</a-tag>
-              <a-tag color="blue">标签</a-tag>
-              <a-tag color="blue">标签</a-tag>
-            </div>
-            <div
-              class="meta-content-jiage"
-              slot="description"
-              style="font-weight:700;font-size:18px;color:#1890ff;"
-            >500元/次</div>
-          </a-card-meta>
-        </a-card>
+        <a-pagination
+          style="margin-top:15px;"
+          showSizeChanger
+          :pageSize.sync="pageSize"
+          @showSizeChange="onShowSizeChange"
+          :total="doctorListTotal"
+          v-model="current"
+          @change="pageChange"
+          :pageSizeOptions="['20','40']"
+        />
       </template>
     </div>
   </div>
@@ -214,6 +156,8 @@ import Vue from 'vue'
 import moment from 'moment'
 import { TagSelect, StandardFormRow, Ellipsis, AvatarList } from '@/components'
 import { Cascader } from 'element-ui'
+import { axios } from '@/utils/request'
+const serverUrl = process.env.VUE_APP_API_BASE_URL
 Vue.component(Cascader.name, Cascader)
 import {
   provinceAndCityData,
@@ -301,10 +245,52 @@ export default {
       doctorSex: [],
       options: regionDataPlus,
       selectedOptions: [],
-      price: [0, 1000]
+      price: [0, 1000],
+      pageSize: 20,
+      current: 1,
+      doctorName: '',
+      doctorList: [],
+      doctorListTotal: 0,
+      province: '',
+      city: '',
+      area: ''
     }
   },
+  mounted() {
+    this.pageDoctor()
+  },
   methods: {
+    pageDoctor() {
+      const vm = this
+      axios({
+        url: '/api/doctor/page',
+        method: 'post',
+        data: {
+          page: this.current,
+          rows: this.pageSize
+        }
+      })
+        .then(res => {
+          console.log('查询结果', res)
+          this.doctorList = res.list
+          for (let i = 0; i < this.doctorList.length; i++) {
+            const element = this.doctorList[i]
+            element.imageUrl = serverUrl + '/cc/loadPic/' + element.avatar
+          }
+          this.doctorListTotal = res.totalRow
+          this.loading = false
+        })
+        .catch(err => {})
+    },
+    // 页码改变
+    pageChange(page, pageSize) {
+      this.pageDoctor()
+    },
+    // pageSize改变
+    onShowSizeChange(current, pageSize) {
+      console.log(current, pageSize)
+      this.pageDoctor()
+    },
     // 价格
     priceChange(value) {
       console.log(value)
@@ -314,7 +300,17 @@ export default {
     onSearch() {},
     // 省市区
     handleChangeArea(value) {
-      console.log(value)
+      console.log(this.selectedOptions)
+      for (let i = 0; i < this.selectedOptions.length; i++) {
+        if (i == 0) {
+          this.province = CodeToText[this.selectedOptions[i]] == '全部' ? '' : CodeToText[this.selectedOptions[i]]
+        } else if (i == 1) {
+          this.city = CodeToText[this.selectedOptions[i]] == '全部' ? '' : CodeToText[this.selectedOptions[i]]
+        } else if (i == 2) {
+          this.area = CodeToText[this.selectedOptions[i]] == '全部' ? '' : CodeToText[this.selectedOptions[i]]
+        }
+      }
+      console.log(this.province, this.city, this.area)
     },
     // 领域选择
     doctorFieldChange(doctorField) {
@@ -332,9 +328,13 @@ export default {
         if (doctorField.checked) {
           this.doctorField.push(doctorField.value)
         } else {
-          let index = this.doctorField.indexOf(doctorField)
+          let index = this.doctorField.indexOf(doctorField.value)
           this.doctorField.splice(index, 1)
         }
+      }
+      // 如果其它选项全部取消，默认选中不限
+      if (this.doctorField.length == 0) {
+        this.doctorFieldOptions[0].checked = true
       }
       console.log('领域选择结果', this.doctorField)
     },
@@ -354,9 +354,13 @@ export default {
         if (doctorAppointment.checked) {
           this.doctorAppointment.push(doctorAppointment.value)
         } else {
-          let index = this.doctorAppointment.indexOf(doctorAppointment)
+          let index = this.doctorAppointment.indexOf(doctorAppointment.value)
           this.doctorAppointment.splice(index, 1)
         }
+      }
+      // 如果其它选项全部取消，默认选中不限
+      if (this.doctorAppointment.length == 0) {
+        this.doctorAppointmentOptions[0].checked = true
       }
       console.log('可约时间选择结果', this.doctorAppointment)
     },
@@ -376,53 +380,35 @@ export default {
         if (doctorCounter.checked) {
           this.doctorCounter.push(doctorCounter.value)
         } else {
-          let index = this.doctorCounter.indexOf(doctorCounter)
+          let index = this.doctorCounter.indexOf(doctorCounter.value)
           this.doctorCounter.splice(index, 1)
         }
+      }
+      // 如果其它选项全部取消，默认选中不限
+      if (this.doctorCounter.length == 0) {
+        this.doctorCounterOptions[0].checked = true
       }
       console.log('针对群体选择结果', this.doctorCounter)
     },
     // 咨询方式选择
     doctorWayChange(doctorWay) {
-      if (doctorWay.value == '0') {
-        if (!doctorWay.checked) {
-          doctorWay.checked = !doctorWay.checked
-        }
-        this.doctorWay = []
-        for (let i = 1; i < this.doctorWayOptions.length; i++) {
+      if (!doctorWay.checked) {
+        for (let i = 0; i < this.doctorWayOptions.length; i++) {
           this.doctorWayOptions[i].checked = false
         }
-      } else {
         doctorWay.checked = !doctorWay.checked
-        this.doctorWayOptions[0].checked = false
-        if (doctorWay.checked) {
-          this.doctorWay.push(doctorWay.value)
-        } else {
-          let index = this.doctorWay.indexOf(doctorWay)
-          this.doctorWay.splice(index, 1)
-        }
+        this.doctorWay = doctorWay.value
       }
       console.log('咨询方式选择结果', this.doctorWay)
     },
     // 咨询师性别选择
     doctorSexChange(doctorSex) {
-      if (doctorSex.value == '0') {
-        if (!doctorSex.checked) {
-          doctorSex.checked = !doctorSex.checked
-        }
-        this.doctorSex = []
-        for (let i = 1; i < this.doctorSexOptions.length; i++) {
+      if (!doctorSex.checked) {
+        for (let i = 0; i < this.doctorSexOptions.length; i++) {
           this.doctorSexOptions[i].checked = false
         }
-      } else {
         doctorSex.checked = !doctorSex.checked
-        this.doctorSexOptions[0].checked = false
-        if (doctorSex.checked) {
-          this.doctorSex.push(doctorSex.value)
-        } else {
-          let index = this.doctorSex.indexOf(doctorSex)
-          this.doctorSex.splice(index, 1)
-        }
+        this.doctorSex = doctorSex.value
       }
       console.log('咨询师性别选择结果', this.doctorSex)
     }
