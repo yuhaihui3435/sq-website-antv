@@ -24,6 +24,8 @@ export default {
   colorWeak: false,
   multiTab: false,
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true',
+  iconfontUrl:'//at.alicdn.com/t/font_1305230_ew0b5j5enqn.js',
+  defaultAvatar:require("../assets/icons/default-avatar.svg"),
   // vue-ls options
   storageOptions: {
     namespace: 'pro__', // key prefix

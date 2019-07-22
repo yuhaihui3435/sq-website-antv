@@ -12,8 +12,8 @@ export const asyncRouterMap = [
       {
         path: '/',
         name: 'index',
-        component: () => import('@/views/dashboard/Workplace'),
-        meta: { title: '首页' }
+        component: () => import('@/views/Home'),
+        meta: { title: '首页', hiddenHeaderContent: true }
       },
       // 课程
       // {

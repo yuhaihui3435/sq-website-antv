@@ -95,4 +95,4 @@ const AppDeviceEnquire = {
   }
 }
 
-export { mixin, AppDeviceEnquire, mixinDevice }
+export { mixin, AppDeviceEnquire, mixinDevice,AppDict }

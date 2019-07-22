@@ -7,10 +7,12 @@
         </span>
       </a> -->
       <!-- <notice-icon class="action"/> -->
-      <a-dropdown>
+      <!-- <a-button ghost>注册</a-button> -->
+      <!-- <a-button ghost style="margin-left:12px">登录</a-button> -->
+      <a-dropdown >
         <span class="action ant-dropdown-link user-dropdown-menu">
-          <a-avatar class="avatar" size="default" :src="avatar()"/>
-          <span>{{ nickname() }}</span>
+          <a-avatar class="avatar" size="default" :src="token()?avatar():defaultAvatarImg"/>
+          <span v-show="!isMobile()">{{ token()?nickname():'访客' }}</span>
         </span>
         <a-menu slot="overlay" class="user-dropdown-menu-wrapper">
           <!-- <a-menu-item key="0">
@@ -19,10 +21,28 @@
               <span>个人中心</span>
             </router-link>
           </a-menu-item> -->
-          <a-menu-item key="1">
+          <a-menu-item key="1" v-show="token()">
             <router-link :to="{ name: 'settings' }">
               <a-icon type="setting"/>
               <span>账户设置</span>
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="4" v-show="!token()">
+            <router-link :to="{ name: 'settings' }">
+              <icon-font type="icon-zhuce" />
+              <span>注册</span>
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="5" v-show="!token()">
+            <router-link :to="{ name: 'settings' }">
+              <icon-font type="icon-denglu" />
+              <span>登录</span>
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="2">
+            <router-link :to="{ name: 'settings' }">
+              <icon-font type="icon-yuyan" />
+              <span>英文</span>
             </router-link>
           </a-menu-item>
           <!-- <a-menu-item key="2" disabled>
@@ -30,7 +50,7 @@
             <span>测试</span>
           </a-menu-item> -->
           <a-menu-divider/>
-          <a-menu-item key="3">
+          <a-menu-item key="3" v-show="token()">
             <a href="javascript:;" @click="handleLogout">
               <a-icon type="logout"/>
               <span>退出登录</span>
@@ -43,17 +63,29 @@
 </template>
 
 <script>
-import NoticeIcon from '@/components/NoticeIcon'
+// import NoticeIcon from '@/components/NoticeIcon'
 import { mapActions, mapGetters } from 'vuex'
-
+import {  mixinDevice } from '@/utils/mixin'
+import { Icon } from 'ant-design-vue';
+import defaultSetting from '@/config/defaultSettings'
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: defaultSetting.iconfontUrl,
+})
 export default {
+  mixins:[mixinDevice],
   name: 'UserMenu',
+  data(){
+    return{
+      defaultAvatarImg:defaultSetting.defaultAvatar
+    }
+  },
   components: {
-    NoticeIcon
+    // NoticeIcon
+    IconFont
   },
   methods: {
     ...mapActions(['Logout']),
-    ...mapGetters(['nickname', 'avatar']),
+    ...mapGetters(['nickname', 'avatar','token']),
     handleLogout () {
       const that = this
 
@@ -77,3 +109,5 @@ export default {
   }
 }
 </script>
+<style scoped>
+</style>

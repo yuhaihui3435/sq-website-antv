@@ -17,7 +17,9 @@
               <s-menu v-if="device !== 'mobile'" mode="horizontal" :menu="menus" :theme="theme" />
               <a-icon v-else class="trigger" :type="collapsed ? 'menu-fold' : 'menu-unfold'" @click="toggle" />
             </div>
+
             <user-menu class="header-index-right"></user-menu>
+            
           </div>
         </div>
       </a-layout-header>

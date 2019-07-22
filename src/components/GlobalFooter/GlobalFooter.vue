@@ -38,7 +38,7 @@
           <div class="footer-center">
             <h2>公众号</h2>
             <div>
-              <img style="width:96px;height:96px" />
+              <img style="width:96px;height:96px" v-show="gzhImg"/>
             </div>
           </div>
         </a-col>
@@ -46,7 +46,7 @@
           <div class="footer-center">
             <h2>Copyright © 2019</h2>
             <div>
-              <span>深泉心理出品 Build with 小听风</span>
+              <span>深泉书院出品 Build with 小听风</span>
             </div>
           </div>
         </a-col>
@@ -60,7 +60,9 @@ import { mixinDevice } from '@/utils/mixin'
 export default {
   name: 'GlobalFooter',
   data () {
-    return {}
+    return {
+      gzhImg:''
+    }
   },
   mixins: [mixinDevice]
 }

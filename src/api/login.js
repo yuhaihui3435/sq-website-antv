@@ -16,7 +16,10 @@ export function login (parameter) {
   return axios({
     url: '/auth/login',
     method: 'post',
-    data: parameter
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
   })
 }
 
@@ -24,13 +27,16 @@ export function getSmsCaptcha (parameter) {
   return axios({
     url: api.SendSms,
     method: 'post',
-    data: parameter
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
   })
 }
 
 export function getInfo () {
   return axios({
-    url: '/user/info',
+    url: '/api/user/info',
     method: 'get',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
@@ -40,7 +46,7 @@ export function getInfo () {
 
 export function logout () {
   return axios({
-    url: '/auth/logout',
+    url: '/api/user/logout',
     method: 'post',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
