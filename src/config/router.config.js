@@ -74,7 +74,7 @@ export const asyncRouterMap = [
           }
         ]
       },
-      
+
       // 文章
       {
         path: '/sqdz',
@@ -142,6 +142,29 @@ export const asyncRouterMap = [
                 meta: { title: '安全设置', hidden: true, keepAlive: true, permission: ['user'] }
               }
             ]
+          }
+        ]
+      },
+      // profile
+      {
+        path: '/profile',
+        name: 'profile',
+        component: RouteView,
+        redirect: '/profile/basic',
+        hidden: true,
+        meta: { title: '详情页', icon: 'profile', permission: ['profile'] },
+        children: [
+          {
+            path: '/profile/basic',
+            name: 'ProfileBasic',
+            component: () => import('@/views/profile/basic/Index'),
+            meta: { title: '基础详情页', permission: ['profile'] }
+          },
+          {
+            path: '/profile/advanced',
+            name: 'ProfileAdvanced',
+            component: () => import('@/views/profile/advanced/Advanced'),
+            meta: { title: '高级详情页', permission: ['profile'] }
           }
         ]
       },

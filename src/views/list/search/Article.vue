@@ -45,10 +45,15 @@
           <template slot="actions">
             <!-- <icon-text type="star-o" :text="item.star" />
             <icon-text type="like-o" :text="item.like" />
-            <icon-text type="message" :text="item.message" /> -->
+            <icon-text type="message" :text="item.message" />-->
           </template>
           <a-list-item-meta>
-            <a slot="title" href="https://vue.ant.design/">标题</a>
+            <!-- <router-link :to="{ name: 'ProfileBasic' }">
+              <a slot="title">标题</a>
+            </router-link>-->
+            <router-link tag="li" to="/foo">
+              <a>/foo</a>
+            </router-link>
             <template slot="description">
               <span>
                 <a-tag>标签1</a-tag>
