@@ -161,6 +161,12 @@ export const asyncRouterMap = [
             meta: { title: '课程详情', permission: ['profile'], keepAlive: true }
           },
           {
+            path: '/profile/doctor',
+            name: 'ProfileDoctor',
+            component: () => import('@/views/profile/basic/DoctorDetail'),
+            meta: { title: '医生详情', permission: ['profile'], keepAlive: true }
+          },
+          {
             path: '/profile/advanced',
             name: 'ProfileAdvanced',
             component: () => import('@/views/profile/advanced/Advanced'),

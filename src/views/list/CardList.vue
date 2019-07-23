@@ -106,36 +106,44 @@
     </a-card>
     <div class="card-list" ref="content">
       <template>
-        <a-card :hoverable="true" v-for="doctor in doctorList" :key="doctor.id">
-          <a-card-meta>
-            <div style="margin-bottom: 3px" slot="title">
-              <div style="float:left;font-weight:700;font-size:22px;">朱自强</div>
-              <div style="float:right;">
-                <a-icon type="environment" style="fontSize:14px;" />辽宁沈阳
-              </div>
-            </div>
-            <a-avatar
-              class="card-avatar"
-              slot="avatar"
-              :src="doctor.imageUrl"
-              size="large"
-            />
-            <div
-              class="meta-content"
-              slot="description"
-            >在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽离成一套标准规范。</div>
-            <div class="meta-content-biaoqian" slot="description">
-              <a-tag color="blue">标签</a-tag>
-              <a-tag color="blue">标签</a-tag>
-              <a-tag color="blue">标签</a-tag>
-            </div>
-            <div
-              class="meta-content-jiage"
-              slot="description"
-              style="font-weight:700;font-size:18px;color:#1890ff;"
-            >500元/次</div>
-          </a-card-meta>
-        </a-card>
+        <a-list
+          :loading="loading"
+          :data-source="doctorList"
+          :grid="{ gutter: 24, xl: 4, lg: 3, md: 3, sm: 2, xs: 1 }"
+        >
+          <a-list-item
+            slot="renderItem"
+            slot-scope="doctor"
+            style="width:100%;"
+            @click="doctorDetail(doctor.id)"
+          >
+            <a-card :hoverable="true">
+              <a-card-meta>
+                <div style="margin-bottom: 3px" slot="title">
+                  <div style="float:left;font-weight:700;font-size:22px;">{{doctor.name}}</div>
+                  <div style="float:right;">
+                    <a-icon type="environment" style="fontSize:14px;" />
+                    {{doctor.province}}{{doctor.city}}{{doctor.area}}
+                  </div>
+                </div>
+                <a-avatar class="card-avatar" slot="avatar" :src="doctor.imageUrl" size="large" />
+                <div class="meta-content" slot="description">{{doctor.introduction}}</div>
+                <div class="meta-content-biaoqian" slot="description">
+                  <a-tag
+                    v-for="tag in doctor.tails.doctorTag"
+                    :key="tag.id"
+                    color="blue"
+                  >{{tag.tails.dictItem.itemName}}</a-tag>
+                </div>
+                <div
+                  class="meta-content-jiage"
+                  slot="description"
+                  style="font-weight:700;font-size:18px;color:#1890ff;"
+                >{{doctor.price}}元/次</div>
+              </a-card-meta>
+            </a-card>
+          </a-list-item>
+        </a-list>
         <a-pagination
           style="margin-top:15px;"
           showSizeChanger
@@ -189,60 +197,16 @@ export default {
   name: 'CardList',
   data() {
     return {
-      // description:
-      //   '段落示意：蚂蚁金服务设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态， 提供跨越设计与开发的体验解决方案。',
-      // linkList: [
-      //   { icon: 'rocket', href: '#', title: '快速开始' },
-      //   { icon: 'info-circle-o', href: '#', title: '产品简介' },
-      //   { icon: 'file-text', href: '#', title: '产品文档' }
-      // ],
-      // extraImage: 'https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png',
-      // dataSource,
-      doctorFieldOptions: [
-        { label: '不限', value: '0', checked: true },
-        { label: '情绪压力', value: '00', checked: false },
-        { label: '婚姻恋爱', value: '01', checked: false },
-        { label: '人际关系', value: '02', checked: false },
-        { label: '家庭困扰', value: '03', checked: false },
-        { label: '个人成长', value: '04', checked: false },
-        { label: '学业职场', value: '05', checked: false },
-        { label: '亲子教育', value: '06', checked: false },
-        { label: '心理健康', value: '07', checked: false }
-      ],
+      doctorFieldOptions: [],
       doctorField: [],
-      doctorAppointmentOptions: [
-        { label: '不限', value: '0', checked: true },
-        { label: '工作日上午', value: '00', checked: false },
-        { label: '工作日下午', value: '01', checked: false },
-        { label: '工作日晚间', value: '02', checked: false },
-        { label: '周末上午', value: '03', checked: false },
-        { label: '周末下午', value: '04', checked: false },
-        { label: '周末晚间', value: '05', checked: false }
-      ],
+      doctorAppointmentOptions: [],
       doctorAppointment: [],
-      doctorCounterOptions: [
-        { label: '不限', value: '0', checked: true },
-        { label: '幼儿&儿童', value: '00', checked: false },
-        { label: '青少年', value: '01', checked: false },
-        { label: '成年人', value: '02', checked: false },
-        { label: '老年人', value: '03', checked: false },
-        { label: '孕产妇', value: '04', checked: false },
-        { label: '留学生', value: '05', checked: false },
-        { label: '性少数人群', value: '06', checked: false }
-      ],
+      doctorCounterOptions: [],
       doctorCounter: [],
-      doctorWayOptions: [
-        { label: '不限', value: '0', checked: true },
-        { label: '面对面咨询', value: '00', checked: false },
-        { label: '视频咨询', value: '05', checked: false }
-      ],
-      doctorWay: [],
-      doctorSexOptions: [
-        { label: '不限', value: '0', checked: true },
-        { label: '男性咨询师', value: '00', checked: false },
-        { label: '女性咨询师', value: '05', checked: false }
-      ],
-      doctorSex: [],
+      doctorWayOptions: [],
+      doctorWay: '',
+      doctorSexOptions: [],
+      doctorSex: '',
       options: regionDataPlus,
       selectedOptions: [],
       price: [0, 1000],
@@ -253,21 +217,49 @@ export default {
       doctorListTotal: 0,
       province: '',
       city: '',
-      area: ''
+      loading: true,
+      area: '',
+      tagCondition: []
     }
   },
   mounted() {
+    this.queryTags()
     this.pageDoctor()
   },
   methods: {
+    // 医生详细
+    doctorDetail(id) {
+      console.log('详细id', id)
+      // this.$router.push('/profile/lesson')
+      this.$router.push({
+        name: 'ProfileDoctor',
+        params: { id: id }
+      })
+    },
+    // 查询医生
     pageDoctor() {
+      this.loading = true
+      if (this.doctorWay) {
+        this.tagCondition.push(this.doctorWay)
+      }
+      if (this.doctorSex) {
+        this.tagCondition.push(this.doctorSex)
+      }
+      console.log('总标签选择结果', this.tagCondition)
       const vm = this
       axios({
         url: '/api/doctor/page',
         method: 'post',
         data: {
           page: this.current,
-          rows: this.pageSize
+          rows: this.pageSize,
+          name: this.doctorName,
+          tagCondition: this.tagCondition,
+          province: this.province,
+          city: this.city,
+          area: this.area,
+          priceSmall: this.price[0],
+          priceLarge: this.price[1]
         }
       })
         .then(res => {
@@ -279,6 +271,134 @@ export default {
           }
           this.doctorListTotal = res.totalRow
           this.loading = false
+        })
+        .catch(err => {})
+    },
+    // 查询标签
+    queryTags() {
+      // 领域
+      axios({
+        url: 'api/dictItem/query',
+        method: 'post',
+        data: { dictId: 3 }
+      })
+        .then(res => {
+          console.log('领域结果', res)
+          this.doctorFieldOptions = []
+          this.doctorFieldOptions.push({
+            label: '不限',
+            value: '',
+            checked: true
+          })
+          for (let i = 0; i < res.length; i++) {
+            const element = res[i]
+            let obj = {
+              label: element.itemName,
+              value: element.id,
+              checked: false
+            }
+            this.doctorFieldOptions.push(obj)
+          }
+        })
+        .catch(err => {})
+      // 预约时间
+      axios({
+        url: 'api/dictItem/query',
+        method: 'post',
+        data: { dictId: 4 }
+      })
+        .then(res => {
+          console.log('预约时间结果', res)
+          this.doctorAppointmentOptions = []
+          this.doctorAppointmentOptions.push({
+            label: '不限',
+            value: '',
+            checked: true
+          })
+          for (let i = 0; i < res.length; i++) {
+            const element = res[i]
+            let obj = {
+              label: element.itemName,
+              value: element.id,
+              checked: false
+            }
+            this.doctorAppointmentOptions.push(obj)
+          }
+        })
+        .catch(err => {})
+      // 针对群体
+      axios({
+        url: 'api/dictItem/query',
+        method: 'post',
+        data: { dictId: 5 }
+      })
+        .then(res => {
+          console.log('针对群体结果', res)
+          this.doctorCounterOptions = []
+          this.doctorCounterOptions.push({
+            label: '不限',
+            value: '',
+            checked: true
+          })
+          for (let i = 0; i < res.length; i++) {
+            const element = res[i]
+            let obj = {
+              label: element.itemName,
+              value: element.id,
+              checked: false
+            }
+            this.doctorCounterOptions.push(obj)
+          }
+        })
+        .catch(err => {})
+      // 咨询方式
+      axios({
+        url: 'api/dictItem/query',
+        method: 'post',
+        data: { dictId: 6 }
+      })
+        .then(res => {
+          console.log('咨询方式结果', res)
+          this.doctorWayOptions = []
+          this.doctorWayOptions.push({
+            label: '不限',
+            value: '',
+            checked: true
+          })
+          for (let i = 0; i < res.length; i++) {
+            const element = res[i]
+            let obj = {
+              label: element.itemName,
+              value: element.id,
+              checked: false
+            }
+            this.doctorWayOptions.push(obj)
+          }
+        })
+        .catch(err => {})
+      // 性别
+      axios({
+        url: 'api/dictItem/query',
+        method: 'post',
+        data: { dictId: 7 }
+      })
+        .then(res => {
+          console.log('性别结果', res)
+          this.doctorSexOptions = []
+          this.doctorSexOptions.push({
+            label: '不限',
+            value: '',
+            checked: true
+          })
+          for (let i = 0; i < res.length; i++) {
+            const element = res[i]
+            let obj = {
+              label: element.itemName,
+              value: element.id,
+              checked: false
+            }
+            this.doctorSexOptions.push(obj)
+          }
         })
         .catch(err => {})
     },
@@ -295,9 +415,12 @@ export default {
     priceChange(value) {
       console.log(value)
       this.price = value
+      this.pageDoctor()
     },
     // 关键字搜索
-    onSearch() {},
+    onSearch() {
+      this.pageDoctor()
+    },
     // 省市区
     handleChangeArea(value) {
       console.log(this.selectedOptions)
@@ -311,10 +434,11 @@ export default {
         }
       }
       console.log(this.province, this.city, this.area)
+      this.pageDoctor()
     },
     // 领域选择
     doctorFieldChange(doctorField) {
-      if (doctorField.value == '0') {
+      if (doctorField.value == '') {
         if (!doctorField.checked) {
           doctorField.checked = !doctorField.checked
         }
@@ -327,9 +451,12 @@ export default {
         this.doctorFieldOptions[0].checked = false
         if (doctorField.checked) {
           this.doctorField.push(doctorField.value)
+          this.tagCondition.push(doctorField.value)
         } else {
           let index = this.doctorField.indexOf(doctorField.value)
           this.doctorField.splice(index, 1)
+          let indexCon = this.tagCondition.indexOf(doctorField.value)
+          this.tagCondition.splice(indexCon, 1)
         }
       }
       // 如果其它选项全部取消，默认选中不限
@@ -337,10 +464,12 @@ export default {
         this.doctorFieldOptions[0].checked = true
       }
       console.log('领域选择结果', this.doctorField)
+      console.log('总标签选择结果', this.tagCondition)
+      this.pageDoctor()
     },
     // 可约时间选择
     doctorAppointmentChange(doctorAppointment) {
-      if (doctorAppointment.value == '0') {
+      if (doctorAppointment.value == '') {
         if (!doctorAppointment.checked) {
           doctorAppointment.checked = !doctorAppointment.checked
         }
@@ -353,9 +482,12 @@ export default {
         this.doctorAppointmentOptions[0].checked = false
         if (doctorAppointment.checked) {
           this.doctorAppointment.push(doctorAppointment.value)
+          this.tagCondition.push(doctorAppointment.value)
         } else {
           let index = this.doctorAppointment.indexOf(doctorAppointment.value)
           this.doctorAppointment.splice(index, 1)
+          let indexCon = this.tagCondition.indexOf(doctorAppointment.value)
+          this.tagCondition.splice(indexCon, 1)
         }
       }
       // 如果其它选项全部取消，默认选中不限
@@ -363,10 +495,12 @@ export default {
         this.doctorAppointmentOptions[0].checked = true
       }
       console.log('可约时间选择结果', this.doctorAppointment)
+      console.log('总标签选择结果', this.tagCondition)
+      this.pageDoctor()
     },
     // 针对群体选择
     doctorCounterChange(doctorCounter) {
-      if (doctorCounter.value == '0') {
+      if (doctorCounter.value == '') {
         if (!doctorCounter.checked) {
           doctorCounter.checked = !doctorCounter.checked
         }
@@ -379,9 +513,12 @@ export default {
         this.doctorCounterOptions[0].checked = false
         if (doctorCounter.checked) {
           this.doctorCounter.push(doctorCounter.value)
+          this.tagCondition.push(doctorCounter.value)
         } else {
           let index = this.doctorCounter.indexOf(doctorCounter.value)
           this.doctorCounter.splice(index, 1)
+          let indexCon = this.tagCondition.indexOf(doctorCounter.value)
+          this.tagCondition.splice(indexCon, 1)
         }
       }
       // 如果其它选项全部取消，默认选中不限
@@ -389,6 +526,8 @@ export default {
         this.doctorCounterOptions[0].checked = true
       }
       console.log('针对群体选择结果', this.doctorCounter)
+      console.log('总标签选择结果', this.tagCondition)
+      this.pageDoctor()
     },
     // 咨询方式选择
     doctorWayChange(doctorWay) {
@@ -411,6 +550,7 @@ export default {
         this.doctorSex = doctorSex.value
       }
       console.log('咨询师性别选择结果', this.doctorSex)
+      this.pageDoctor()
     }
   }
 }
