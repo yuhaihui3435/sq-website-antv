@@ -107,7 +107,9 @@ export default {
     DetailListItem,
     STable
   },
-  data() {
+  mounted(){
+  },
+  data () {
     return {
       lessonId: 0,
       lessonObj: {}

@@ -2,7 +2,7 @@
   <page-view :title="false">
     <a-row :gutter="24" style="padding-top:0px" v-show="imgList.length>0">
       <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
-        <a-carousel autoplay v-if="imgList.length>0">
+        <a-carousel autoplay v-if="imgList.length>0" :style="{height:isMobile()?'200px':'400px'}">
           <img
             v-for="img in imgList"
             :key="img"
@@ -56,16 +56,16 @@
         </a-card>
       </a-col>
       <a-col style="padding: 0 12px" :xl="8" :lg="24" :md="24" :sm="24" :xs="24">
-        <a-card
+        <a-card 
           :loading="loading01"
-          style="margin-bottom: 24px;"
+          style="margin-bottom: 24px;height:100%"
           :bordered="false"
           title="动态"
-          :body-style="{ padding: 0 }"
+          :body-style="{ padding: 0,height:'100%' }"
         >
           <a slot="extra"></a>
-          <div>
-            <a-list itemLayout="horizontal" :dataSource="lessonRData" :loading="loading01">
+          <div >
+            <a-list style="padding:15px 30px" itemLayout="horizontal" :dataSource="lessonRData" :loading="loading01">
               <a-list-item slot="renderItem" slot-scope="item, index">
                 <a-list-item-meta>
                   <div slot="description">
@@ -92,7 +92,7 @@
           <a slot="extra">所有咨询</a>
           <div>
             <div class="ant-list-empty-text" v-show="doctorLData.length===0">暂无咨询师数据</div>
-            <a-carousel v-show="doctorLData.length>0">
+            <a-carousel style="height:240px;width:100%" v-show="doctorLData.length>0">
               <img v-for="doctor in doctorLData" :key="doctor.id" :src="doctor.avatar" />
             </a-carousel>
           </div>
@@ -133,7 +133,7 @@
                     <a>{{ item.title }}</a>
                   </div>
                   <div slot="description" class="card-description">
-                    <ellipsis :length="50">{{ item.summary }}</ellipsis>
+                    <ellipsis :length="100">{{ item.summary }}</ellipsis>
                   </div>
                 </a-card-meta>
                 <div class="project-item">
@@ -172,11 +172,12 @@ import { AppDict, mixinDevice } from '../utils/mixin'
 import { PageView } from '@/layouts'
 import { formatDate } from '../utils/util'
 import { axios } from '../utils/request'
+import ellipsis from '@/components/Ellipsis'
 export default {
   mixins: [AppDict, mixinDevice],
   name: 'Home',
   components: {
-    PageView
+    PageView,ellipsis
   },
   data() {
     return {
@@ -195,9 +196,11 @@ export default {
     }
   },
   created() {},
-  mounted() {
+  activated() {
     this.f0()
     this.f1()
+    this.f2()
+    this.f3()
   },
   methods: {
     formatDate(date){
@@ -236,6 +239,35 @@ export default {
         vm.loading01=false
       }).catch(err=>{
         vm.loading01=false
+      })
+    },
+    f2(){
+      const vm=this;
+      vm.loading02=true
+      axios({
+        url: '/api/index02?lSize=5',
+        method: 'post'
+        }
+      ).then(res=>{
+        vm.doctorLData=res['doctorLData']
+        vm.loading02=false
+      }).catch(err=>{
+        vm.loading02=false
+      })
+    },
+    f3(){
+      const vm=this;
+      vm.loading03=true
+      axios({
+        url: '/api/index03?size=6',
+        method: 'post'
+        }
+      ).then(res=>{
+        console.info(res)
+        vm.articeData=res['articeData']
+        vm.loading03=false
+      }).catch(err=>{
+        vm.loading03=false
       })
     }
   }
