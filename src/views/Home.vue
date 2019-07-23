@@ -17,7 +17,7 @@
         <a-card
           class="project-list"
           :loading="loading01"
-          :bordered="false" 
+          :bordered="false"
           style="margin-bottom: 24px;"
           title="书院·研究·学习"
           :body-style="{ padding: 0 }"
@@ -27,9 +27,14 @@
             <div class="ant-list-empty-text" v-if="lessonLData.length===0">暂无课程数据</div>
             <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in lessonLData">
               <a-card :bordered="false" :body-style="{ padding: 0 }">
-                <div style="height:240px" >
-                <img style="height:100%;width:100%"  slot="cover" v-if="item.publicizeType==='1'" :src="loadPicUrl+item.publicize" />
-                 <iframe
+                <div style="height:240px">
+                  <img
+                    style="height:100%;width:100%"
+                    slot="cover"
+                    v-if="item.publicizeType==='1'"
+                    :src="loadPicUrl+item.publicize"
+                  />
+                  <iframe
                     v-if="item.publicizeType=='2'"
                     frameborder="0"
                     :src="item.publicize"
@@ -56,7 +61,7 @@
         </a-card>
       </a-col>
       <a-col style="padding: 0 12px" :xl="8" :lg="24" :md="24" :sm="24" :xs="24">
-        <a-card 
+        <a-card
           :loading="loading01"
           style="margin-bottom: 24px;height:100%"
           :bordered="false"
@@ -64,8 +69,13 @@
           :body-style="{ padding: 0,height:'100%' }"
         >
           <a slot="extra"></a>
-          <div >
-            <a-list style="padding:15px 30px" itemLayout="horizontal" :dataSource="lessonRData" :loading="loading01">
+          <div>
+            <a-list
+              style="padding:15px 30px"
+              itemLayout="horizontal"
+              :dataSource="lessonRData"
+              :loading="loading01"
+            >
               <a-list-item slot="renderItem" slot-scope="item, index">
                 <a-list-item-meta>
                   <div slot="description">
@@ -111,7 +121,7 @@
       </a-col>
     </a-row>
 
-    <a-row :gutter="24">
+    <a-row :gutter="24" >
       <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
         <a-card
           class="project-list"
@@ -119,18 +129,20 @@
           style="margin-bottom: 24px;"
           :bordered="false"
           title="合作项目·活动·大众普及"
-          :body-style="{ padding: 0 }"
+          :body-style="{ padding: '10px' }"
         >
           <a slot="extra">所有活动</a>
           <div>
             <div class="ant-list-empty-text" v-show="articeData.length===0">暂无相关数据</div>
-            <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in articeData">
-              <a-card :bordered="false" :body-style="{ padding: 0 }">
-                <img slot="cover" v-if="item.coverPic" :src="loadPicUrl+item.coverPic" />
+            <a-row :gutter="12" v-show="articeData.length>0">
+            <a-col :xl="24/articeDataSize" :lg="24" :md="24" :sm="24" :xs="24" v-for="item in articeData" :key="item.id ">
+            <!-- <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in articeData"> -->
+              <a-card :bordered="false"  :body-style="{ padding: 0 }">
+                <img slot="cover" v-if="item.coverPic" style="height:240px;width:100%;object-fit:fill" :src="loadPicUrl+item.coverPic" />
 
                 <a-card-meta>
                   <div slot="title" class="card-title">
-                    <a>{{ item.title }}</a>
+                    <a><ellipsis :length="40">{{ item.title }}</ellipsis></a>
                   </div>
                   <div slot="description" class="card-description">
                     <ellipsis :length="100">{{ item.summary }}</ellipsis>
@@ -141,22 +153,27 @@
                   <span class="datetime">{{formatDate(item.cAt)}}</span>
                 </div>
               </a-card>
-            </a-card-grid>
+            <!-- </a-card-grid> -->
+            </a-col></a-row>
           </div>
         </a-card>
       </a-col>
     </a-row>
-    <a-row :gutter="24">
-      <a-col
-        :xl="4"
-        :lg="24"
-        :md="24"
-        :sm="24"
-        :xs="24"
-        v-for="data in certificateData"
-        :key="data.id"
-      >
-        <img :src="loadPicUrl+data.img" />
+    <a-row :gutter="12"  v-show="certificateData.length>0">
+      <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
+        <a-card
+          class="project-list"
+          style="margin-bottom: 24px;"
+          :bordered="false"
+          title="荣誉"
+          :body-style="{ padding: '10px' }"
+        >
+          <a-row :gutter="12">
+            <a-col :xl="24/certificateDataSize" :lg="24" :md="24" :sm="24" :xs="24" v-for="item in certificateData" :key="item.id ">
+              <img :src="loadPicUrl+item.img" style="height:240px;width:100%;object-fit:fill"  />
+            </a-col>
+          </a-row>
+        </a-card>
       </a-col>
     </a-row>
     <a-row :gutter="24">
@@ -177,7 +194,8 @@ export default {
   mixins: [AppDict, mixinDevice],
   name: 'Home',
   components: {
-    PageView,ellipsis
+    PageView,
+    ellipsis
   },
   data() {
     return {
@@ -185,10 +203,12 @@ export default {
       loading02: false,
       loading03: false,
       certificateData: [],
+      certificateDataSize: 4,
       lessonRData: [],
       lessonLData: [],
       doctorLData: [],
       articeData: [],
+      articeDataSize:4,
       linksData: [],
       consultingProcess: '',
       loadPicUrl: process.env.VUE_APP_API_BASE_URL + '/cc/loadPic/',
@@ -201,9 +221,10 @@ export default {
     this.f1()
     this.f2()
     this.f3()
+    this.f4()
   },
   methods: {
-    formatDate(date){
+    formatDate(date) {
       return formatDate(date)
     },
     // 查看轮播数据
@@ -226,49 +247,62 @@ export default {
         })
         .catch(err => {})
     },
-    f1(){
-      const vm=this;
-      vm.loading01=true
+    f1() {
+      const vm = this
+      vm.loading01 = true
       axios({
         url: '/api/index01?lSize=5&rSize=5',
         method: 'post'
-        }
-      ).then(res=>{
-        vm.lessonRData=res['lessonRData']
-        vm.lessonLData=res['lessonLData']
-        vm.loading01=false
-      }).catch(err=>{
-        vm.loading01=false
       })
+        .then(res => {
+          vm.lessonRData = res['lessonRData']
+          vm.lessonLData = res['lessonLData']
+          vm.loading01 = false
+        })
+        .catch(err => {
+          vm.loading01 = false
+        })
     },
-    f2(){
-      const vm=this;
-      vm.loading02=true
+    f2() {
+      const vm = this
+      vm.loading02 = true
       axios({
         url: '/api/index02?lSize=5',
         method: 'post'
-        }
-      ).then(res=>{
-        vm.doctorLData=res['doctorLData']
-        vm.loading02=false
-      }).catch(err=>{
-        vm.loading02=false
       })
+        .then(res => {
+          vm.doctorLData = res['doctorLData']
+          vm.loading02 = false
+        })
+        .catch(err => {
+          vm.loading02 = false
+        })
     },
-    f3(){
-      const vm=this;
-      vm.loading03=true
+    f3() {
+      const vm = this
+      vm.loading03 = true
       axios({
-        url: '/api/index03?size=6',
+        url: '/api/index03?size='+this.articeDataSize,
         method: 'post'
-        }
-      ).then(res=>{
-        console.info(res)
-        vm.articeData=res['articeData']
-        vm.loading03=false
-      }).catch(err=>{
-        vm.loading03=false
       })
+        .then(res => {
+          vm.articeData = res['articeData']
+          vm.loading03 = false
+        })
+        .catch(err => {
+          vm.loading03 = false
+        })
+    },
+    f4() {
+      const vm = this
+      axios({
+        url: '/api/index04?size=' + this.certificateDataSize,
+        method: 'post'
+      })
+        .then(res => {
+          vm.certificateData = res['certificateData']
+        })
+        .catch(err => {})
     }
   }
 }
@@ -278,7 +312,7 @@ export default {
 .project-list {
   .card-title {
     font-size: 0;
-    margin-top:10px;
+    margin-top: 10px;
     a {
       color: rgba(0, 0, 0, 0.85);
       margin-left: 12px;
