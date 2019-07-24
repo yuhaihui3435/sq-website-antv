@@ -142,6 +142,41 @@ export const asyncRouterMap = [
                 meta: { title: '安全设置', hidden: true, keepAlive: true, permission: ['user'] }
               }
             ]
+          },
+          // {
+          //   path: '/account/regist',
+          //   name: 'regist',
+          //   component: () => import('@/views/account/settings/Regist'),
+          //   meta: { title: '注册', hideHeader: true, permission: ['user'] },
+          //   // redirect: '/account/settings/base',
+          //   hideChildrenInMenu: true
+          // }
+        ]
+      },
+      // 注册
+      // {
+      //   path: '/regist',
+      //   name: 'regist',
+      //   component: () => import('@/views/account/settings/Regist'),
+      //       meta: { title: '注册', hideHeader: true, permission: ['user'] },
+      //       // redirect: '/account/settings/base',
+      //       hideChildrenInMenu: true
+      // },
+      // 注册
+      {
+        path: '/regist',
+        name: 'regist',
+        component: PageView,
+        redirect: '/regist/regist',
+        meta: { title: '注册', hidden: true },
+        hidden: true,
+        hideChildrenInMenu: true,
+        children: [
+          {
+            path: '/regist/regist',
+            name: 'regist',
+            component: () => import('@/views/account/settings/Regist'),
+            meta: { title: '注册', hidden: true }
           }
         ]
       },
