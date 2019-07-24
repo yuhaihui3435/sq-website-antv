@@ -8,65 +8,7 @@
       <a-tabs defaultActiveKey="1" style="text-align:center;">
         <a-tab-pane key="1">
           <span slot="tab">
-            <a-icon type="user" />登陆
-          </span>
-          <a-row>
-            <a-col :xl="8" :lg="8" :md="8" :sm="2" :xs="2">&nbsp;</a-col>
-            <a-col :xl="8" :lg="8" :md="8" :sm="20" :xs="20">
-              <a-form
-                id="components-form-demo-normal-login"
-                :form="form"
-                class="login-form"
-                @submit="handleSubmit"
-              >
-                <!-- 手机号 -->
-                <a-form-item>
-                  <a-input
-                    v-decorator="[
-          'userName',
-          { rules: [{ required: true, message: '请输入手机号!' }] }
-        ]"
-                    placeholder="输入手机号"
-                  >
-                    <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
-                  </a-input>
-                </a-form-item>
-                <!-- 密码 -->
-                <a-form-item>
-                  <a-input
-                    v-decorator="[
-          'password',
-          { rules: [{ required: true, message: '请输入密码!' }] }
-        ]"
-                    type="password"
-                    placeholder="输入密码"
-                  >
-                    <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-                  </a-input>
-                </a-form-item>
-                <!-- 登陆按钮 -->
-                <a-form-item>
-                  <a-checkbox
-                    style="float:left;"
-                    v-decorator="[
-          'remember',
-          {
-            valuePropName: 'checked',
-            initialValue: true,
-          }
-        ]"
-                  >Remember me</a-checkbox>
-                  <a class="login-form-forgot" @click="forgetPassword">忘记密码</a>
-                  <a-button type="primary" html-type="submit" class="login-form-button">登陆</a-button>
-                </a-form-item>
-              </a-form>
-            </a-col>
-            <a-col :xl="8" :lg="8" :md="8" :sm="2" :xs="2">&nbsp;</a-col>
-          </a-row>
-        </a-tab-pane>
-        <a-tab-pane key="2">
-          <span slot="tab">
-            <a-icon type="user-add" />注册
+            <a-icon type="lock" />忘记密码
           </span>
           <a-row>
             <a-col :xl="8" :lg="8" :md="8" :sm="2" :xs="2">&nbsp;</a-col>
@@ -120,7 +62,7 @@
                 <!-- 密码 -->
                 <a-form-item>
                   <a-input
-                    placeholder="输入密码"
+                    placeholder="输入新密码"
                     v-decorator="[
           'password',
           {
@@ -139,7 +81,7 @@
                 <!-- 确认密码 -->
                 <a-form-item>
                   <a-input
-                    placeholder="再次确认密码"
+                    placeholder="再次确认新密码"
                     v-decorator="[
           'confirm',
           {
@@ -157,7 +99,8 @@
                   </a-input>
                 </a-form-item>
                 <a-form-item>
-                  <a-button type="primary" html-type="submit" class="login-form-button">注册</a-button>
+                  <a class="login-form-forgot" @click="backLogin">用已有账户登陆</a>
+                  <a-button type="primary" html-type="submit" class="login-form-button">重置密码</a-button>
                 </a-form-item>
               </a-form>
             </a-col>
@@ -175,7 +118,6 @@ import { mixinDevice } from '@/utils/mixin.js'
 
 export default {
   beforeCreate() {
-    this.form = this.$form.createForm(this)
     this.registForm = this.$form.createForm(this)
   },
   components: {
@@ -192,14 +134,6 @@ export default {
   },
   created() {},
   methods: {
-    handleSubmit(e) {
-      e.preventDefault()
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values)
-        }
-      })
-    },
     handleSubmitRegist(e) {
       e.preventDefault()
       this.registForm.validateFields((err, values) => {
@@ -245,7 +179,6 @@ export default {
         }
       }, 1000)
     },
-    // 获取验证码
     onSearch() {
       if (this.identifyCodeButtonShow) {
         this.countTime()
@@ -254,10 +187,9 @@ export default {
         this.$message.warning('60秒内不能重复操作')
       }
     },
-    // 忘记密码
-    forgetPassword() {
+    backLogin(){
       this.$router.push({
-        name: 'forgetPassword'
+        name: 'regist'
       })
     }
   }

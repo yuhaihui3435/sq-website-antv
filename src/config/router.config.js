@@ -154,32 +154,43 @@ export const asyncRouterMap = [
         ]
       },
       // 注册
-      // {
-      //   path: '/regist',
-      //   name: 'regist',
-      //   component: () => import('@/views/account/settings/Regist'),
-      //       meta: { title: '注册', hideHeader: true, permission: ['user'] },
-      //       // redirect: '/account/settings/base',
-      //       hideChildrenInMenu: true
-      // },
-      // 注册
       {
         path: '/regist',
         name: 'regist',
-        component: PageView,
-        redirect: '/regist/regist',
-        meta: { title: '注册', hidden: true },
         hidden: true,
-        hideChildrenInMenu: true,
-        children: [
-          {
-            path: '/regist/regist',
-            name: 'regist',
-            component: () => import('@/views/account/settings/Regist'),
-            meta: { title: '注册', hidden: true }
-          }
-        ]
+        component: () => import('@/views/account/settings/Regist'),
+            meta: { title: '注册', hideHeader: true, permission: ['user'] },
+            // redirect: '/account/settings/base',
+            hideChildrenInMenu: true
       },
+      // 忘记密码
+      {
+        path: '/forgetPassword',
+        name: 'forgetPassword',
+        hidden: true,
+        component: () => import('@/views/account/settings/ForgetPassword'),
+            meta: { title: '忘记密码', hideHeader: true, permission: ['user'] },
+            // redirect: '/account/settings/base',
+            hideChildrenInMenu: true
+      },
+      // 注册
+      // {
+      //   path: '/regist',
+      //   name: 'regist',
+      //   component: PageView,
+      //   redirect: '/regist/regist',
+      //   meta: { title: '注册', hidden: true },
+      //   hidden: true,
+      //   hideChildrenInMenu: true,
+      //   children: [
+      //     {
+      //       path: '/regist/regist',
+      //       name: 'regist',
+      //       component: () => import('@/views/account/settings/Regist'),
+      //       meta: { title: '注册', hidden: true }
+      //     }
+      //   ]
+      // },
       // profile
       {
         path: '/profile',
