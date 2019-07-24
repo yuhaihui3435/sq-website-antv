@@ -155,16 +155,22 @@ export const asyncRouterMap = [
         meta: { title: '详情', icon: 'profile', permission: ['profile'] },
         children: [
           {
-            path: '/profile/lesson',
+            path: '/profile/lesson/:id',
             name: 'ProfileLesson',
             component: () => import('@/views/profile/basic/Index'),
             meta: { title: '课程详情', permission: ['profile'], keepAlive: true }
           },
           {
-            path: '/profile/doctor',
+            path: '/profile/doctor/:id',
             name: 'ProfileDoctor',
             component: () => import('@/views/profile/basic/DoctorDetail'),
             meta: { title: '医生详情', permission: ['profile'], keepAlive: true }
+          },
+          {
+            path: '/profile/artice/:id',
+            name: 'ProfileArtice',
+            component: () => import('@/views/profile/basic/ArticeDetail'),
+            meta: { title: '文章详情', permission: ['profile'], keepAlive: true }
           },
           {
             path: '/profile/advanced',
