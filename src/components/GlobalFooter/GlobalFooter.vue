@@ -1,7 +1,7 @@
 <template>
   <div id="footer">
     <div class="footer-wrap">
-      <a-row :gutter="24">
+      <a-row :gutter="24" style="margin:0 auto">
         <a-col :md="6" :xs="24" :sm="24">
           <div class="footer-center">
             <h2>深泉心理</h2>
@@ -69,7 +69,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import url('../index.less');
+
+@padding-space: 144px;
 @site-text-color: #fff;
 #footer {
   a {
@@ -87,8 +88,10 @@ export default {
   color: @site-text-color;
   box-shadow: 0 1000px 0 1000px #002147;
   .ant-row {
+    max-width: 1200px;
     text-align: center;
     .footer-center {
+      
       display: inline-block;
       text-align: left;
       > h2 {
@@ -129,3 +132,7 @@ export default {
   }
 }
 </style>
+<style >
+  
+</style>
+
