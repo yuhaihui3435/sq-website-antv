@@ -121,7 +121,7 @@
       </a-col>
     </a-row>
 
-    <a-row :gutter="24" >
+    <a-row :gutter="24">
       <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
         <a-card
           class="project-list"
@@ -135,31 +135,47 @@
           <div>
             <div class="ant-list-empty-text" v-show="articeData.length===0">暂无相关数据</div>
             <a-row :gutter="12" v-show="articeData.length>0">
-            <a-col :xl="24/articeDataSize" :lg="24" :md="24" :sm="24" :xs="24" v-for="item in articeData" :key="item.id ">
-            <!-- <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in articeData"> -->
-              <a-card :bordered="false"  :body-style="{ padding: 0 }">
-                <img slot="cover" v-if="item.coverPic" style="height:240px;width:100%;object-fit:fill" :src="loadPicUrl+item.coverPic" />
+              <a-col
+                :xl="24/articeDataSize"
+                :lg="24"
+                :md="24"
+                :sm="24"
+                :xs="24"
+                v-for="item in articeData"
+                :key="item.id "
+              >
+                <!-- <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in articeData"> -->
+                <a-card :bordered="false" :body-style="{ padding: 0 }">
+                  <img
+                    slot="cover"
+                    v-if="item.coverPic"
+                    style="height:240px;width:100%;object-fit:fill"
+                    :src="loadPicUrl+item.coverPic"
+                  />
 
-                <a-card-meta>
-                  <div slot="title" class="card-title">
-                    <a><ellipsis :length="40">{{ item.title }}</ellipsis></a>
+                  <a-card-meta>
+                    <div slot="title" class="card-title">
+                      <a>
+                        <ellipsis :length="40">{{ item.title }}</ellipsis>
+                      </a>
+                    </div>
+                    <div slot="description" class="card-description">
+                      <ellipsis :length="100">{{ item.summary }}</ellipsis>
+                    </div>
+                  </a-card-meta>
+                  <div class="project-item">
+                    <span class="label">{{item.author}}</span>
+                    <span class="datetime">{{formatDate(item.cAt)}}</span>
                   </div>
-                  <div slot="description" class="card-description">
-                    <ellipsis :length="100">{{ item.summary }}</ellipsis>
-                  </div>
-                </a-card-meta>
-                <div class="project-item">
-                  <span class="label">{{item.author}}</span>
-                  <span class="datetime">{{formatDate(item.cAt)}}</span>
-                </div>
-              </a-card>
-            <!-- </a-card-grid> -->
-            </a-col></a-row>
+                </a-card>
+                <!-- </a-card-grid> -->
+              </a-col>
+            </a-row>
           </div>
         </a-card>
       </a-col>
     </a-row>
-    <a-row :gutter="12"  v-show="certificateData.length>0">
+    <a-row :gutter="12" v-show="certificateData.length>0">
       <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
         <a-card
           class="project-list"
@@ -169,18 +185,28 @@
           :body-style="{ padding: '10px' }"
         >
           <a-row :gutter="12">
-            <a-col :xl="24/certificateDataSize" :lg="24" :md="24" :sm="24" :xs="24" v-for="item in certificateData" :key="item.id ">
-              <img :src="loadPicUrl+item.img" style="height:240px;width:100%;object-fit:fill"  />
+            <a-col
+              :xl="24/certificateDataSize"
+              :lg="24"
+              :md="24"
+              :sm="24"
+              :xs="24"
+              v-for="item in certificateData"
+              :key="item.id "
+            >
+              <img :src="loadPicUrl+item.img" style="height:240px;width:100%;object-fit:fill" />
             </a-col>
           </a-row>
         </a-card>
       </a-col>
     </a-row>
-    <a-row :gutter="24">
-      <a-col :xl="4" :lg="24" :md="24" :sm="24" :xs="24" v-for="data in linksData" :key="data.id">
-        <img :src="loadPicUrl+data.img" />
-      </a-col>
-    </a-row>
+    <a-list v-loading="loading04" v-show="linksData.length>0" :grid="{ gutter: 16, xs: 1, sm: 4, md: 6, lg: 8, xl: 8, xxl: 8 }" :dataSource="linksData">
+      <a-list-item slot="renderItem" slot-scope="item, index">
+        <a :href="data.url" target="_blank">
+          <img :src="loadPicUrl+data.img" />
+        </a>
+      </a-list-item>
+    </a-list>
   </page-view>
 </template>
 
@@ -202,13 +228,14 @@ export default {
       loading01: false,
       loading02: false,
       loading03: false,
+      loading04:false,
       certificateData: [],
       certificateDataSize: 4,
       lessonRData: [],
       lessonLData: [],
       doctorLData: [],
       articeData: [],
-      articeDataSize:4,
+      articeDataSize: 4,
       linksData: [],
       consultingProcess: '',
       loadPicUrl: process.env.VUE_APP_API_BASE_URL + '/cc/loadPic/',
@@ -282,7 +309,7 @@ export default {
       const vm = this
       vm.loading03 = true
       axios({
-        url: '/api/index03?size='+this.articeDataSize,
+        url: '/api/index03?size=' + this.articeDataSize,
         method: 'post'
       })
         .then(res => {
