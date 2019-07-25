@@ -114,10 +114,10 @@
           style="margin-bottom: 24px;"
           :bordered="false"
           title="咨询流程"
-          :body-style="{ padding: 0 }"
+          :body-style="{ padding: 0 ,'background-color':'#6798f3'}"
         >
           <div class="ant-list-empty-text" v-show="!consultingProcess">暂无咨询流程数据</div>
-          <img :src="loadPicUrl+consultingProcess" v-if="consultingProcess" :onerror="errorImg"/>
+          <img style="padding:10px 10px;height:240px;width:100%" :src="consultingProcess" v-if="consultingProcess" :onerror="errorImg"/>
         </a-card>
       </a-col>
     </a-row>
@@ -180,11 +180,12 @@
         </a-card>
       </a-col>
     </a-row>
-    <a-list v-loading="loading04" v-show="linksData.length>0" :grid="{ gutter: 16, xs: 1, sm: linksDataSize, md: linksDataSize, lg: linksDataSize*2, xl: linksDataSize*2, xxl: linksDataSize*3 }" :dataSource="linksData">
+    <a-list :loading="loading04" v-show="linksData.length>0" :grid="{ gutter: 16, xs: 1, sm: 3, md: 6, lg: 6, xl: 6, xxl: 6 }" :dataSource="linksData">
       <a-list-item slot="renderItem" slot-scope="item, index">
-        <a :href="data.url" target="_blank">
-          <img :src="loadPicUrl+data.img" />
+        <a :href="item.url" target="_blank">
+          <img :src="loadPicUrl+item.img" style="height:80px;width:100%;object-fit:fill" :onerror="errorImg"/>
         </a>
+        <span style="textAlign:center;display: flex;flex-direction: column;">{{item.name}}</span>
       </a-list-item>
     </a-list>
   </page-view>
@@ -212,7 +213,7 @@ export default {
       loading03: false,
       loading04:false,
       certificateData: [],
-      certificateDataSize: 4,
+      certificateDataSize: 6,
       lessonRData: [],
       lessonLData: [],
       doctorLData: [],
@@ -220,7 +221,7 @@ export default {
       articeDataSize: 4,
       linksData: [],
       linksDataSize:3,
-      consultingProcess: '',
+      consultingProcess: require('../assets/consultingProcess.png'),
       loadPicUrl: process.env.VUE_APP_API_BASE_URL + '/cc/loadPic/',
       imgList: []
     }
@@ -232,6 +233,7 @@ export default {
     this.f2()
     this.f3()
     this.f4()
+    this.f5()
   },
   methods: {
     formatDate(date) {
@@ -313,6 +315,17 @@ export default {
           vm.certificateData = res['certificateData']
         })
         .catch(err => {})
+    },
+    f5(){
+      const vm = this
+      axios({
+        url: '/api/index05?size=' + (this.linksDataSize*6),
+        method: 'post'
+      })
+        .then(res => {
+          vm.linksData = res['linksData']
+        })
+        .catch(err => {})
     }
   }
 }
@@ -365,42 +378,6 @@ export default {
     height: 44px;
     line-height: 22px;
     overflow: hidden;
-  }
-}
-
-.item-group {
-  padding: 20px 0 8px 24px;
-  font-size: 0;
-  a {
-    color: rgba(0, 0, 0, 0.65);
-    display: inline-block;
-    font-size: 14px;
-    margin-bottom: 13px;
-    width: 25%;
-  }
-}
-
-.members {
-  a {
-    display: block;
-    margin: 12px 0;
-    line-height: 24px;
-    height: 24px;
-    .member {
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.65);
-      line-height: 24px;
-      max-width: 100px;
-      vertical-align: top;
-      margin-left: 12px;
-      transition: all 0.3s;
-      display: inline-block;
-    }
-    &:hover {
-      span {
-        color: #1890ff;
-      }
-    }
   }
 }
 
