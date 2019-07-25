@@ -2,7 +2,7 @@
   <page-view :title="false">
     <a-row :gutter="24" style="padding-top:0px" v-show="imgList.length>0">
       <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
-        <a-carousel autoplay v-if="imgList.length>0" :style="{height:isMobile()?'200px':'400px'}">
+        <a-carousel arrows autoplay v-if="imgList.length>0" :style="{height:isMobile()?'200px':'400px'}" >
           <img
             v-for="img in imgList"
             :key="img"
@@ -33,6 +33,7 @@
                     slot="cover"
                     v-if="item.publicizeType==='1'"
                     :src="loadPicUrl+item.publicize"
+                    :onerror="errorImg"
                   />
                   <iframe
                     v-if="item.publicizeType=='2'"
@@ -103,7 +104,7 @@
           <div>
             <div class="ant-list-empty-text" v-show="doctorLData.length===0">暂无咨询师数据</div>
             <a-carousel style="height:240px;width:100%" v-show="doctorLData.length>0">
-              <img v-for="doctor in doctorLData" :key="doctor.id" :src="doctor.avatar" />
+              <img v-for="doctor in doctorLData" :key="doctor.id" style="width:100%;maxHeight:80%" :src="loadPicUrl+doctor.avatar" :onerror="errorImg"/>
             </a-carousel>
           </div>
         </a-card>
@@ -116,7 +117,7 @@
           :body-style="{ padding: 0 }"
         >
           <div class="ant-list-empty-text" v-show="!consultingProcess">暂无咨询流程数据</div>
-          <img :src="loadPicUrl+consultingProcess" v-if="consultingProcess" />
+          <img :src="loadPicUrl+consultingProcess" v-if="consultingProcess" :onerror="errorImg"/>
         </a-card>
       </a-col>
     </a-row>
@@ -135,23 +136,10 @@
           <div>
             <div class="ant-list-empty-text" v-show="articeData.length===0">暂无相关数据</div>
             <a-row :gutter="12" v-show="articeData.length>0">
-              <a-col
-                :xl="24/articeDataSize"
-                :lg="24"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-for="item in articeData"
-                :key="item.id "
-              >
-                <!-- <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in articeData"> -->
-                <a-card :bordered="false" :body-style="{ padding: 0 }">
-                  <img
-                    slot="cover"
-                    v-if="item.coverPic"
-                    style="height:240px;width:100%;object-fit:fill"
-                    :src="loadPicUrl+item.coverPic"
-                  />
+            <a-col :xl="24/articeDataSize" :lg="24" :md="24" :sm="24" :xs="24" v-for="item in articeData" :key="item.id ">
+            <!-- <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in articeData"> -->
+              <a-card :bordered="false"  :body-style="{ padding: 0 }">
+                <img slot="cover" v-if="item.coverPic" style="height:auto;width:100%;object-fit:fill" :src="loadPicUrl+item.coverPic" :onerror="errorImg"/>
 
                   <a-card-meta>
                     <div slot="title" class="card-title">
@@ -185,22 +173,14 @@
           :body-style="{ padding: '10px' }"
         >
           <a-row :gutter="12">
-            <a-col
-              :xl="24/certificateDataSize"
-              :lg="24"
-              :md="24"
-              :sm="24"
-              :xs="24"
-              v-for="item in certificateData"
-              :key="item.id "
-            >
-              <img :src="loadPicUrl+item.img" style="height:240px;width:100%;object-fit:fill" />
+            <a-col :xl="24/certificateDataSize" :lg="24" :md="24" :sm="24" :xs="24" v-for="item in certificateData" :key="item.id ">
+              <img :src="loadPicUrl+item.img" style="height:auto;width:100%;object-fit:fill"  :onerror="errorImg"/>
             </a-col>
           </a-row>
         </a-card>
       </a-col>
     </a-row>
-    <a-list v-loading="loading04" v-show="linksData.length>0" :grid="{ gutter: 16, xs: 1, sm: 4, md: 6, lg: 8, xl: 8, xxl: 8 }" :dataSource="linksData">
+    <a-list v-loading="loading04" v-show="linksData.length>0" :grid="{ gutter: 16, xs: 1, sm: linksDataSize, md: linksDataSize, lg: linksDataSize*2, xl: linksDataSize*2, xxl: linksDataSize*3 }" :dataSource="linksData">
       <a-list-item slot="renderItem" slot-scope="item, index">
         <a :href="data.url" target="_blank">
           <img :src="loadPicUrl+data.img" />
@@ -216,6 +196,7 @@ import { PageView } from '@/layouts'
 import { formatDate } from '../utils/util'
 import { axios } from '../utils/request'
 import ellipsis from '@/components/Ellipsis'
+import config from '../config/defaultSettings'
 export default {
   mixins: [AppDict, mixinDevice],
   name: 'Home',
@@ -225,6 +206,7 @@ export default {
   },
   data() {
     return {
+      errorImg:'this.src="' + config.defaultErrorImg + '"',
       loading01: false,
       loading02: false,
       loading03: false,
@@ -237,6 +219,7 @@ export default {
       articeData: [],
       articeDataSize: 4,
       linksData: [],
+      linksDataSize:3,
       consultingProcess: '',
       loadPicUrl: process.env.VUE_APP_API_BASE_URL + '/cc/loadPic/',
       imgList: []
@@ -438,4 +421,9 @@ export default {
     display: none;
   }
 }
+
 </style>
+<style scoped>
+
+</style>
+

@@ -27,16 +27,18 @@
               <span>账户设置</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="4" v-show="!token()">
-            <router-link :to="{ name: 'settings' }">
+          <!-- <a-menu-item key="4" v-show="!token()"> -->
+          <!-- <a-menu-item key="4" v-show="true">
+            <router-link :to="{ name: 'regist' }">
               <icon-font type="icon-zhuce" />
               <span>注册</span>
             </router-link>
-          </a-menu-item>
-          <a-menu-item key="5" v-show="!token()">
-            <router-link :to="{ name: 'settings' }">
+          </a-menu-item> -->
+          <!-- <a-menu-item key="5" v-show="!token()"> -->
+          <a-menu-item key="5" v-show="true">
+            <router-link :to="{ name: 'regist' }">
               <icon-font type="icon-denglu" />
-              <span>登录</span>
+              <span>登录&注册</span>
             </router-link>
           </a-menu-item>
           <a-menu-item key="2">
@@ -60,6 +62,7 @@
       </a-dropdown>
     </div>
   </div>
+  
 </template>
 
 <script>
