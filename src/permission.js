@@ -13,7 +13,6 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['login', 'register', 'registerResult', 'index'] // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
-  console.info('1')
   NProgress.start() // start progress bar
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`))
   next();
