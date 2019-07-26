@@ -6,7 +6,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store/'
 import { VueAxios } from './utils/request'
-
+import MetaInfo from 'vue-meta-info'
 // mock
 import './mock'
 
@@ -16,7 +16,7 @@ import './permission' // permission control
 import './utils/filter' // global filter
 
 Vue.config.productionTip = false
-
+Vue.use(MetaInfo)
 // mount axios Vue.$http and this.$http
 Vue.use(VueAxios)
 

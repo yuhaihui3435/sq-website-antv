@@ -37,6 +37,9 @@
         </div>
       </div>
     </page-header>
+    <a-affix :offsetBottom="this.bottom">
+      <a-button type="primary"  @click="()=>{this.bottom += 10}">Affix bottom</a-button>
+    </a-affix>
     <div class="content">
       <div class="page-header-index-wide">
         <slot>
@@ -80,6 +83,7 @@ export default {
   },
   data () {
     return {
+      bottom:10,
       pageTitle: null,
       description: null,
       linkList: [],
