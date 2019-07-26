@@ -53,7 +53,8 @@ function filterAsyncRouter (routerMap, roles) {
 const permission = {
   state: {
     routers: constantRouterMap,
-    addRouters: []
+    // addRouters: []    //动态路由使用方式
+    addRouters:asyncRouterMap
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
@@ -67,6 +68,7 @@ const permission = {
         const { roles } = data
         const accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
         commit('SET_ROUTERS', accessedRouters)
+        // commit('SET_ROUTERS', asyncRouterMap)
         resolve()
       })
     }
