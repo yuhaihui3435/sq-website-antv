@@ -24,7 +24,7 @@
                   <a-input
                     v-decorator="[
           'userName',
-          { rules: [{ required: true, message: '请输入手机号!' }] }
+          { rules: [{ required: true, message: '请输入手机号!', pattern: /^1[3456789]\d{9}$/ }] }
         ]"
                     placeholder="输入手机号"
                   >
@@ -55,7 +55,7 @@
             initialValue: true,
           }
         ]"
-                  >Remember me</a-checkbox>
+                  >记住我</a-checkbox>
                   <a class="login-form-forgot" @click="forgetPassword">忘记密码</a>
                   <a-button type="primary" html-type="submit" class="login-form-button">登陆</a-button>
                 </a-form-item>
@@ -84,7 +84,7 @@
                     v-decorator="[
           'phone',
           {
-            rules: [{ required: true, message: '请输入手机号!' }],
+            rules: [{ required: true, message: '请输入手机号!', pattern: /^1[3456789]\d{9}$/ }],
           }
         ]"
                     style="width: 100%"
@@ -170,10 +170,23 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { PageView, RouteView } from '@/layouts'
 import { mixinDevice } from '@/utils/mixin.js'
-
+import { axios } from '@/utils/request'
+import { mapState, mapActions } from 'vuex'
+const serverUrl = process.env.VUE_APP_API_BASE_URL
 export default {
+  computed: {
+    ...mapState({
+      token: state => state.user.token,
+      name: state => state.user.name,
+      avatar: state => state.user.avatar,
+      info: state => state.user.info,
+      login: state => state.user.login
+    })
+  },
   beforeCreate() {
     this.form = this.$form.createForm(this)
     this.registForm = this.$form.createForm(this)
@@ -192,19 +205,103 @@ export default {
   },
   created() {},
   methods: {
+    // 登陆
     handleSubmit(e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
+          console.log('登陆表单', values)
+          axios({
+            url: '/api/user/login',
+            method: 'post',
+            data: {
+              account: values.userName,
+              pwd: values.password,
+              rememberMe: values.remember
+            }
+          })
+            .then(res => {
+              console.log('登录返回', res)
+              if (res.code == 1000) {
+                this.$message.success(res.msg)
+                if (values.remember) {
+                  Vue.ls.set(ACCESS_TOKEN, res.body, 7 * 24 * 60 * 60 * 1000)
+                } else {
+                  Vue.ls.set(ACCESS_TOKEN, res.body, 8 * 60 * 60 * 1000)
+                }
+                this.$store.commit('SET_TOKEN', {
+                  token: res.body
+                })
+                this.queryUserLogin()
+              } else {
+                this.$message.error(res.msg)
+              }
+            })
+            .catch(err => {})
         }
       })
     },
+    // 查询用户信息
+    queryUserLogin() {
+      axios({
+        url: 'api/user/getLogin',
+        method: 'post',
+        data: {}
+      })
+        .then(res => {
+          this.$store.commit('SET_LOGIN', {
+            login: res.userLogin
+          })
+          console.log('登录结果', this.login)
+          if (res.userInfo) {
+            this.$store.commit('SET_INFO', {
+              info: res.userInfo
+            })
+            console.log('用户信息', this.info)
+          }
+          if (this.info.info.nickname) {
+            this.$store.commit('SET_NAME', {
+              name: this.info.info.nickname
+            })
+            console.log('用户名', this.name)
+          }
+          if (this.info.info.avatar) {
+            this.$store.commit('SET_AVATAR', {
+              avatar: serverUrl + '/cc/loadPic/' + this.info.info.avatar
+            })
+            console.log('头像', this.avatar.avatar)
+          }
+          this.$router.push({
+            name: 'index'
+          })
+        })
+        .catch(err => {})
+    },
+    // 注册
     handleSubmitRegist(e) {
       e.preventDefault()
       this.registForm.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
+          console.log('注册表单', values)
+          axios({
+            url: '/api/user/register?smsCode=' + values.identifyCode,
+            method: 'post',
+            data: {
+              phone: values.phone,
+              pwd: values.password
+            }
+          })
+            .then(res => {
+              if (res.code == 1000) {
+                this.$message.success(res.msg)
+                this.$router.push({
+                  name: 'regist'
+                })
+              } else {
+                this.$message.error(res.msg)
+              }
+            })
+            .catch(err => {})
         }
       })
     },
@@ -247,11 +344,29 @@ export default {
     },
     // 获取验证码
     onSearch() {
-      if (this.identifyCodeButtonShow) {
-        this.countTime()
-        this.$message.success('验证码已发送')
+      let phone = this.registForm.getFieldValue('phone')
+      console.log('手机号', phone)
+      if (!phone) {
+        this.$message.warning('请输入手机号')
       } else {
-        this.$message.warning('60秒内不能重复操作')
+        if (this.identifyCodeButtonShow) {
+          const vm = this
+          axios({
+            url: '/api/user/sendSmsCode/' + phone,
+            method: 'get'
+          })
+            .then(res => {
+              if (res.code == 1000) {
+                this.countTime()
+                this.$message.success(res.msg)
+              } else {
+                this.$message.error(res.msg)
+              }
+            })
+            .catch(err => {})
+        } else {
+          this.$message.warning('60秒内不能重复操作')
+        }
       }
     },
     // 忘记密码

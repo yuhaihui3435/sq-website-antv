@@ -2,22 +2,39 @@
   <!-- <page-view :title="false"> -->
   <!-- <div class="account-settings-info-view"> -->
   <a-row :gutter="16">
+    <a-col :md="24" :lg="24" :style="{ minHeight: '180px'}">
+      <a-upload
+        name="pic"
+        listType="picture-card"
+        class="avatar-uploader"
+        :showUploadList="false"
+        :action="uploadUrlPub"
+        :beforeUpload="beforeUpload"
+        @change="handleChange"
+      >
+        <img v-if="imageUrl" :src="imageUrl" alt="avatar" height="160" width="160" />
+        <div v-else>
+          <a-icon :type="loading ? 'loading' : 'plus'" />
+          <div class="ant-upload-text">头像</div>
+        </div>
+      </a-upload>
+    </a-col>
     <a-col :md="24" :lg="16">
       <a-form layout="vertical">
         <a-form-item label="昵称">
-          <a-input placeholder="给自己起个名字" :value="form.nickName" />
+          <a-input placeholder="给自己起个名字" v-model="form.nickname" />
         </a-form-item>
         <!-- <a-form-item label="Bio">
               <a-textarea rows="4" placeholder="You are not alone." />
         </a-form-item>-->
         <a-form-item label="性别" :required="false">
-          <a-select :value="form.sex">
+          <a-select placeholder="请选择学历" v-model="form.sex">
             <a-select-option value="00">男</a-select-option>
             <a-select-option value="01">女</a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item label="真实姓名" :required="false">
-          <a-input placeholder="请输入真实姓名" :value="form.realName" />
+          <a-input placeholder="请输入真实姓名" v-model="form.realname" />
         </a-form-item>
         <a-form-item label="省市区" :required="false">
           <!-- <a-input placeholder="密码" /> -->
@@ -25,16 +42,16 @@
             <el-cascader
               size="large"
               :options="options"
-              :value="selectedOptions"
+              v-model="selectedOptions"
               @change="handleChangeArea"
             ></el-cascader>
           </div>
         </a-form-item>
         <a-form-item label="地址" :required="false">
-          <a-input placeholder="请输入地址" :value="form.address" />
+          <a-input placeholder="请输入地址" v-model="form.address" />
         </a-form-item>
         <a-form-item label="学历" :required="false">
-          <a-select placeholder="请选择学历">
+          <a-select placeholder="请选择学历" v-model="form.education">
             <a-select-option value="00">初中</a-select-option>
             <a-select-option value="01">高中</a-select-option>
             <a-select-option value="02">中专</a-select-option>
@@ -48,35 +65,9 @@
           </a-select>
         </a-form-item>
         <a-form-item>
-          <a-button type="primary">提交</a-button>
-          <a-button style="margin-left: 8px">保存</a-button>
+          <a-button style="margin-left: 8px" @click="submit">保存</a-button>
         </a-form-item>
       </a-form>
-    </a-col>
-
-    <a-col :md="24" :lg="8" :style="{ minHeight: '180px'}" style="padding-left:60px;">
-      <!-- <div class="ant-upload-preview" @click="$refs.modal.edit(1)">
-            <a-icon type="cloud-upload-o" class="upload-icon" />
-            <div class="mask">
-              <a-icon type="plus" />
-            </div>
-            <img :src="option.img" />
-      </div>-->
-      <a-upload
-        name="avatar"
-        listType="picture-card"
-        class="avatar-uploader"
-        :showUploadList="false"
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        :beforeUpload="beforeUpload"
-        @change="handleChange"
-      >
-        <img v-if="imageUrl" :src="imageUrl" alt="avatar" height="260" />
-        <div v-else>
-          <a-icon :type="loading ? 'loading' : 'plus'" />
-          <div class="ant-upload-text">头像</div>
-        </div>
-      </a-upload>
     </a-col>
   </a-row>
 
@@ -90,7 +81,10 @@ import Vue from 'vue'
 import AvatarModal from './AvatarModal'
 import { PageView } from '@/layouts'
 import { Cascader } from 'element-ui'
+import { axios } from '@/utils/request'
+import { mapState, mapActions } from 'vuex'
 Vue.component(Cascader.name, Cascader)
+const serverUrl = process.env.VUE_APP_API_BASE_URL
 import {
   provinceAndCityData,
   regionData,
@@ -105,6 +99,15 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img)
 }
 export default {
+  computed: {
+    ...mapState({
+      token: state => state.user.token,
+      name: state => state.user.name,
+      avatar: state => state.user.avatar,
+      info: state => state.user.info,
+      login: state => state.user.login
+    })
+  },
   components: {
     AvatarModal,
     PageView,
@@ -130,28 +133,127 @@ export default {
         fixedNumber: [1, 1]
       },
       loading: false,
+      uploadUrlPub: serverUrl + '/cc/uploadPic',
       imageUrl: '',
       form: {
         avatar: '',
-        nickName: '',
-        type: '00',
-        realName: '',
+        nickname: '',
+        type: '',
+        realname: '',
         province: '',
         city: '',
         area: '',
         address: '',
-        education: '',
-        sex: '00'
+        education: '00',
+        sex: '00',
+        loginId: 0
       },
       options: regionDataPlus,
       selectedOptions: []
     }
   },
+  activated: function() {
+    this.queryUserLogin()
+    console.log(serverUrl)
+  },
   methods: {
+    // 查询用户信息
+    queryUserLogin() {
+      axios({
+        url: 'api/user/getLogin',
+        method: 'post',
+        data: {}
+      })
+        .then(res => {
+          console.log('userlogin结果', res)
+          this.$store.commit('SET_LOGIN', {
+            login: res.userLogin
+          })
+          console.log('登录结果', this.login)
+          this.form.loginId = res.userLoginId
+          this.queryUserInfo()
+          console.log('表单结果', this.form)
+        })
+        .catch(err => {})
+    },
+    // 保存信息
+    submit() {
+      // 转换省市区
+      for (let i = 0; i < this.selectedOptions.length; i++) {
+        if (i == 0) {
+          this.form.province = CodeToText[this.selectedOptions[i]]
+        } else if (i == 1) {
+          this.form.city = CodeToText[this.selectedOptions[i]]
+        } else if (i == 2) {
+          this.form.area = CodeToText[this.selectedOptions[i]]
+        }
+      }
+      console.log('表单结果', this.form)
+      // 提交
+      axios({
+        url: 'api/user/modifyUserInfo',
+        method: 'post',
+        data: this.form
+      })
+        .then(res => {
+          if (res.code == 1000) {
+            this.$message.success(res.msg)
+            this.queryUserInfo()
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+        .catch(err => {})
+    },
+    // 查询用户信息
+    queryUserInfo() {
+      console.log('登录id', this.form.loginId)
+      axios({
+        url: 'api/user/userInfo',
+        method: 'post',
+        data: { loginId: this.form.loginId }
+      })
+        .then(res => {
+          console.log('用户结果', res)
+          this.selectedOptions = []
+          this.form = res
+          this.$store.commit('SET_INFO', {
+            info: res
+          })
+          if (this.info.info.nickname) {
+            this.$store.commit('SET_NAME', {
+              name: this.info.info.nickname
+            })
+            console.log('用户名', this.name)
+          }
+          if (this.info.info.avatar) {
+            this.$store.commit('SET_AVATAR', {
+              avatar: serverUrl + '/cc/loadPic/' + this.info.info.avatar
+            })
+            console.log('头像', this.avatar.avatar)
+          }
+          if (this.form.avatar) {
+            this.imageUrl = serverUrl + '/cc/loadPic/' + this.form.avatar
+          }
+          if (this.form.province) {
+            this.selectedOptions.push(TextToCode[this.form.province].code)
+          }
+          if (this.form.city) {
+            this.selectedOptions.push(TextToCode[this.form.province][this.form.city].code)
+          }
+          if (this.form.area) {
+            this.selectedOptions.push(TextToCode[this.form.province][this.form.city][this.form.area].code)
+          }
+          console.log('省市区', this.selectedOptions)
+        })
+        .catch(err => {})
+    },
     handleChangeArea(value) {
       console.log(value)
+      console.log(this.selectedOptions)
     },
     handleChange(info) {
+      console.log(info)
       if (info.file.status === 'uploading') {
         this.loading = true
         return
@@ -160,6 +262,7 @@ export default {
         // Get this url from response in real world.
         getBase64(info.file.originFileObj, imageUrl => {
           this.imageUrl = imageUrl
+          this.form.avatar = info.file.response.body
           this.loading = false
         })
       }
@@ -171,7 +274,7 @@ export default {
       // }
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isLt2M) {
-        this.$message.error('Image must smaller than 2MB!')
+        this.$message.error('图片大小不能大于2MB!')
       }
       return isLt2M
     }
