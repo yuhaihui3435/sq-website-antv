@@ -171,7 +171,9 @@ export default {
           })
           console.log('登录结果', this.login)
           this.form.loginId = res.userLoginId
-          this.queryUserInfo()
+          if (this.form.loginId) {
+            this.queryUserInfo()
+          }
           console.log('表单结果', this.form)
         })
         .catch(err => {})

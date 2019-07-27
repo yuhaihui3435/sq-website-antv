@@ -7,7 +7,7 @@
         <h3 style="font-weight:700;text-decoration:underline;float:left;">全部</h3>
         <a-input-search
           v-model="doctorName"
-          style="width:30%;float:right;"
+          style="width:60%;float:right;"
           placeholder="搜索咨询师"
           @search="onSearch"
           enterButton="搜索"

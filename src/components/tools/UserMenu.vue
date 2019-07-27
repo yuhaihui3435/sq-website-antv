@@ -10,19 +10,23 @@
       <!-- <a-button ghost>注册</a-button> -->
       <!-- <a-button ghost style="margin-left:12px">登录</a-button> -->
       <a-dropdown>
-        <span class="action ant-dropdown-link user-dropdown-menu">
+        <span class="action ant-dropdown-link user-dropdown-menu" v-if="!token" @click="loginRegist()">
           <a-avatar class="avatar" size="default" :src="formatAvatar()" />
           <span>{{formatName()}}</span>
         </span>
-        <a-menu slot="overlay" class="user-dropdown-menu-wrapper">
+        <span class="action ant-dropdown-link user-dropdown-menu" v-if="token">
+          <a-avatar class="avatar" size="default" :src="formatAvatar()" />
+          <span>{{formatName()}}</span>
+        </span>
+        <a-menu slot="overlay" class="user-dropdown-menu-wrapper" v-show="token">
           <!-- <a-menu-item key="0">
             <router-link :to="{ name: 'center' }">
               <a-icon type="user"/>
               <span>个人中心</span>
             </router-link>
           </a-menu-item>-->
-          <!-- <a-menu-item key="1" v-show="token()"> -->
-          <a-menu-item key="1">
+          <a-menu-item key="1" v-show="token">
+          <!-- <a-menu-item key="1"> -->
             <router-link :to="{ name: 'settings' }">
               <a-icon type="setting" />
               <span>账户设置</span>
@@ -36,12 +40,12 @@
             </router-link>
           </a-menu-item>-->
           <!-- <a-menu-item key="5" v-show="!token()"> -->
-          <a-menu-item key="5" v-show="true">
+          <!-- <a-menu-item key="5" v-show="true">
             <router-link :to="{ name: 'regist' }">
               <icon-font type="icon-denglu" />
               <span>登录&注册</span>
             </router-link>
-          </a-menu-item>
+          </a-menu-item> -->
           <a-menu-item key="2">
             <router-link :to="{ name: 'settings' }">
               <icon-font type="icon-yuyan" />
@@ -100,7 +104,6 @@ export default {
     // ...mapGetters(['nickname', 'avatar', 'token']),
     handleLogout() {
       const that = this
-
       this.$confirm({
         title: '提示',
         content: '真的要注销登录吗 ?',
@@ -141,8 +144,13 @@ export default {
           return '访客'
         }
       } else {
-        return '访客'
+        return '登录&注册'
       }
+    },
+    loginRegist() {
+      this.$router.push({
+        name: 'regist'
+      })
     }
   }
 }
