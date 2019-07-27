@@ -50,26 +50,26 @@ const mixinDevice = {
   }
 }
 
-const AppDict={
-  data() {
+const AppDict = {
+  data () {
     return {
-      lessonStatus:[{value:'00',label:'未开始'},{value:'01',label:'进行中'},{value:'01',label:'已结束'}],
-      sexOptions: [{ label: "男", value: "00" }, { label: "女", value: "01" }],  
-      
+      lessonStatus: [{ value: '00', label: '未开始' }, { value: '01', label: '进行中' }, { value: '01', label: '已结束' }],
+      sexOptions: [{ label: '男', value: '00' }, { label: '女', value: '01' }]
+
     }
   },
   methods: {
-      getLessonLabel(val){
-        let ret='';
-        for (let d of this.lessonStatus){
-          if(d.value===val){
-            ret =d.label;
-            break;
-          }
+    getLessonLabel (val) {
+      let ret = ''
+      for (const d of this.lessonStatus) {
+        if (d.value === val) {
+          ret = d.label
+          break
         }
-        return ret;
       }
-  },
+      return ret
+    }
+  }
 }
 
 const AppDeviceEnquire = {
@@ -95,4 +95,4 @@ const AppDeviceEnquire = {
   }
 }
 
-export { mixin, AppDeviceEnquire, mixinDevice,AppDict }
+export { mixin, AppDeviceEnquire, mixinDevice, AppDict }

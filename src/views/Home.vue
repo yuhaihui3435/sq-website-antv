@@ -6,28 +6,20 @@
           arrows
           autoplay
           v-if="imgList.length>0"
-          :style="{height:isMobile()?'200px':'400px'}"
+          :style="{height:isMobile()?'200px':'550px'}"
         >
           <img
             v-for="img in imgList"
             :key="img"
             :src="loadPicUrl+img"
-            :style="{height:isMobile()?'200px':'400px'}"
+            :style="{height:isMobile()?'200px':'550px'}"
           />
         </a-carousel>
       </a-col>
     </a-row>
-    <a-row style=" background-color: #f3f1ec;">
+    <a-row style=" background-color: #f3f1ec;border-bottom: 1px solid #c3bdb7;">
       <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
-        <!-- <a-card
-          class="project-list"
-          :loading="loading01"
-          :bordered="false"
-          style="margin-bottom: 24px;"
-          title="书院·研究·学习"
-          :body-style="{ padding: 0 }"
-        >-->
-        <!-- <a slot="extra">所有课程</a> -->
+        
         <div class="project-list">
           <div class="project-header">
             <h2 class="title">
@@ -47,7 +39,6 @@
             <a-row :gutter="12">
               <a-col :key="i" v-for="(item, i) in lessonLData" :xl="8">
                 <div class="ant-list-empty-text" v-if="lessonLData.length===0">暂无课程数据</div>
-                <!-- <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in lessonLData"> -->
                 <a-card :bordered="false" :body-style="{ padding: 0 }">
                   <div style="height:240px">
                     <img
@@ -81,20 +72,10 @@
                 </a-card>
               </a-col>
             </a-row>
-            <!-- </a-card-grid> -->
           </div>
         </div>
-        <!-- </a-card> -->
       </a-col>
       <a-col :xl="8" :lg="24" :md="24" :sm="24" :xs="24">
-        <!-- <a-card
-          :loading="loading01"
-          style="margin-bottom: 24px;height:100%"
-          :bordered="false"
-          title="动态"
-          :body-style="{ padding: 0,height:'100%' }"
-        >-->
-        <!-- <a slot="extra"></a> -->
         <div class="project-list">
           <div class="project-header">
             <h2 class="title">
@@ -112,21 +93,6 @@
           </div>
           <div class="project-content">
             <div class="sq-title-list" :loading="loading01" v-show="lessonLData.length>0">
-              <!-- <a-list
-              style="padding:15px 30px"
-              itemLayout="horizontal"
-              :dataSource="lessonRData"
-              :loading="loading01"
-            >
-              <a-list-item slot="renderItem" slot-scope="item, index">
-                <a-list-item-meta>
-                  <div slot="description">
-                    <ellipsis :length="50">{{ item.summary }}</ellipsis>
-                  </div>
-                  <a slot="title">{{item.name}}</a>
-                </a-list-item-meta>
-              </a-list-item>
-              </a-list>-->
               <div class="sql-title" v-for="item in lessonLData" :key="item.id">
                 <div>
                   <a href>{{ item.name }}</a>
@@ -136,64 +102,71 @@
             </div>
           </div>
         </div>
-        <!-- </a-card> -->
       </a-col>
     </a-row>
-    <a-row :gutter="24">
-      <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
-        <a-card
-          class="project-list"
-          :loading="loading02"
-          style="margin-bottom: 24px;"
-          :bordered="false"
-          title="咨询"
-          :body-style="{ padding: 0 }"
-        >
-          <a slot="extra">所有咨询</a>
-          <div>
-            <div class="ant-list-empty-text" v-show="doctorLData.length===0">暂无咨询师数据</div>
-            <a-carousel style="height:240px;width:100%" v-show="doctorLData.length>0">
-              <img
-                v-for="doctor in doctorLData"
-                :key="doctor.id"
-                style="width:100%;maxHeight:80%"
-                :src="loadPicUrl+doctor.avatar"
-                :onerror="errorImg"
-              />
-            </a-carousel>
-          </div>
-        </a-card>
-      </a-col>
-      <a-col style="padding: 0 12px" :xl="8" :lg="24" :md="24" :sm="24" :xs="24">
-        <a-card
-          style="margin-bottom: 24px;"
-          :bordered="false"
-          title="咨询流程"
-          :body-style="{ padding: 0 ,'background-color':'#6798f3'}"
-        >
-          <div class="ant-list-empty-text" v-show="!consultingProcess">暂无咨询流程数据</div>
-          <img
-            style="padding:10px 10px;height:240px;width:100%"
-            :src="consultingProcess"
-            v-if="consultingProcess"
-            :onerror="errorImg"
-          />
-        </a-card>
-      </a-col>
-    </a-row>
-
-    <a-row :gutter="24">
+    <a-row
+      :gutter="24"
+      style="background: #e0ded9;margin-left:0px;margin-right:0px;
+  border-bottom: 1px solid #c3bdb7;"
+    >
       <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
-        <a-card
-          class="project-list"
-          :loading="loading03"
-          style="margin-bottom: 24px;"
-          :bordered="false"
-          title="合作项目·活动·大众普及"
-          :body-style="{ padding: '10px' }"
-        >
-          <a slot="extra">所有活动</a>
-          <div>
+        <div class="project-list">
+          <div class="project-header">
+            <h2 class="title">
+              <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">咨询</font>
+              </font>
+            </h2>
+            <div class="more-light">
+              <a href="#">
+                <font style="vertical-align: inherit;">
+                  <font style="vertical-align: inherit;">所有咨询</font>
+                </font>
+              </a>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="ant-list-empty-text" v-show="doctorLData.length===0">暂无咨询师数据</div>
+            <swiper :options="swiperOption" ref="mySwiper" v-show="doctorLData.length>0">
+              <!-- slides -->
+              <swiper-slide v-for="doctor in doctorLData" :key="doctor.id">
+                <a href="#" target="_blank">
+                  <img
+                    :src="loadPicUrl+doctor.avatar"
+                    :onerror="errorImg"
+                    style="min-height: 100%;width: 100%;object-fit: fill;"
+                  />
+                </a>
+              </swiper-slide>
+              <div class="swiper-button-prev" slot="button-prev"></div>
+              <div class="swiper-button-next" slot="button-next"></div>
+            </swiper>
+          </div>
+        </div>
+      </a-col>
+    </a-row>
+    <a-row
+      :gutter="24 "
+      style=" background-color: #f3f1ec;margin-left:0px;margin-right:0px;
+  border-bottom: 1px solid #c3bdb7;"
+    >
+      <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
+        <div class="project-list">
+          <div class="project-header">
+            <h2 class="title">
+              <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">合作项目·活动·大众普及</font>
+              </font>
+            </h2>
+            <div class="more">
+              <a href="#">
+                <font style="vertical-align: inherit;">
+                  <font style="vertical-align: inherit;">所有活动</font>
+                </font>
+              </a>
+            </div>
+          </div>
+          <div class="project-content">
             <div class="ant-list-empty-text" v-show="articeData.length===0">暂无相关数据</div>
             <a-row :gutter="12" v-show="articeData.length>0">
               <a-col
@@ -205,7 +178,6 @@
                 v-for="item in articeData"
                 :key="item.id "
               >
-                <!-- <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in articeData"> -->
                 <a-card :bordered="false" :body-style="{ padding: 0 }">
                   <img
                     slot="cover"
@@ -230,85 +202,144 @@
                     <span class="datetime">{{formatDate(item.cAt)}}</span>
                   </div>
                 </a-card>
-                <!-- </a-card-grid> -->
               </a-col>
             </a-row>
           </div>
-        </a-card>
+        </div>
       </a-col>
     </a-row>
-    <a-row :gutter="12" v-show="certificateData.length>0">
-      <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
-        <a-card
-          class="project-list"
-          style="margin-bottom: 24px;"
-          :bordered="false"
-          title="荣誉"
-          :body-style="{ padding: '10px' }"
-        >
-          <a-row :gutter="12">
-            <a-col
-              :xl="24/certificateDataSize"
-              :lg="24"
-              :md="24"
-              :sm="24"
-              :xs="24"
-              v-for="item in certificateData"
-              :key="item.id "
-            >
-              <img
-                :src="loadPicUrl+item.img"
-                style="height:auto;width:100%;object-fit:fill"
-                :onerror="errorImg"
-              />
-            </a-col>
-          </a-row>
-        </a-card>
-      </a-col>
-    </a-row>
-    <a-list
-      :loading="loading04"
-      v-show="linksData.length>0"
-      :grid="{ gutter: 16, xs: 1, sm: 3, md: 6, lg: 6, xl: 6, xxl: 6 }"
-      :dataSource="linksData"
+    <a-row
+      :gutter="12"
+      v-show="certificateData.length>0"
+      style="background: #e0ded9;margin-left:0px;margin-right:0px;
+  border-bottom: 1px solid #c3bdb7;"
     >
-      <a-list-item slot="renderItem" slot-scope="item, index">
-        <a :href="item.url" target="_blank">
-          <img
-            :src="loadPicUrl+item.img"
-            style="height:80px;width:100%;object-fit:fill"
-            :onerror="errorImg"
-          />
-        </a>
-        <span style="textAlign:center;display: flex;flex-direction: column;">{{item.name}}</span>
-      </a-list-item>
-    </a-list>
+      <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
+        <div class="project-list">
+          <div class="project-header">
+            <h2 class="title">
+              <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">荣誉</font>
+              </font>
+            </h2>
+          </div>
+          <div class="project-content">
+            <a-row :gutter="12">
+              <a-col
+                :xl="24/certificateDataSize"
+                :lg="24"
+                :md="24"
+                :sm="24"
+                :xs="24"
+                v-for="item in certificateData"
+                :key="item.id "
+              >
+                <img
+                  :src="loadPicUrl+item.img"
+                  :style="{height:isMobile()?'230px':'330px',width:'100%','object-fit':'fill','margin-bottom':isMobile()?'10px':'0px'}"
+                  :onerror="errorImg"
+                />
+              </a-col>
+            </a-row>
+          </div>
+        </div>
+      </a-col>
+    </a-row>
+    <a-row
+      :gutter="12"
+      v-show="certificateData.length>0"
+      style="background: #f3f1ec;margin-left:0px;margin-right:0px;"
+    >
+      <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
+        <div class="project-list">
+          <div class="project-header">
+            <h2 class="title">
+              <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">友情链接</font>
+              </font>
+            </h2>
+          </div>
+          <div class="project-content" :style="{'min-height':linksData.lenght>linksDataSize*2?'350px':'175px'}">
+            <a-list
+              :loading="loading04"
+              v-show="linksData.length>0"
+              :grid="{ gutter: 16, xs: 1, sm: linksDataSize, md: linksDataSize*2, lg: linksDataSize*2, xl: linksDataSize*2, xxl: linksDataSize*2 }"
+              :dataSource="linksData" style="margin : 0 25px"
+            >
+              <a-list-item slot="renderItem" slot-scope="item, index">
+                <a :href="item.url" target="_blank">
+                  <img
+                    :src="loadPicUrl+item.img"
+                    style="height:150px;width:100%;object-fit:fill"
+                    :onerror="errorImg"
+                  />
+                </a>
+                <span style="textAlign:center;display: flex;flex-direction: column;">{{item.name}}</span>
+              </a-list-item>
+            </a-list>
+          </div>
+        </div>
+      </a-col>
+    </a-row>
   </page-view>
 </template>
 
 <script>
+import Vue from 'vue'
 import { AppDict, mixinDevice } from '../utils/mixin'
 import { PageView } from '@/layouts'
 import { formatDate } from '../utils/util'
 import { axios } from '../utils/request'
 import ellipsis from '@/components/Ellipsis'
 import config from '../config/defaultSettings'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+import { mapGetters } from 'vuex'
 export default {
   mixins: [AppDict, mixinDevice],
   name: 'Home',
   components: {
     PageView,
-    ellipsis
+    ellipsis,
+    swiper,
+    swiperSlide
   },
   data() {
     return {
+      swiperOption: {
+        slidesPerView: 5,
+        spaceBetween: 30,
+        loop:true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        breakpoints: {
+          1024: {
+            slidesPerView: 5,
+            spaceBetween: 40
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 30
+          },
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20
+          },
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 10
+          }
+        }
+      },
       errorImg: 'this.src="' + config.defaultErrorImg + '"',
       loading01: false,
       loading02: false,
       loading03: false,
       loading04: false,
       certificateData: [],
-      certificateDataSize: 6,
+      certificateDataSize: 4,
       lessonRData: [],
       lessonLData: [],
       doctorLData: [],
@@ -316,12 +347,12 @@ export default {
       articeDataSize: 4,
       linksData: [],
       linksDataSize: 3,
-      consultingProcess: require('../assets/consultingProcess.png'),
       loadPicUrl: process.env.VUE_APP_API_BASE_URL + '/cc/loadPic/',
-      imgList: []
+      imgList: [],
     }
   },
   created() {},
+  mounted() {},
   activated() {
     this.f0()
     this.f1()
@@ -421,23 +452,40 @@ export default {
           vm.linksData = res['linksData']
         })
         .catch(err => {})
-    }
+    },
+    
   }
 }
 </script>
 
 <style lang="less" scoped>
+/deep/ a {
+  color: #3277ae;
+}
+/deep/ a:visited,
+a:hover,
+a:active,
+a:focus {
+  color: #3277ae;
+  text-decoration: underline;
+  cursor: pointer;
+}
 .project-list {
+  padding: 40px 15px;
+  height: 100%;
   display: flex;
   flex-direction: column;
+
   .project-header {
     margin: 1em;
     padding-left: 2.118933698%;
     .title {
-      font-size: 1.4em;
+      font-size: 26px;
       text-transform: uppercase;
       float: left;
       margin-bottom: 0;
+      color: #333333;
+      line-height: 30px;
       padding-right: 0.4em;
     }
     .more {
@@ -446,11 +494,22 @@ export default {
     }
     .more:before {
       content: '|';
-      margin-right: 0.2em;
+      margin-right: 0.6em;
       color: #e0ded9;
+    }
+
+    .more-light {
+      float: left;
+      margin-top: 0.2em;
+    }
+    .more-light:before {
+      content: '|';
+      margin-right: 0.6em;
+      color: #fff;
     }
   }
   .project-content {
+    min-height: 350px;
     .ant-card {
       background: none;
       margin-bottom: 12px;
@@ -467,6 +526,9 @@ export default {
           color: #be0f34;
         }
       }
+    }
+    .swiper-container {
+      height: 330px;
     }
   }
   .card-title {
@@ -537,6 +599,18 @@ export default {
   }
 }
 </style>
+
 <style scoped>
+/deep/ .ant-carousel .slick-dots {
+  position: absolute;
+  bottom: 12px;
+  list-style: none;
+  display: block;
+  text-align: right;
+  margin: 0;
+  padding: 0 10px;
+  width: 100%;
+  height: 3px;
+}
 </style>
 

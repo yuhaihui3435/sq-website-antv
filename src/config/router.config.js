@@ -5,12 +5,12 @@ export const asyncRouterMap = [
     path: '/',
     name: 'index',
     component: BasicLayout,
-    redirect: '/',
+    redirect: '/index',
     meta: { title: '首页' },
     children: [
       // 首页
       {
-        path: '/',
+        path: '/index',
         name: 'index',
         component: () => import('@/views/Home'),
         meta: { title: '首页', hiddenHeaderContent: true }
