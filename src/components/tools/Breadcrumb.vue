@@ -2,7 +2,7 @@
   <a-breadcrumb class="breadcrumb">
     <a-breadcrumb-item v-for="(item, index) in breadList" :key="item.name">
       <router-link
-        v-if="item.name != name && index != 1"
+        v-if="(item.name != name && index != 1 ) || item.showUrl"
         :to="{ path: item.path === '' ? '/' : item.path }"
       >{{ item.meta.title }}</router-link>
       <span v-else>{{ item.meta.title }}</span>
@@ -12,29 +12,50 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       name: '',
       breadList: []
     }
   },
-  created () {
+  created() {
     this.getBreadcrumb()
   },
   methods: {
-    getBreadcrumb () {
+    getBreadcrumb() {
       this.breadList = []
-      // this.breadList.push({name: 'index', path: '/dashboard/', meta: {title: '首页'}})
-
       this.name = this.$route.name
-      this.$route.matched.forEach(item => {
-        // item.name !== 'index' && this.breadList.push(item)
-        this.breadList.push(item)
+      const allRoutes=this.$router.options.routes
+      this.$route.matched.forEach((item,index) => {
+        if(item.meta.pr){
+          allRoutes.forEach(it=>{
+            if(it.name==='index'){
+              this.queryUpperLevel(item.meta.pr,it,this.breadList)
+            }
+          })
+        }
+        if (!item.meta.isList) {
+          this.breadList.push(item)
+        }
       })
+      console.info(this.breadList)
+    },
+    queryUpperLevel(prName,item,breadList){
+      console.info(item)
+      if(item.children){
+        item.children.forEach(it=>{
+          if(it.name===prName){
+            it.showUrl=true
+            breadList[1]=it//替换面包学第二个位置的内容
+          }else{
+            this.queryUpperLevel(prName,it,breadList)
+          }
+        })
+      }
     }
   },
   watch: {
-    $route () {
+    $route() {
       this.getBreadcrumb()
     }
   }
