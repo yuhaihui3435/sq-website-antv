@@ -2,18 +2,25 @@
   <div class="selfDiv">
     <a-card :bordered="false" class="ant-pro-components-tag-select">
       <!-- 关键字搜索 -->
-      <standard-form-row block style="padding-bottom: 11px;">
-        <!-- <strong :style="{ marginRight: 8 }">关键字搜索：</strong> -->
-        <h3 style="font-weight:700;text-decoration:underline;float:left;">全部</h3>
-        <a-input-search
-          v-model="doctorName"
-          style="width:60%;float:right;"
-          placeholder="搜索咨询师"
-          @search="onSearch"
-          enterButton="搜索"
-          size="large"
-        />
-      </standard-form-row>
+      <a-row>
+        <a-col :xl="16" :lg="16" :md="16" :sm="24" :xs="24">&nbsp;</a-col>
+        <a-col
+          :xl="8"
+          :lg="8"
+          :md="8"
+          :sm="24"
+          :xs="24"
+          style="text-align:center;padding:0 0 10px 0 ;"
+        >
+          <a-input-search
+            v-model="doctorName"
+            style="width:80%;"
+            placeholder="搜索咨询师"
+            @search="onSearch"
+            enterButton="搜索"
+          />
+        </a-col>
+      </a-row>
       <!-- 领域选择 -->
       <standard-form-row block style="padding-bottom: 11px;">
         <strong :style="{ marginRight: 8 }">领域：</strong>
@@ -121,8 +128,8 @@
               <a-card-meta>
                 <div style="margin-bottom: 3px" slot="title">
                   <div style="float:left;font-weight:700;font-size:22px;">{{doctor.name}}</div>
-                  <div style="float:right;">
-                    <a-icon type="environment" style="fontSize:14px;" />
+                  <div style="float:right;font-size:14px;">
+                    <a-icon type="environment" style="font-size:14px;" />
                     {{doctor.province}}{{doctor.city}}{{doctor.area}}
                   </div>
                 </div>
@@ -644,5 +651,6 @@ export default {
   padding-bottom: 24px;
   background: #fff;
   border-top: solid #ddd 1px;
+  padding: 0 10px 0 10px;
 }
 </style>

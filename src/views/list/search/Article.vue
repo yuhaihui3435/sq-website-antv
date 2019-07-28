@@ -3,17 +3,25 @@
     <a-card :bordered="false" class="ant-pro-components-tag-select">
       <!-- <a-form :form="form" layout="inline"> -->
       <!-- 关键字搜索 -->
-      <standard-form-row block style="padding-bottom: 11px;text-align:center;">
-        <!-- <strong :style="{ marginRight: 8 }">关键字搜索：</strong> -->
-        <a-input-search
-          v-model="articleName"
-          style="width:60%;"
-          placeholder="搜索文章"
-          @search="onSearch"
-          enterButton="搜索"
-          size="large"
-        />
-      </standard-form-row>
+      <a-row>
+        <a-col :xl="16" :lg="16" :md="16" :sm="24" :xs="24">&nbsp;</a-col>
+        <a-col
+          :xl="8"
+          :lg="8"
+          :md="8"
+          :sm="24"
+          :xs="24"
+          style="text-align:center;padding:0 0 10px 0 ;"
+        >
+          <a-input-search
+            v-model="articleName"
+            style="width:80%;"
+            placeholder="搜索文章"
+            @search="onSearch"
+            enterButton="搜索"
+          />
+        </a-col>
+      </a-row>
       <!-- 栏目 -->
       <standard-form-row block style="padding-bottom: 11px;">
         <strong :style="{ marginRight: 8 }">栏目：</strong>
@@ -104,7 +112,7 @@ export default {
     StandardFormRow,
     ArticleListContent
   },
-  data () {
+  data() {
     return {
       // owners,
       loading: true,
@@ -122,14 +130,16 @@ export default {
       articleListTotal: 0
     }
   },
-  mounted () {
+  mounted() {
     // this.getList()
+  },
+  activated: function() {
     this.queryColumn()
     this.pageArticle()
   },
   methods: {
     // 文章详细
-    articeDetail (id) {
+    articeDetail(id) {
       // this.$router.push('/profile/lesson')
       this.$router.push({
         name: 'ProfileArtice',
@@ -137,7 +147,7 @@ export default {
       })
     },
     // 查询栏目标签
-    queryColumn () {
+    queryColumn() {
       axios({
         url: '/api/column/topLevelAllData',
         method: 'post',
@@ -160,11 +170,65 @@ export default {
             }
             this.columnOptions.push(obj)
           }
+          console.log('参数', this.$route.params.columnId)
+          let columnId = this.$route.params.columnId
+          let tagId = this.$route.params.tagId
+          console.log('栏目id', this.$route.params.columnId)
+          console.log('标签id', this.$route.params.tagId)
+          // 判断是否从详细页面点击过来的
+          if (columnId) {
+            this.column = []
+            this.column.push(columnId)
+            // 栏目所有变成false
+            for (let i = 0; i < this.columnOptions.length; i++) {
+              this.columnOptions[i].checked = false
+            }
+            // 选中当前栏目
+            for (let i = 0; i < this.columnOptions.length; i++) {
+              if (this.columnOptions[i].value == columnId) {
+                this.columnOptions[i].checked = true
+              }
+            }
+            // 获得当前栏目下所有标签
+            let tagList = []
+            for (let i = 0; i < this.columnOptions.length; i++) {
+              if (this.columnOptions[i].value == columnId) {
+                tagList = this.columnOptions[i].tags
+              }
+            }
+            console.log('当前栏目下所有标签', tagList)
+            // 处理标签
+            this.tagOptions = []
+            this.tagOptions.push({
+              label: '不限',
+              value: '',
+              checked: false
+            })
+            for (let i = 0; i < tagList.length; i++) {
+              const element = tagList[i]
+              const obj = {}
+              if (element.id == tagId) {
+                obj = {
+                  label: element.itemName,
+                  value: element.id,
+                  checked: true
+                }
+              } else {
+                obj = {
+                  label: element.itemName,
+                  value: element.id,
+                  checked: false
+                }
+              }
+              this.tagOptions.push(obj)
+              this.tag.push(tagId)
+            }
+          }
         })
         .catch(ret => {})
     },
     // 文章列表
-    pageArticle () {
+    pageArticle() {
       this.loading = true
       axios({
         url: '/api/article/page',
@@ -185,31 +249,31 @@ export default {
         .catch(ret => {})
     },
     // 格式化时间
-    formartDate (date) {
+    formartDate(date) {
       var time = new Date(date)
       var y = time.getFullYear()
       var m = time.getMonth() + 1
       var d = time.getDate()
       return y + '-' + this.add0(m) + '-' + this.add0(d)
     },
-    add0 (m) {
+    add0(m) {
       return m < 10 ? '0' + m : m
     },
     // 页码改变
-    pageChange (page, pageSize) {
+    pageChange(page, pageSize) {
       this.pageArticle()
     },
     // pageSize改变
-    onShowSizeChange (current, pageSize) {
+    onShowSizeChange(current, pageSize) {
       this.pageArticle()
     },
     // 关键字搜索
-    onSearch () {
+    onSearch() {
       this.pageArticle()
     },
     // 栏目选择
-    columnChange (column) {
-      if (column.value === '') {
+    columnChange(column) {
+      if (column.value == '') {
         if (!column.checked) {
           column.checked = !column.checked
         }
@@ -252,7 +316,7 @@ export default {
       this.pageArticle()
     },
     // 标签选择
-    tagChange (tag) {
+    tagChange(tag) {
       if (tag.value === '') {
         if (!tag.checked) {
           tag.checked = !tag.checked
@@ -326,5 +390,6 @@ export default {
   padding-bottom: 24px;
   background: #fff;
   border-top: solid #ddd 1px;
+  padding: 0 10px 0 10px;
 }
 </style>
