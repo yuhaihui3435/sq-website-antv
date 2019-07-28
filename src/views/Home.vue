@@ -26,11 +26,11 @@
               </font>
             </h2>
             <div class="more">
-              <a href="#">
+              <router-link to="/sqsy/Projects">
                 <font style="vertical-align: inherit;">
                   <font style="vertical-align: inherit;">所有课程</font>
                 </font>
-              </a>
+              </router-link>
             </div>
           </div>
           <div class="project-content">
@@ -116,11 +116,13 @@
               </font>
             </h2>
             <div class="more-light">
-              <a href="#">
+              
+              <router-link to='/sqzx/CardList'>
                 <font style="vertical-align: inherit;">
                   <font style="vertical-align: inherit;">所有咨询</font>
                 </font>
-              </a>
+              </router-link>
+            
             </div>
           </div>
           <div class="project-content">
@@ -157,11 +159,11 @@
               </font>
             </h2>
             <div class="more">
-              <a href="#">
+              <router-link to='/sqdz/article'>
                 <font style="vertical-align: inherit;">
                   <font style="vertical-align: inherit;">所有活动</font>
                 </font>
-              </a>
+              </router-link>
             </div>
           </div>
           <div class="project-content">
