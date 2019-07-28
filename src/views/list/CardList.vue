@@ -430,6 +430,9 @@ export default {
     },
     // 省市区
     handleChangeArea(value) {
+      this.province = ''
+      this.city = ''
+      this.area = ''
       console.log(this.selectedOptions)
       for (let i = 0; i < this.selectedOptions.length; i++) {
         if (i == 0) {
@@ -637,7 +640,7 @@ export default {
   border-bottom: 1px dashed #e8e8e8;
 }
 .selfDiv {
-  margin: -42px 0 0 0;
+  margin: -10px 0 0 0;
   padding-bottom: 24px;
   background: #fff;
   border-top: solid #ddd 1px;

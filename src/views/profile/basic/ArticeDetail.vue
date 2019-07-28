@@ -1,45 +1,47 @@
 <template>
   <page-view :title="title">
-    <a-card :bordered="false">
-      <!-- <a-row style="padding:20px 0px 20px 0px;">
+    <div class="selfDiv">
+      <a-card :bordered="false">
+        <!-- <a-row style="padding:20px 0px 20px 0px;">
         <a-col style="padding:10px 10px 10px 10px;border-left:solid red 3px;">
           <strong style="font-size:18px;">文章详情</strong>
         </a-col>
-      </a-row>-->
-      <!-- 文章标题 -->
-      <a-row>
-        <a-col :span="24" style="text-align:left;padding-left:20px;">
-          <h2 style="font-weight:600;">{{articeObj.title}}</h2>
-        </a-col>
-      </a-row>
-      <!-- 文章作者 -->
-      <a-row style="padding:0px 0px 0px 20px;">
-        <a-col
-          style="font-size:13px;color:#aaa"
-          :xl="24"
-          :lg="24"
-          :md="24"
-          :sm="24"
-          :xs="24"
-        >{{articeObj.author}}&nbsp;&nbsp;发布于&nbsp;&nbsp;{{formartDate(articeObj.crAt)}}</a-col>
-      </a-row>
-      <!-- 文章摘要 -->
-      <a-row style="padding:20px 0px 0px 20px;">
-        <a-col :span="24">&nbsp;&nbsp;&nbsp;&nbsp;{{articeObj.summary}}</a-col>
-      </a-row>
-      <!-- 文章封面 -->
-      <a-row>
-        <a-col :span="24">
-          <img :src="articeObj.imageUrl" height="340" width="100%" />
-        </a-col>
-      </a-row>
-      <!-- 文章内容 -->
-      <a-row style="padding:20px 0px 0px 20px;">
-        <a-col :span="24">
-          <dl v-html="articeObj.detail">{{articeObj.detail}}</dl>
-        </a-col>
-      </a-row>
-    </a-card>
+        </a-row>-->
+        <!-- 文章标题 -->
+        <a-row>
+          <a-col :span="24" style="text-align:left;padding-left:20px;">
+            <h2 style="font-weight:600;">{{articeObj.title}}</h2>
+          </a-col>
+        </a-row>
+        <!-- 文章作者 -->
+        <a-row style="padding:0px 0px 0px 20px;">
+          <a-col
+            style="font-size:13px;color:#aaa"
+            :xl="24"
+            :lg="24"
+            :md="24"
+            :sm="24"
+            :xs="24"
+          >{{articeObj.author}}&nbsp;&nbsp;发布于&nbsp;&nbsp;{{formartDate(articeObj.crAt)}}</a-col>
+        </a-row>
+        <!-- 文章摘要 -->
+        <a-row style="padding:20px 0px 0px 20px;">
+          <a-col :span="24">&nbsp;&nbsp;&nbsp;&nbsp;{{articeObj.summary}}</a-col>
+        </a-row>
+        <!-- 文章封面 -->
+        <a-row>
+          <a-col :span="24">
+            <img :src="articeObj.imageUrl" height="340" width="100%" />
+          </a-col>
+        </a-row>
+        <!-- 文章内容 -->
+        <a-row style="padding:20px 0px 0px 20px;">
+          <a-col :span="24">
+            <dl v-html="articeObj.detail">{{articeObj.detail}}</dl>
+          </a-col>
+        </a-row>
+      </a-card>
+    </div>
   </page-view>
 </template>
 
@@ -125,5 +127,11 @@ export default {
 }
 .ant-col-md-8 {
   // width: 25%;
+}
+.selfDiv {
+  margin: -10px 0 0 0;
+  padding-bottom: 24px;
+  background: #fff;
+  border-top: solid #ddd 1px;
 }
 </style>
