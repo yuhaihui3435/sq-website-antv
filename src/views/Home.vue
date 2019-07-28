@@ -1,5 +1,5 @@
 <template>
-  <page-view :title="false">
+  <page-view :title="false" class="home">
     <a-row :gutter="24" style="padding-top:0px" v-show="imgList.length>0">
       <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
         <a-carousel

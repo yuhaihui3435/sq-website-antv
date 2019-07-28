@@ -23,7 +23,7 @@ export const asyncRouterMap = [
       //   component: () => import('@/views/list/search/Projects'),
       //   meta: { title: '深泉书院' }
       // },
-      //  医生
+      //  咨询师
       // {
       //   path: '/sqzx',
       //   name: 'sqzx',
@@ -57,7 +57,7 @@ export const asyncRouterMap = [
           }
         ]
       },
-      // 医生
+      // 咨询师
       {
         path: '/sqzx',
         name: 'sqzx',
@@ -204,7 +204,7 @@ export const asyncRouterMap = [
             path: '/profile/doctor/:id',
             name: 'ProfileDoctor',
             component: () => import('@/views/profile/basic/DoctorDetail'),
-            meta: { title: '医生详情', permission: ['profile'], keepAlive: true }
+            meta: { title: '咨询师详情', permission: ['profile'], keepAlive: true }
           },
           {
             path: '/profile/artice/:id',

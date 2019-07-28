@@ -4,7 +4,7 @@
     <a-card :bordered="false">
       <a-row style="padding:20px 0px 20px 0px;">
         <a-col style="padding:10px 10px 10px 10px;border-left:solid red 3px;">
-          <strong style="font-size:18px;">医生详情</strong>
+          <strong style="font-size:18px;">咨询师详情</strong>
         </a-col>
       </a-row>
       <a-row style="padding:0px 0px 0px 0px;">
