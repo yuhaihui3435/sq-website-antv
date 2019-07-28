@@ -387,7 +387,7 @@ export default {
   padding: 5px;
 }
 .selfDiv {
-  margin: -10px 0 0 0;
+  margin: -42px 0 0 0;
   padding-bottom: 24px;
   background: #fff;
   border-top: solid #ddd 1px;
