@@ -94,42 +94,17 @@
 </template>
 
 <script>
-import { TagSelect, StandardFormRow, ArticleListContent } from '@/components'
-import IconText from './components/IconText'
-const TagSelectOption = TagSelect.Option
 import { axios } from '@/utils/request'
-// const owners = [
-//   {
-//     id: 'wzj',
-//     name: '我自己'
-//   },
-//   {
-//     id: 'wjh',
-//     name: '吴家豪'
-//   },
-//   {
-//     id: 'zxx',
-//     name: '周星星'
-//   },
-//   {
-//     id: 'zly',
-//     name: '赵丽颖'
-//   },
-//   {
-//     id: 'ym',
-//     name: '姚明'
-//   }
-// ]
-
+import { TagSelect, StandardFormRow, ArticleListContent } from '@/components'
+const TagSelectOption = TagSelect.Option
 export default {
   components: {
     TagSelect,
     TagSelectOption,
     StandardFormRow,
-    ArticleListContent,
-    IconText
+    ArticleListContent
   },
-  data() {
+  data () {
     return {
       // owners,
       loading: true,
@@ -147,15 +122,14 @@ export default {
       articleListTotal: 0
     }
   },
-  mounted() {
+  mounted () {
     // this.getList()
     this.queryColumn()
     this.pageArticle()
   },
   methods: {
     // 文章详细
-    articeDetail(id){
-      console.log('详细id', id)
+    articeDetail (id) {
       // this.$router.push('/profile/lesson')
       this.$router.push({
         name: 'ProfileArtice',
@@ -163,15 +137,13 @@ export default {
       })
     },
     // 查询栏目标签
-    queryColumn() {
-      const vm = this
+    queryColumn () {
       axios({
         url: '/api/column/topLevelAllData',
         method: 'post',
         data: {}
       })
         .then(res => {
-          console.log('查询栏目结果', res)
           this.columnOptions = []
           this.columnOptions.push({
             label: '不限',
@@ -180,7 +152,7 @@ export default {
           })
           for (let i = 0; i < res.length; i++) {
             const element = res[i]
-            let obj = {
+            const obj = {
               label: element.name,
               value: element.id,
               tags: element.tags,
@@ -189,12 +161,11 @@ export default {
             this.columnOptions.push(obj)
           }
         })
-        .catch(err => {})
+        .catch(ret => {})
     },
     // 文章列表
-    pageArticle() {
+    pageArticle () {
       this.loading = true
-      const vm = this
       axios({
         url: '/api/article/page',
         method: 'post',
@@ -207,40 +178,38 @@ export default {
         }
       })
         .then(res => {
-          console.log('查询结果', res)
           this.articleList = res.list
           this.articleListTotal = res.totalRow
           this.loading = false
         })
-        .catch(err => {})
+        .catch(ret => {})
     },
-    //格式化时间
-    formartDate(date) {
+    // 格式化时间
+    formartDate (date) {
       var time = new Date(date)
       var y = time.getFullYear()
       var m = time.getMonth() + 1
       var d = time.getDate()
       return y + '-' + this.add0(m) + '-' + this.add0(d)
     },
-    add0(m) {
+    add0 (m) {
       return m < 10 ? '0' + m : m
     },
     // 页码改变
-    pageChange(page, pageSize) {
+    pageChange (page, pageSize) {
       this.pageArticle()
     },
     // pageSize改变
-    onShowSizeChange(current, pageSize) {
-      console.log(current, pageSize)
+    onShowSizeChange (current, pageSize) {
       this.pageArticle()
     },
     // 关键字搜索
-    onSearch() {
+    onSearch () {
       this.pageArticle()
     },
     // 栏目选择
-    columnChange(column) {
-      if (column.value == '') {
+    columnChange (column) {
+      if (column.value === '') {
         if (!column.checked) {
           column.checked = !column.checked
         }
@@ -254,16 +223,14 @@ export default {
         if (column.checked) {
           this.column.push(column.value)
         } else {
-          let index = this.column.indexOf(column.value)
+          const index = this.column.indexOf(column.value)
           this.column.splice(index, 1)
         }
       }
       // 如果其它选项全部取消，默认选中不限
-      if (this.column.length == 0) {
+      if (this.column.length === 0) {
         this.columnOptions[0].checked = true
       }
-      console.log('栏目选择结果', this.column)
-      console.log('栏目下标签', column.tags)
       this.tagOptions = []
       if (column.tags) {
         this.tagOptions = []
@@ -274,7 +241,7 @@ export default {
         })
         for (let i = 0; i < column.tags.length; i++) {
           const element = column.tags[i]
-          let obj = {
+          const obj = {
             label: element.itemName,
             value: element.id,
             checked: false
@@ -285,8 +252,8 @@ export default {
       this.pageArticle()
     },
     // 标签选择
-    tagChange(tag) {
-      if (tag.value == '') {
+    tagChange (tag) {
+      if (tag.value === '') {
         if (!tag.checked) {
           tag.checked = !tag.checked
         }
@@ -300,15 +267,14 @@ export default {
         if (tag.checked) {
           this.tag.push(tag.value)
         } else {
-          let index = this.tag.indexOf(tag.value)
+          const index = this.tag.indexOf(tag.value)
           this.tag.splice(index, 1)
         }
       }
       // 如果其它选项全部取消，默认选中不限
-      if (this.tag.length == 0) {
+      if (this.tag.length === 0) {
         this.tagOptions[0].checked = true
       }
-      console.log('标签选择结果', this.tag)
       this.pageArticle()
     }
     // handleChange(value) {
@@ -352,7 +318,6 @@ export default {
     font-size: 14px;
   }
 }
-
 .list-articles-trigger {
   margin-left: 12px;
 }

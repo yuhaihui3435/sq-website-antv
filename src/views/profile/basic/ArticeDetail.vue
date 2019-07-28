@@ -44,7 +44,6 @@
 <script>
 import Vue from 'vue'
 import { PageView } from '@/layouts'
-import { STable } from '@/components'
 import DetailList from '@/components/tools/DetailList'
 const DetailListItem = DetailList.Item
 const serverUrl = process.env.VUE_APP_API_BASE_URL
@@ -54,7 +53,6 @@ export default {
     PageView,
     DetailList,
     DetailListItem,
-    STable
   },
   data() {
     return {
@@ -88,7 +86,6 @@ export default {
     // 文章详细
     articeDetail() {
       this.articeId = this.$route.params.id
-      console.log('详细页id', this.articeId)
       axios({
         url: '/api/article/view',
         method: 'post',
@@ -97,7 +94,6 @@ export default {
         }
       })
         .then(res => {
-          console.log('查询结果', res)
           this.articeObj = res
           this.articeObj.imageUrl = serverUrl + '/cc/loadPic/' + this.articeObj.coverPic
         })

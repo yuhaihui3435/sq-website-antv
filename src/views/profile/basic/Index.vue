@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <page-view :title="title">
     <a-button
@@ -33,15 +34,15 @@
       </a-row>
       <detail-list style="padding-left:20px;">
         <!-- 课程名称 -->
-        <detail-list-item term="课程名称" style="font-size:16px;font-weight:500;">{{lessonObj.name}}</detail-list-item>
+        <detail-list-item term="课程名称" style="font-size:16px;font-weight:500;">{{ lessonObj.name }}</detail-list-item>
         <!-- 授课教师 -->
         <detail-list-item
           term="授课教师"
           style="font-size:16px;font-weight:500;"
-        >{{lessonObj.teacherName}}</detail-list-item>
+        >{{ lessonObj.teacherName }}</detail-list-item>
         <!-- 价格 -->
         <detail-list-item term="课程价格" style="font-size:16px;font-weight:500;">
-          <span style="font-size:20px;font-weight:700;color:#1890ff;">¥{{lessonObj.price}}</span>
+          <span style="font-size:20px;font-weight:700;color:#1890ff;">¥{{ lessonObj.price }}</span>
         </detail-list-item>
       </detail-list>
       <!-- 城市 -->
@@ -49,26 +50,26 @@
         <detail-list-item
           style="font-size:16px;font-weight:500;"
           term="城市"
-        >{{lessonObj.provice}}&nbsp;{{lessonObj.city}}&nbsp;{{lessonObj.area}}</detail-list-item>
+        >{{ lessonObj.provice }}&nbsp;{{ lessonObj.city }}&nbsp;{{ lessonObj.area }}</detail-list-item>
       </detail-list>
       <!-- 地点 -->
       <detail-list style="padding-left:20px;">
-        <detail-list-item term="地点" style="font-size:16px;font-weight:500;">{{lessonObj.site}}</detail-list-item>
+        <detail-list-item term="地点" style="font-size:16px;font-weight:500;">{{ lessonObj.site }}</detail-list-item>
       </detail-list>
       <!-- 开课时间结课时间课程天数 -->
       <detail-list style="padding-left:20px;">
         <detail-list-item
           style="font-size:16px;font-weight:500;"
           term="开课时间"
-        >{{formartDate(lessonObj.lessonAt)}}</detail-list-item>
+        >{{ formartDate(lessonObj.lessonAt) }}</detail-list-item>
         <detail-list-item
           style="font-size:16px;font-weight:500;"
           term="结课时间"
-        >{{formartDate(lessonObj.lessonEndAt)}}</detail-list-item>
+        >{{ formartDate(lessonObj.lessonEndAt) }}</detail-list-item>
         <detail-list-item
           style="font-size:16px;font-weight:500;"
           term="课程天数"
-        >{{lessonObj.lessonDays}}天</detail-list-item>
+        >{{ lessonObj.lessonDays }}天</detail-list-item>
       </detail-list>
       <!-- 课程简介 -->
       <a-row style="padding:20px 0px 20px 0px;">
@@ -77,7 +78,7 @@
         </a-col>
       </a-row>
       <a-row style="padding-left:20px;">
-        <a-col :span="24" style="font-size:16px;font-weight:500;">{{lessonObj.summary}}</a-col>
+        <a-col :span="24" style="font-size:16px;font-weight:500;">{{ lessonObj.summary }}</a-col>
       </a-row>
       <!-- 课程内容 -->
       <a-row style="padding:20px 0px 20px 0px;">
@@ -86,28 +87,24 @@
         </a-col>
       </a-row>
       <a-row style="padding-left:20px;">
-        <a-col :span="24" style="font-size:16px;font-weight:500;">{{lessonObj.describle}}</a-col>
+        <a-col :span="24" style="font-size:16px;font-weight:500;"> {{ lessonObj.describle }} </a-col>
       </a-row>
     </a-card>
   </page-view>
 </template>
 
 <script>
-import Vue from 'vue'
 import { PageView } from '@/layouts'
-import { STable } from '@/components'
 import DetailList from '@/components/tools/DetailList'
+import { axios } from '@/utils/request'
 const DetailListItem = DetailList.Item
 const serverUrl = process.env.VUE_APP_API_BASE_URL
-import { axios } from '@/utils/request'
+
 export default {
   components: {
     PageView,
     DetailList,
-    DetailListItem,
-    STable
-  },
-  mounted(){
+    DetailListItem
   },
   data () {
     return {
@@ -116,32 +113,31 @@ export default {
     }
   },
   computed: {
-    title() {
+    title () {
       return this.$route.meta.title
     }
   },
-  mounted() {
+  mounted () {
     // this.lessonDetail()
   },
-  activated: function() {
+  activated: function () {
     this.lessonDetail()
   },
   methods: {
-    //格式化时间
-    formartDate(date) {
+    // 格式化时间
+    formartDate (date) {
       var time = new Date(date)
       var y = time.getFullYear()
       var m = time.getMonth() + 1
       var d = time.getDate()
       return y + '-' + this.add0(m) + '-' + this.add0(d)
     },
-    add0(m) {
+    add0 (m) {
       return m < 10 ? '0' + m : m
     },
     // 课程详细
-    lessonDetail() {
+    lessonDetail () {
       this.lessonId = this.$route.params.id
-      console.log("详细页id",this.lessonId)
       axios({
         url: '/api/lesson/view',
         method: 'post',
@@ -150,11 +146,11 @@ export default {
         }
       })
         .then(res => {
-          console.log('查询结果', res)
           this.lessonObj = res
           this.lessonObj.imageUrl = serverUrl + '/cc/loadPic/' + this.lessonObj.publicize
         })
-        .catch(err => {})
+        .catch(res => {
+        })
     }
   }
 }

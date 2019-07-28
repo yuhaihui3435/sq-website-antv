@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ThemeColorReplacer = require('webpack-theme-color-replacer')
 const generate = require('@ant-design/colors/lib/generate').default
-
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
 function resolve (dir) {
   return path.join(__dirname, dir)
 }
@@ -10,9 +10,26 @@ function resolve (dir) {
 // vue.config.js
 module.exports = {
   configureWebpack: {
+    // externals: {
+    //   vue: "Vue",
+    //   vuex:"Vuex",
+    //   "vue-router":"VueRouter",
+    //   'Axios':'axios'
+    // },
     plugins: [
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new CompressionWebpackPlugin({
+        filename: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: new RegExp(
+          '\\.(' +
+          ['js', 'css'].join('|') +
+          ')$',
+        ),
+        threshold: 10240,
+        minRatio: 0.8,
+      }),
       // 生成仅包含颜色的替换样式（主题色等）
       // TODO 需要增加根据环境不开启主题需求
       new ThemeColorReplacer({

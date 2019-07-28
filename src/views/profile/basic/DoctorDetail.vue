@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <page-view :title="title">
     <a-card :bordered="false">
@@ -15,7 +16,7 @@
           <a-row>
             <a-col
               style="padding:0px 0px 10px 5%;font-size:20px;font-weight:700;"
-            >{{doctorObj.name}}</a-col>
+            >{{ doctorObj.name }}</a-col>
           </a-row>
           <!-- 标签 -->
           <a-row v-if="doctorObj.tails" style="padding:0px 0px 0px 5%;">
@@ -24,7 +25,7 @@
                 v-for="tag in doctorObj.tails.doctorTag"
                 :key="tag.id"
                 color="blue"
-              >{{tag.tails.dictItem.itemName}}</a-tag>
+              >{{ tag.tails.dictItem.itemName }}</a-tag>
             </a-col>
           </a-row>
           <!-- 价格 -->
@@ -44,7 +45,7 @@
               :sm="15"
               :xs="15"
               style="padding:10px 0px 10px 20px;font-size:16px;font-weight:700;color:#1890ff;"
-            >¥{{doctorObj.price}}元/次</a-col>
+            >¥{{ doctorObj.price }}元/次</a-col>
           </a-row>
           <!-- 经验 -->
           <a-row>
@@ -63,7 +64,7 @@
               :sm="15"
               :xs="15"
               style="padding:10px 0px 10px 20px;font-size:16px;font-weight:700;color:#000;"
-            >{{doctorObj.duration}}+小时</a-col>
+            >{{ doctorObj.duration }}+小时</a-col>
           </a-row>
           <!-- 城市 -->
           <a-row>
@@ -82,7 +83,7 @@
               :sm="15"
               :xs="15"
               style="padding:10px 0px 10px 20px;font-size:16px;font-weight:700;color:#000;"
-            >{{doctorObj.province}}&nbsp;{{doctorObj.city}}&nbsp;{{doctorObj.area}}</a-col>
+            >{{ doctorObj.province }}&nbsp;{{ doctorObj.city }}&nbsp;{{ doctorObj.area }}</a-col>
           </a-row>
           <!-- 位置 -->
           <a-row>
@@ -101,7 +102,7 @@
               :sm="15"
               :xs="15"
               style="padding:10px 0px 10px 20px;font-size:16px;font-weight:700;color:#000;"
-            >{{doctorObj.site}}</a-col>
+            >{{ doctorObj.site }}</a-col>
           </a-row>
         </a-col>
       </a-row>
@@ -112,7 +113,7 @@
         </a-col>
       </a-row>
       <a-row style="padding-left:20px;">
-        <a-col :span="24" style="font-size:16px;font-weight:500;">{{doctorObj.introduction}}</a-col>
+        <a-col :span="24" style="font-size:16px;font-weight:500;">{{ doctorObj.introduction }}</a-col>
       </a-row>
       <!-- 给来访者 -->
       <a-row style="padding:20px 0px 20px 0px;">
@@ -121,7 +122,7 @@
         </a-col>
       </a-row>
       <a-row style="padding-left:20px;">
-        <a-col :span="24" style="font-size:16px;font-weight:500;">{{doctorObj.forVisitors}}</a-col>
+        <a-col :span="24" style="font-size:16px;font-weight:500;">{{ doctorObj.forVisitors }}</a-col>
       </a-row>
       <!-- 个人相册 -->
       <a-row style="padding:20px 0px 20px 0px;">
@@ -159,53 +160,50 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import { PageView } from '@/layouts'
-import { STable } from '@/components'
 import DetailList from '@/components/tools/DetailList'
+import { axios } from '@/utils/request'
 const DetailListItem = DetailList.Item
 const serverUrl = process.env.VUE_APP_API_BASE_URL
-import { axios } from '@/utils/request'
+
 export default {
   components: {
     PageView,
     DetailList,
-    DetailListItem,
-    STable
+    DetailListItem
   },
-  data() {
+  data () {
     return {
       doctorId: 0,
       doctorObj: {}
     }
   },
   computed: {
-    title() {
+    title () {
       return this.$route.meta.title
     }
   },
-  mounted() {
+  mounted () {
     // this.lessonDetail()
   },
-  activated: function() {
+  activated: function () {
     this.doctorDetail()
   },
   methods: {
-    //格式化时间
-    formartDate(date) {
+    //  格式化时间
+    formartDate (date) {
       var time = new Date(date)
       var y = time.getFullYear()
       var m = time.getMonth() + 1
       var d = time.getDate()
       return y + '-' + this.add0(m) + '-' + this.add0(d)
     },
-    add0(m) {
+    add0 (m) {
       return m < 10 ? '0' + m : m
     },
     // 课程详细
-    doctorDetail() {
+    doctorDetail () {
       this.doctorId = this.$route.params.id
-      console.log('详细页id', this.doctorId)
       axios({
         url: '/api/doctor/view',
         method: 'post',
@@ -214,17 +212,16 @@ export default {
         }
       })
         .then(res => {
-          console.log('查询结果', res)
           this.doctorObj = res
           this.doctorObj.imageUrl = serverUrl + '/cc/loadPic/' + this.doctorObj.avatar
           // 设置个人相册回显
-          let doctorPic = this.doctorObj.tails.doctorPic
+          const doctorPic = this.doctorObj.tails.doctorPic
           for (let i = 0; i < doctorPic.length; i++) {
-            let imgUrl = serverUrl + '/cc/loadPic/' + doctorPic[i].tails.fileMap.fileId
+            const imgUrl = serverUrl + '/cc/loadPic/' + doctorPic[i].tails.fileMap.fileId
             doctorPic[i].imgUrl = imgUrl
           }
         })
-        .catch(err => {})
+        .catch(res => {})
     }
   }
 }

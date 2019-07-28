@@ -100,12 +100,12 @@ export const asyncRouterMap = [
       },
 
       // 关于我们
-      {
-        path: '/aboutMe',
-        name: 'aboutMe',
-        component: () => import('@/views/account/center/Index'),
-        meta: { title: '关于我们' }
-      },
+      // {
+      //   path: '/aboutMe',
+      //   name: 'aboutMe',
+      //   component: () => import('@/views/account/center/Index'),
+      //   meta: { title: '关于我们' }
+      // },
       // account
       {
         path: '/account',
@@ -115,12 +115,6 @@ export const asyncRouterMap = [
         hidden: true,
         meta: { title: '个人页', icon: 'user', keepAlive: true },
         children: [
-          {
-            path: '/account/center',
-            name: 'center',
-            component: () => import('@/views/account/center/Index'),
-            meta: { title: '个人中心', keepAlive: true }
-          },
           {
             path: '/account/settings',
             name: 'settings',
@@ -217,12 +211,6 @@ export const asyncRouterMap = [
             name: 'ProfileArtice',
             component: () => import('@/views/profile/basic/ArticeDetail'),
             meta: { title: '文章详情', permission: ['profile'], keepAlive: true }
-          },
-          {
-            path: '/profile/advanced',
-            name: 'ProfileAdvanced',
-            component: () => import('@/views/profile/advanced/Advanced'),
-            meta: { title: '高级详情页', permission: ['profile'], keepAlive: true }
           }
         ]
       }
@@ -247,21 +235,21 @@ export const constantRouterMap = [
     redirect: '/user/login',
     hidden: true,
     children: [
-      {
-        path: 'login',
-        name: 'login',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/Login')
-      },
-      {
-        path: 'register',
-        name: 'register',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/Register')
-      },
-      {
-        path: 'register-result',
-        name: 'registerResult',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/RegisterResult')
-      }
+      // {
+      //   path: 'login',
+      //   name: 'login',
+      //   component: () => import(/* webpackChunkName: "user" */ '@/views/user/Login')
+      // },
+      // {
+      //   path: 'register',
+      //   name: 'register',
+      //   component: () => import(/* webpackChunkName: "user" */ '@/views/user/Register')
+      // },
+      // {
+      //   path: 'register-result',
+      //   name: 'registerResult',
+      //   component: () => import(/* webpackChunkName: "user" */ '@/views/user/RegisterResult')
+      // }
     ]
   },
   {

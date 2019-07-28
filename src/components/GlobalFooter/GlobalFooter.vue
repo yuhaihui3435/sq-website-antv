@@ -42,7 +42,7 @@
           <div class="footer-center">
             <h2>{{allConfig['websiteCopyright']}}</h2>
             <div>
-              <span>深泉书院出品 Build with 小听风</span>
+              <span>深泉心理出品 Build with 小听风</span>
             </div>
           </div>
         </a-col>

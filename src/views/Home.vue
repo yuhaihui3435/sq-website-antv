@@ -8,18 +8,16 @@
           v-if="imgList.length>0"
           :style="{height:isMobile()?'200px':'550px'}"
         >
-          <img
-            v-for="img in imgList"
-            :key="img"
-            :src="loadPicUrl+img"
-            :style="{height:isMobile()?'200px':'550px'}"
-          />
+          <template v-for="img in imgList">
+            <!-- <a :href="img.url" :key="img.id"> -->
+            <img :src="loadPicUrl+img" :key="img.id" :style="{height:isMobile()?'200px':'550px'}" />
+            <!-- </a> -->
+          </template>
         </a-carousel>
       </a-col>
     </a-row>
     <a-row style=" background-color: #f3f1ec;border-bottom: 1px solid #c3bdb7;">
       <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
-        
         <div class="project-list">
           <div class="project-header">
             <h2 class="title">
@@ -83,13 +81,13 @@
                 <font style="vertical-align: inherit;">动态</font>
               </font>
             </h2>
-            <div class="more">
+            <!-- <div class="more">
               <a href="#">
                 <font style="vertical-align: inherit;">
                   <font style="vertical-align: inherit;">所有动态</font>
                 </font>
               </a>
-            </div>
+            </div>-->
           </div>
           <div class="project-content">
             <div class="sq-title-list" :loading="loading01" v-show="lessonLData.length>0">
@@ -127,16 +125,16 @@
           </div>
           <div class="project-content">
             <div class="ant-list-empty-text" v-show="doctorLData.length===0">暂无咨询师数据</div>
-            <swiper :options="swiperOption" ref="mySwiper" v-show="doctorLData.length>0">
+            <swiper :options="swiperOption" ref="mySwiper" v-if="doctorLData.length>0">
               <!-- slides -->
               <swiper-slide v-for="doctor in doctorLData" :key="doctor.id">
-                <a href="#" target="_blank">
-                  <img
-                    :src="loadPicUrl+doctor.avatar"
-                    :onerror="errorImg"
-                    style="min-height: 100%;width: 100%;object-fit: fill;"
-                  />
-                </a>
+                <!-- <a href="#" target="_blank"> -->
+                <img
+                  :src="loadPicUrl+doctor.avatar"
+                  :onerror="errorImg"
+                  style="min-height: 100%;width: 100%;object-fit: fill;"
+                />
+                <!-- </a> -->
               </swiper-slide>
               <div class="swiper-button-prev" slot="button-prev"></div>
               <div class="swiper-button-next" slot="button-next"></div>
@@ -182,7 +180,7 @@
                   <img
                     slot="cover"
                     v-if="item.coverPic"
-                    style="height:auto;width:100%;object-fit:fill"
+                    style="height:300px;width:100%;object-fit:fill"
                     :src="loadPicUrl+item.coverPic"
                     :onerror="errorImg"
                   />
@@ -259,12 +257,16 @@
               </font>
             </h2>
           </div>
-          <div class="project-content" :style="{'min-height':linksData.lenght>linksDataSize*2?'350px':'175px'}">
+          <div
+            class="project-content"
+            :style="{'min-height':linksData.lenght>linksDataSize*2?'350px':'175px'}"
+          >
             <a-list
               :loading="loading04"
               v-show="linksData.length>0"
               :grid="{ gutter: 16, xs: 1, sm: linksDataSize, md: linksDataSize*2, lg: linksDataSize*2, xl: linksDataSize*2, xxl: linksDataSize*2 }"
-              :dataSource="linksData" style="margin : 0 25px"
+              :dataSource="linksData"
+              style="margin : 0 25px"
             >
               <a-list-item slot="renderItem" slot-scope="item, index">
                 <a :href="item.url" target="_blank">
@@ -307,28 +309,37 @@ export default {
   data() {
     return {
       swiperOption: {
-        slidesPerView: 5,
-        spaceBetween: 30,
-        loop:true,
+        slidesPerView: 4,
+        slidesPerGroup: 2,
+        loop: true,
+        spaceBetween: 40,
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev'
         },
         breakpoints: {
           1024: {
-            slidesPerView: 5,
-            spaceBetween: 40
+            slidesPerView: 3,
+            slidesPerGroup: 3,
+            loop: true,
+            spaceBetween: 30
           },
           768: {
             slidesPerView: 3,
+            slidesPerGroup: 3,
+            loop: true,
             spaceBetween: 30
           },
           640: {
             slidesPerView: 2,
+            slidesPerGroup: 2,
+            loop: true,
             spaceBetween: 20
           },
           320: {
             slidesPerView: 1,
+            slidesPerGroup: 1,
+            loop: true,
             spaceBetween: 10
           }
         }
@@ -348,7 +359,7 @@ export default {
       linksData: [],
       linksDataSize: 3,
       loadPicUrl: process.env.VUE_APP_API_BASE_URL + '/cc/loadPic/',
-      imgList: [],
+      imgList: []
     }
   },
   created() {},
@@ -452,8 +463,7 @@ export default {
           vm.linksData = res['linksData']
         })
         .catch(err => {})
-    },
-    
+    }
   }
 }
 </script>
@@ -613,4 +623,3 @@ a:focus {
   height: 3px;
 }
 </style>
-

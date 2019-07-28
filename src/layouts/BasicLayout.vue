@@ -28,7 +28,10 @@
       :collapsible="true"
     ></side-menu>
 
-    <a-layout :class="[layoutMode, `content-width-${contentWidth}`]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }">
+    <a-layout
+      :class="[layoutMode, `content-width-${contentWidth}`]"
+      :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }"
+    >
       <!-- layout header -->
       <global-header
         :mode="layoutMode"
@@ -41,7 +44,9 @@
 
       <!-- layout content -->
       <!-- <a-layout-content :style="{ height: '100%', margin: isMobile()?'0px 24px 0':'24px 24px 0', paddingTop: fixedHeader ? '64px' : '0' }"> -->
-        <a-layout-content :style="{ height: '100%',background: '#353c47',  paddingTop: fixedHeader ? '64px' : '0' }">
+      <a-layout-content
+        :style="{ height: '100%',background: '#353c47', paddingTop: fixedHeader ? '64px' : '0' }"
+      >
         <!-- <multi-tab v-if="multiTab"></multi-tab> -->
         <transition name="page-transition">
           <route-view />
@@ -49,15 +54,41 @@
       </a-layout-content>
 
       <!-- layout footer -->
-      <a-layout-footer >
+      <a-layout-footer>
         <global-footer />
       </a-layout-footer>
 
       <!-- Setting Drawer (show in development mode) -->
-      <setting-drawer v-if="!production"></setting-drawer>
+      <!-- <setting-drawer v-if="!production"></setting-drawer> -->
+      
     </a-layout>
-  </a-layout>
+    <div ref="container">
+    <a-drawer width="300" placement="right" @close="onClose" :closable="false" :visible="visible" :getContainer="() => $refs.container">
+        <div class="setting-drawer-index-content">
+            <h2>咨询流程</h2>
+            <ul style="list-style-type:none;margin:0px;padding:0;">
+              <li>
+                1.选择咨询方式及时间
+              </li>
+              <li>
+                2.选择咨询师
+              </li>
+              <li>
+                3.联络客服确认预约信息并缴费
+              </li>
+              <li>
+                4.如约咨询
+              </li>
+            </ul>
 
+        </div>
+        <div class="setting-drawer-index-handle" @click="consultationToggle" :style="{width:visible?'48px':'110px'}">
+          <span v-if="!visible"><a-icon type="setting"  />咨询流程</span>
+          <a-icon type="close" v-else />
+        </div>
+      </a-drawer>
+    </div>
+  </a-layout>
 </template>
 
 <script>
@@ -71,7 +102,7 @@ import RouteView from './RouteView'
 import SideMenu from '@/components/Menu/SideMenu'
 import GlobalHeader from '@/components/GlobalHeader'
 import GlobalFooter from '@/components/GlobalFooter'
-import SettingDrawer from '@/components/SettingDrawer'
+// import SettingDrawer from '@/components/SettingDrawer'
 
 export default {
   name: 'BasicLayout',
@@ -81,14 +112,15 @@ export default {
     // MultiTab,
     SideMenu,
     GlobalHeader,
-    GlobalFooter,
-    SettingDrawer
+    GlobalFooter
+    // SettingDrawer
   },
-  data () {
+  data() {
     return {
       production: config.production,
       collapsed: false,
-      menus: []
+      menus: [],
+      visible: true
     }
   },
   computed: {
@@ -96,7 +128,7 @@ export default {
       // 动态主路由
       mainMenu: state => state.permission.addRouters
     }),
-    contentPaddingLeft () {
+    contentPaddingLeft() {
       if (!this.fixSidebar || this.isMobile()) {
         return '0'
       }
@@ -107,15 +139,19 @@ export default {
     }
   },
   watch: {
-    sidebarOpened (val) {
+    sidebarOpened(val) {
       this.collapsed = !val
     }
   },
-  created () {
+  created() {
     this.menus = this.mainMenu.find(item => item.path === '/').children
     this.collapsed = !this.sidebarOpened
   },
-  mounted () {
+  mounted() {
+    const vm = this
+    setTimeout(() => {
+      vm.visible = false
+    }, 16)
     const userAgent = navigator.userAgent
     if (userAgent.indexOf('Edge') > -1) {
       this.$nextTick(() => {
@@ -128,12 +164,12 @@ export default {
   },
   methods: {
     ...mapActions(['setSidebar']),
-    toggle () {
+    toggle() {
       this.collapsed = !this.collapsed
       this.setSidebar(!this.collapsed)
       triggerWindowResizeEvent()
     },
-    paddingCalc () {
+    paddingCalc() {
       let left = ''
       if (this.sidebarOpened) {
         left = this.isDesktop() ? '256px' : '80px'
@@ -142,13 +178,19 @@ export default {
       }
       return left
     },
-    menuSelect () {
+    menuSelect() {
       if (!this.isDesktop()) {
         this.collapsed = false
       }
     },
-    drawerClose () {
+    drawerClose() {
       this.collapsed = false
+    },
+    onClose() {
+      this.visible = false
+    },
+    consultationToggle () {
+      this.visible = !this.visible
     }
   }
 }
@@ -156,15 +198,6 @@ export default {
 
 <style lang="less">
 @import url('../components/global.less');
-
-/*
- * The following styles are auto-applied to elements with
- * transition="page-transition" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the page transition by editing
- * these styles.
- */
 
 .page-transition-enter {
   opacity: 0;
@@ -179,4 +212,31 @@ export default {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
+.setting-drawer-index-handle {
+  position: absolute;
+  top: 240px;
+  background: #002147;
+  width: 110px;
+  height: 48px;
+  right: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 1001;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 4px 0 0 4px;
+
+  i {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+  }
+  span{
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+  }
+}
+.setting-drawer-index-content {}
 </style>

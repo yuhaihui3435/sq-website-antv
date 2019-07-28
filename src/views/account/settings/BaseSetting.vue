@@ -24,9 +24,6 @@
         <a-form-item label="昵称">
           <a-input placeholder="给自己起个名字" v-model="form.nickname" />
         </a-form-item>
-        <!-- <a-form-item label="Bio">
-              <a-textarea rows="4" placeholder="You are not alone." />
-        </a-form-item>-->
         <a-form-item label="性别" :required="false">
           <a-select placeholder="请选择学历" v-model="form.sex">
             <a-select-option value="00">男</a-select-option>
@@ -37,7 +34,6 @@
           <a-input placeholder="请输入真实姓名" v-model="form.realname" />
         </a-form-item>
         <a-form-item label="省市区" :required="false">
-          <!-- <a-input placeholder="密码" /> -->
           <div id="app" style="width:100%">
             <el-cascader
               size="large"
@@ -71,14 +67,12 @@
     </a-col>
   </a-row>
 
-  <!-- <avatar-modal ref="modal"></avatar-modal> -->
   <!-- </div>
   </page-view>-->
 </template>
 
 <script>
 import Vue from 'vue'
-import AvatarModal from './AvatarModal'
 import { PageView } from '@/layouts'
 import { Cascader } from 'element-ui'
 import { axios } from '@/utils/request'
@@ -109,7 +103,6 @@ export default {
     })
   },
   components: {
-    AvatarModal,
     PageView,
     Cascader
   },
@@ -154,7 +147,6 @@ export default {
   },
   activated: function() {
     this.queryUserLogin()
-    console.log(serverUrl)
   },
   methods: {
     // 查询用户信息
@@ -165,14 +157,11 @@ export default {
         data: {}
       })
         .then(res => {
-          console.log('userlogin结果', res)
           this.$store.commit('SET_LOGIN', {
             login: res.userLogin
           })
-          console.log('登录结果', this.login)
           this.form.loginId = res.userLoginId
           this.queryUserInfo()
-          console.log('表单结果', this.form)
         })
         .catch(err => {})
     },
@@ -188,7 +177,6 @@ export default {
           this.form.area = CodeToText[this.selectedOptions[i]]
         }
       }
-      console.log('表单结果', this.form)
       // 提交
       axios({
         url: 'api/user/modifyUserInfo',
@@ -207,14 +195,12 @@ export default {
     },
     // 查询用户信息
     queryUserInfo() {
-      console.log('登录id', this.form.loginId)
       axios({
         url: 'api/user/userInfo',
         method: 'post',
         data: { loginId: this.form.loginId }
       })
         .then(res => {
-          console.log('用户结果', res)
           this.selectedOptions = []
           this.form = res
           this.$store.commit('SET_INFO', {
@@ -224,13 +210,11 @@ export default {
             this.$store.commit('SET_NAME', {
               name: this.info.info.nickname
             })
-            console.log('用户名', this.name)
           }
           if (this.info.info.avatar) {
             this.$store.commit('SET_AVATAR', {
               avatar: serverUrl + '/cc/loadPic/' + this.info.info.avatar
             })
-            console.log('头像', this.avatar.avatar)
           }
           if (this.form.avatar) {
             this.imageUrl = serverUrl + '/cc/loadPic/' + this.form.avatar
@@ -244,16 +228,12 @@ export default {
           if (this.form.area) {
             this.selectedOptions.push(TextToCode[this.form.province][this.form.city][this.form.area].code)
           }
-          console.log('省市区', this.selectedOptions)
         })
         .catch(err => {})
     },
     handleChangeArea(value) {
-      console.log(value)
-      console.log(this.selectedOptions)
     },
     handleChange(info) {
-      console.log(info)
       if (info.file.status === 'uploading') {
         this.loading = true
         return
