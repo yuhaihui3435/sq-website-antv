@@ -38,10 +38,8 @@ export default {
           this.breadList.push(item)
         }
       })
-      console.info(this.breadList)
     },
     queryUpperLevel(prName,item,breadList){
-      console.info(item)
       if(item.children){
         item.children.forEach(it=>{
           if(it.name===prName){

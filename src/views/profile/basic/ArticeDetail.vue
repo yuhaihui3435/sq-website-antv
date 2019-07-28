@@ -146,9 +146,10 @@ export default {
 }
 .selfDiv {
   margin: -42px 0 0 0;
-  padding-bottom: 24px;
+  
   background: #fff;
   border-top: solid #ddd 1px;
   padding: 0 10px 0 10px;
+  padding-bottom: 24px;
 }
 </style>

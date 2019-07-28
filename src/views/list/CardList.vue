@@ -243,7 +243,6 @@ export default {
   methods: {
     // 咨询师详细
     doctorDetail(id) {
-      console.log('详细id', id)
       // this.$router.push('/profile/lesson')
       this.$router.push({
         name: 'ProfileDoctor',
@@ -259,7 +258,6 @@ export default {
       if (this.doctorSex) {
         this.tagCondition.push(this.doctorSex)
       }
-      console.log('总标签选择结果', this.tagCondition)
       const vm = this
       axios({
         url: '/api/doctor/page',
@@ -277,7 +275,6 @@ export default {
         }
       })
         .then(res => {
-          console.log('查询结果', res)
           this.doctorList = res.list
           for (let i = 0; i < this.doctorList.length; i++) {
             const element = this.doctorList[i]
@@ -297,7 +294,6 @@ export default {
         data: { dictId: 3 }
       })
         .then(res => {
-          console.log('领域结果', res)
           this.doctorFieldOptions = []
           this.doctorFieldOptions.push({
             label: '不限',
@@ -322,7 +318,6 @@ export default {
         data: { dictId: 4 }
       })
         .then(res => {
-          console.log('预约时间结果', res)
           this.doctorAppointmentOptions = []
           this.doctorAppointmentOptions.push({
             label: '不限',
@@ -347,7 +342,6 @@ export default {
         data: { dictId: 5 }
       })
         .then(res => {
-          console.log('针对群体结果', res)
           this.doctorCounterOptions = []
           this.doctorCounterOptions.push({
             label: '不限',
@@ -372,7 +366,6 @@ export default {
         data: { dictId: 6 }
       })
         .then(res => {
-          console.log('咨询方式结果', res)
           this.doctorWayOptions = []
           this.doctorWayOptions.push({
             label: '不限',
@@ -397,7 +390,6 @@ export default {
         data: { dictId: 7 }
       })
         .then(res => {
-          console.log('性别结果', res)
           this.doctorSexOptions = []
           this.doctorSexOptions.push({
             label: '不限',
@@ -422,12 +414,10 @@ export default {
     },
     // pageSize改变
     onShowSizeChange(current, pageSize) {
-      console.log(current, pageSize)
       this.pageDoctor()
     },
     // 价格
     priceChange(value) {
-      console.log(value)
       this.price = value
       this.pageDoctor()
     },
@@ -440,7 +430,6 @@ export default {
       this.province = ''
       this.city = ''
       this.area = ''
-      console.log(this.selectedOptions)
       for (let i = 0; i < this.selectedOptions.length; i++) {
         if (i == 0) {
           this.province = CodeToText[this.selectedOptions[i]] == '全部' ? '' : CodeToText[this.selectedOptions[i]]
@@ -450,7 +439,6 @@ export default {
           this.area = CodeToText[this.selectedOptions[i]] == '全部' ? '' : CodeToText[this.selectedOptions[i]]
         }
       }
-      console.log(this.province, this.city, this.area)
       this.pageDoctor()
     },
     // 领域选择
@@ -480,8 +468,6 @@ export default {
       if (this.doctorField.length == 0) {
         this.doctorFieldOptions[0].checked = true
       }
-      console.log('领域选择结果', this.doctorField)
-      console.log('总标签选择结果', this.tagCondition)
       this.pageDoctor()
     },
     // 可约时间选择
@@ -511,8 +497,6 @@ export default {
       if (this.doctorAppointment.length == 0) {
         this.doctorAppointmentOptions[0].checked = true
       }
-      console.log('可约时间选择结果', this.doctorAppointment)
-      console.log('总标签选择结果', this.tagCondition)
       this.pageDoctor()
     },
     // 针对群体选择
@@ -542,8 +526,6 @@ export default {
       if (this.doctorCounter.length == 0) {
         this.doctorCounterOptions[0].checked = true
       }
-      console.log('针对群体选择结果', this.doctorCounter)
-      console.log('总标签选择结果', this.tagCondition)
       this.pageDoctor()
     },
     // 咨询方式选择
@@ -555,7 +537,6 @@ export default {
         doctorWay.checked = !doctorWay.checked
         this.doctorWay = doctorWay.value
       }
-      console.log('咨询方式选择结果', this.doctorWay)
     },
     // 咨询师性别选择
     doctorSexChange(doctorSex) {
@@ -566,7 +547,6 @@ export default {
         doctorSex.checked = !doctorSex.checked
         this.doctorSex = doctorSex.value
       }
-      console.log('咨询师性别选择结果', this.doctorSex)
       this.pageDoctor()
     }
   }
@@ -648,9 +628,10 @@ export default {
 }
 .selfDiv {
   margin: -42px 0 0 0;
-  padding-bottom: 24px;
+  
   background: #fff;
   border-top: solid #ddd 1px;
   padding: 0 10px 0 10px;
+  padding-bottom: 24px;
 }
 </style>

@@ -48,7 +48,7 @@
       </standard-form-row>
       <!-- </a-form> -->
     </a-card>
-    <a-card style="margin-top: 24px;" :bordered="false">
+    <a-card  :bordered="false">
       <a-list
         size="large"
         rowKey="id"
@@ -131,9 +131,10 @@ export default {
     }
   },
   mounted() {
-    // this.getList()
+    this.queryColumn()
+    this.pageArticle()
   },
-  activated: function() {
+  activated() {
     this.queryColumn()
     this.pageArticle()
   },
@@ -170,11 +171,8 @@ export default {
             }
             this.columnOptions.push(obj)
           }
-          console.log('参数', this.$route.params.columnId)
           let columnId = this.$route.params.columnId
           let tagId = this.$route.params.tagId
-          console.log('栏目id', this.$route.params.columnId)
-          console.log('标签id', this.$route.params.tagId)
           // 判断是否从详细页面点击过来的
           if (columnId) {
             this.column = []
@@ -387,9 +385,10 @@ export default {
 }
 .selfDiv {
   margin: -42px 0 0 0;
-  padding-bottom: 24px;
+  
   background: #fff;
   border-top: solid #ddd 1px;
   padding: 0 10px 0 10px;
+  padding-bottom: 24px;
 }
 </style>
