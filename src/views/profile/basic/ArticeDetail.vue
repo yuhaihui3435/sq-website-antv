@@ -27,17 +27,26 @@
         <!-- 文章摘要 -->
         <!-- <a-row style="padding:20px 0px 0px 20px;">
           <a-col :span="24">&nbsp;&nbsp;&nbsp;&nbsp;{{articeObj.summary}}</a-col>
-        </a-row> -->
+        </a-row>-->
         <!-- 文章封面 -->
         <!-- <a-row>
           <a-col :span="24">
             <img :src="articeObj.imageUrl" height="340" width="100%" />
           </a-col>
-        </a-row> -->
-        <!-- 文章内容 -->
+        </a-row>-->
+        <!-- 标签 -->
         <a-row style="padding:20px 0px 0px 20px;">
           <a-col :span="24">
             <dl v-html="articeObj.detail">{{articeObj.detail}}</dl>
+          </a-col>
+        </a-row>
+        <a-row v-if="articeObj.tails">
+          <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
+            <a-tag
+              v-for="tagObj in articeObj.tails.articeTag"
+              :key="tagObj.id"
+              @click="jumpList(articeObj.columnId,tagObj.tails.dictItem.id)"
+            >{{tagObj.tails.dictItem.itemName}}</a-tag>
           </a-col>
         </a-row>
       </a-card>
@@ -56,7 +65,7 @@ export default {
   components: {
     PageView,
     DetailList,
-    DetailListItem,
+    DetailListItem
   },
   data() {
     return {
@@ -76,6 +85,12 @@ export default {
     this.articeDetail()
   },
   methods: {
+    jumpList(columnId, tagId) {
+      this.$router.push({
+        name: 'SearchArticles',
+        params: { columnId: columnId, tagId: tagId }
+      })
+    },
     //格式化时间
     formartDate(date) {
       var time = new Date(date)
@@ -100,6 +115,7 @@ export default {
         .then(res => {
           this.articeObj = res
           this.articeObj.imageUrl = serverUrl + '/cc/loadPic/' + this.articeObj.coverPic
+          console.log('详细结果', res)
         })
         .catch(err => {})
     },

@@ -5,7 +5,14 @@
       <!-- 关键字搜索 -->
       <a-row>
         <a-col :xl="16" :lg="16" :md="16" :sm="24" :xs="24">&nbsp;</a-col>
-        <a-col :xl="8" :lg="8" :md="8" :sm="24" :xs="24" style="text-align:center;padding:0 0 10px 0 ;">
+        <a-col
+          :xl="8"
+          :lg="8"
+          :md="8"
+          :sm="24"
+          :xs="24"
+          style="text-align:center;padding:0 0 10px 0 ;"
+        >
           <a-input-search
             v-model="articleName"
             style="width:80%;"
@@ -125,6 +132,8 @@ export default {
   },
   mounted() {
     // this.getList()
+  },
+  activated: function() {
     this.queryColumn()
     this.pageArticle()
   },
@@ -160,6 +169,60 @@ export default {
               checked: false
             }
             this.columnOptions.push(obj)
+          }
+          console.log('参数', this.$route.params.columnId)
+          let columnId = this.$route.params.columnId
+          let tagId = this.$route.params.tagId
+          console.log('栏目id', this.$route.params.columnId)
+          console.log('标签id', this.$route.params.tagId)
+          // 判断是否从详细页面点击过来的
+          if (columnId) {
+            this.column = []
+            this.column.push(columnId)
+            // 栏目所有变成false
+            for (let i = 0; i < this.columnOptions.length; i++) {
+              this.columnOptions[i].checked = false
+            }
+            // 选中当前栏目
+            for (let i = 0; i < this.columnOptions.length; i++) {
+              if (this.columnOptions[i].value == columnId) {
+                this.columnOptions[i].checked = true
+              }
+            }
+            // 获得当前栏目下所有标签
+            let tagList = []
+            for (let i = 0; i < this.columnOptions.length; i++) {
+              if (this.columnOptions[i].value == columnId) {
+                tagList = this.columnOptions[i].tags
+              }
+            }
+            console.log('当前栏目下所有标签', tagList)
+            // 处理标签
+            this.tagOptions = []
+            this.tagOptions.push({
+              label: '不限',
+              value: '',
+              checked: false
+            })
+            for (let i = 0; i < tagList.length; i++) {
+              const element = tagList[i]
+              const obj = {}
+              if (element.id == tagId) {
+                obj = {
+                  label: element.itemName,
+                  value: element.id,
+                  checked: true
+                }
+              } else {
+                obj = {
+                  label: element.itemName,
+                  value: element.id,
+                  checked: false
+                }
+              }
+              this.tagOptions.push(obj)
+              this.tag.push(tagId)
+            }
           }
         })
         .catch(ret => {})
@@ -210,7 +273,7 @@ export default {
     },
     // 栏目选择
     columnChange(column) {
-      if (column.value === '') {
+      if (column.value == '') {
         if (!column.checked) {
           column.checked = !column.checked
         }
