@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="selfDiv">
     <a-card :bordered="false" class="ant-pro-components-tag-select">
       <!-- <a-form :form="form" layout="inline"> -->
       <!-- 关键字搜索 -->
@@ -355,5 +355,11 @@ export default {
 
 .list-articles-trigger {
   margin-left: 12px;
+}
+.selfDiv {
+  margin: -42px 0 0 0;
+  padding-bottom: 24px;
+  background: #fff;
+  border-top: solid #ddd 1px;
 }
 </style>

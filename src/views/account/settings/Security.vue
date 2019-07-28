@@ -190,7 +190,9 @@ export default {
     })
   },
   activated: function() {
-    this.queryUserLogin()
+    this.$nextTick(() => {
+      this.queryUserLogin()
+    })
   },
   beforeCreate() {
     this.passwordForm = this.$form.createForm(this)
@@ -258,16 +260,14 @@ export default {
   methods: {
     // 查询用户信息
     queryUserLogin() {
-      console.log("登录信息",this.login);
-      console.log("登录id",this.login.login.id);
       axios({
-        url: 'api/user/userLogin',
+        url: 'api/user/getLogin',
         method: 'post',
-        data: { id: this.login.login.id }
+        data: {}
       })
         .then(res => {
           console.log('userlogin结果', res)
-          this.userLogin = res
+          this.userLogin = res.userLogin
           this.oldPhone = this.userLogin.phone
           var len = this.userLogin.phone.length
           var xx = this.userLogin.phone.substring(3, len - 4)

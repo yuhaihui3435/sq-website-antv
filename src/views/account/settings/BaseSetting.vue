@@ -154,7 +154,6 @@ export default {
   },
   activated: function() {
     this.queryUserLogin()
-    console.log(serverUrl)
   },
   methods: {
     // 查询用户信息
@@ -166,15 +165,23 @@ export default {
       })
         .then(res => {
           console.log('userlogin结果', res)
-          this.$store.commit('SET_LOGIN', {
-            login: res.userLogin
-          })
-          console.log('登录结果', this.login)
-          this.form.loginId = res.userLoginId
-          if (this.form.loginId) {
-            this.queryUserInfo()
-          }
+          this.form.loginId = res.userLogin.id
           console.log('表单结果', this.form)
+          this.selectedOptions = []
+          this.form = res.userInfo
+          if (this.form.avatar) {
+            this.imageUrl = serverUrl + '/cc/loadPic/' + this.form.avatar
+          }
+          if (this.form.province) {
+            this.selectedOptions.push(TextToCode[this.form.province].code)
+          }
+          if (this.form.city) {
+            this.selectedOptions.push(TextToCode[this.form.province][this.form.city].code)
+          }
+          if (this.form.area) {
+            this.selectedOptions.push(TextToCode[this.form.province][this.form.city][this.form.area].code)
+          }
+          console.log('省市区', this.selectedOptions)
         })
         .catch(err => {})
     },
@@ -204,49 +211,6 @@ export default {
           } else {
             this.$message.error(res.msg)
           }
-        })
-        .catch(err => {})
-    },
-    // 查询用户信息
-    queryUserInfo() {
-      console.log('登录id', this.form.loginId)
-      axios({
-        url: 'api/user/userInfo',
-        method: 'post',
-        data: { loginId: this.form.loginId }
-      })
-        .then(res => {
-          console.log('用户结果', res)
-          this.selectedOptions = []
-          this.form = res
-          this.$store.commit('SET_INFO', {
-            info: res
-          })
-          if (this.info.info.nickname) {
-            this.$store.commit('SET_NAME', {
-              name: this.info.info.nickname
-            })
-            console.log('用户名', this.name)
-          }
-          if (this.info.info.avatar) {
-            this.$store.commit('SET_AVATAR', {
-              avatar: serverUrl + '/cc/loadPic/' + this.info.info.avatar
-            })
-            console.log('头像', this.avatar.avatar)
-          }
-          if (this.form.avatar) {
-            this.imageUrl = serverUrl + '/cc/loadPic/' + this.form.avatar
-          }
-          if (this.form.province) {
-            this.selectedOptions.push(TextToCode[this.form.province].code)
-          }
-          if (this.form.city) {
-            this.selectedOptions.push(TextToCode[this.form.province][this.form.city].code)
-          }
-          if (this.form.area) {
-            this.selectedOptions.push(TextToCode[this.form.province][this.form.city][this.form.area].code)
-          }
-          console.log('省市区', this.selectedOptions)
         })
         .catch(err => {})
     },
