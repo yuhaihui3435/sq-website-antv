@@ -22,15 +22,11 @@
         <a-col :md="6" :xs="24" :sm="24">
           <div class="footer-center">
             <h2>关于我们</h2>
-
             <div>
-              <a href>深泉简介</a>
+              <a :href="'mailto:'+allConfig['websiteEmail']">联系我们</a>
             </div>
             <div>
-              <a href="mailto:125@qq.com">联系我们</a>
-            </div>
-            <div>
-              <span>服务热线：010-89789999</span>
+              <span>服务热线：{{allConfig['websitePhone']}}</span>
             </div>
           </div>
         </a-col>
@@ -38,13 +34,13 @@
           <div class="footer-center">
             <h2>公众号</h2>
             <div>
-              <img style="width:96px;height:96px" v-show="gzhImg"/>
+              <img style="width:96px;height:96px" v-show="allConfig['websiteGghimg']" :src="loadPicUrl+allConfig['websiteGghimg']"/>
             </div>
           </div>
         </a-col>
         <a-col :md="6" :xs="24" :sm="24">
           <div class="footer-center">
-            <h2>Copyright © 2019</h2>
+            <h2>{{allConfig['websiteCopyright']}}</h2>
             <div>
               <span>深泉书院出品 Build with 小听风</span>
             </div>
@@ -56,13 +52,25 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { mixinDevice } from '@/utils/mixin'
 export default {
+  computed:{
+    ...mapState({
+      allConfig:state=>state.app.allConfig
+    })
+  },
   name: 'GlobalFooter',
   data () {
     return {
-      gzhImg:''
+      loadPicUrl: process.env.VUE_APP_API_BASE_URL + '/cc/loadPic/',
     }
+  },
+  methods:{
+  },
+
+  created(){
+    
   },
   mixins: [mixinDevice]
 }
@@ -79,7 +87,7 @@ export default {
       color: @site-text-color;
     }
   }
-  margin-top: 20px;
+  // margin-top: 20px;
   clear: both;
   font-size: 14px;
   background: #002147;
