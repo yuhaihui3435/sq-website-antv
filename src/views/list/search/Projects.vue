@@ -1,25 +1,18 @@
 <template>
   <div class="selfDiv">
     <a-card :bordered="false" class="ant-pro-components-tag-select">
-      <standard-form-row block style="padding-bottom: 11px;text-align:center;">
-        <template>
-          <!-- <a-input-search
-            :value="lessonName"
-            style="width:40%;"
-            placeholder="搜索课程"
-            @search="onSearch"
-            enterButton="Search"
-            size="large"
-          />-->
+      <a-row>
+        <a-col :xl="16" :lg="16" :md="16" :sm="24" :xs="24">&nbsp;</a-col>
+        <a-col :xl="8" :lg="8" :md="8" :sm="24" :xs="24" style="text-align:center;padding:0 0 10px 0 ;">
           <a-input-search
             v-model="lessonName"
+            style="width:80%;"
             placeholder="搜索课程"
             @search="onSearch"
-            enterButton
-            style="width:40%;"
+            enterButton="搜索"
           />
-        </template>
-      </standard-form-row>
+        </a-col>
+      </a-row>
       <!-- 课程状态选择 -->
       <standard-form-row block style="padding-bottom: 11px;">
         <strong :style="{ marginRight: 8 }">课程状态：</strong>

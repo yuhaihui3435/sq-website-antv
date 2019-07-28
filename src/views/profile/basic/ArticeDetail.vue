@@ -25,15 +25,15 @@
           >{{articeObj.author}}&nbsp;&nbsp;发布于&nbsp;&nbsp;{{formartDate(articeObj.crAt)}}</a-col>
         </a-row>
         <!-- 文章摘要 -->
-        <a-row style="padding:20px 0px 0px 20px;">
+        <!-- <a-row style="padding:20px 0px 0px 20px;">
           <a-col :span="24">&nbsp;&nbsp;&nbsp;&nbsp;{{articeObj.summary}}</a-col>
-        </a-row>
+        </a-row> -->
         <!-- 文章封面 -->
-        <a-row>
+        <!-- <a-row>
           <a-col :span="24">
             <img :src="articeObj.imageUrl" height="340" width="100%" />
           </a-col>
-        </a-row>
+        </a-row> -->
         <!-- 文章内容 -->
         <a-row style="padding:20px 0px 0px 20px;">
           <a-col :span="24">
