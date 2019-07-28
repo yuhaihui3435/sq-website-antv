@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="selfDiv">
     <a-card :bordered="false" class="ant-pro-components-tag-select">
       <!-- 关键字搜索 -->
       <standard-form-row block style="padding-bottom: 11px;">
@@ -7,7 +7,7 @@
         <h3 style="font-weight:700;text-decoration:underline;float:left;">全部</h3>
         <a-input-search
           v-model="doctorName"
-          style="width:30%;float:right;"
+          style="width:60%;float:right;"
           placeholder="搜索咨询师"
           @search="onSearch"
           enterButton="搜索"
@@ -145,7 +145,7 @@
           </a-list-item>
         </a-list>
         <a-pagination
-          style="margin-top:15px;"
+          style="margin-top:15px;margin-left:10px;"
           showSizeChanger
           :pageSize.sync="pageSize"
           @showSizeChange="onShowSizeChange"
@@ -628,5 +628,11 @@ export default {
 .ant-card-bordered {
   border: none;
   border-bottom: 1px dashed #e8e8e8;
+}
+.selfDiv {
+  margin: -42px 0 0 0;
+  padding-bottom: 24px;
+  background: #fff;
+  border-top: solid #ddd 1px;
 }
 </style>

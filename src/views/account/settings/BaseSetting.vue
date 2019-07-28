@@ -157,11 +157,21 @@ export default {
         data: {}
       })
         .then(res => {
-          this.$store.commit('SET_LOGIN', {
-            login: res.userLogin
-          })
-          this.form.loginId = res.userLoginId
-          this.queryUserInfo()
+          this.form.loginId = res.userLogin.id
+          this.selectedOptions = []
+          this.form = res.userInfo
+          if (this.form.avatar) {
+            this.imageUrl = serverUrl + '/cc/loadPic/' + this.form.avatar
+          }
+          if (this.form.province) {
+            this.selectedOptions.push(TextToCode[this.form.province].code)
+          }
+          if (this.form.city) {
+            this.selectedOptions.push(TextToCode[this.form.province][this.form.city].code)
+          }
+          if (this.form.area) {
+            this.selectedOptions.push(TextToCode[this.form.province][this.form.city][this.form.area].code)
+          }
         })
         .catch(err => {})
     },
@@ -189,44 +199,6 @@ export default {
             this.queryUserInfo()
           } else {
             this.$message.error(res.msg)
-          }
-        })
-        .catch(err => {})
-    },
-    // 查询用户信息
-    queryUserInfo() {
-      axios({
-        url: 'api/user/userInfo',
-        method: 'post',
-        data: { loginId: this.form.loginId }
-      })
-        .then(res => {
-          this.selectedOptions = []
-          this.form = res
-          this.$store.commit('SET_INFO', {
-            info: res
-          })
-          if (this.info.info.nickname) {
-            this.$store.commit('SET_NAME', {
-              name: this.info.info.nickname
-            })
-          }
-          if (this.info.info.avatar) {
-            this.$store.commit('SET_AVATAR', {
-              avatar: serverUrl + '/cc/loadPic/' + this.info.info.avatar
-            })
-          }
-          if (this.form.avatar) {
-            this.imageUrl = serverUrl + '/cc/loadPic/' + this.form.avatar
-          }
-          if (this.form.province) {
-            this.selectedOptions.push(TextToCode[this.form.province].code)
-          }
-          if (this.form.city) {
-            this.selectedOptions.push(TextToCode[this.form.province][this.form.city].code)
-          }
-          if (this.form.area) {
-            this.selectedOptions.push(TextToCode[this.form.province][this.form.city][this.form.area].code)
           }
         })
         .catch(err => {})

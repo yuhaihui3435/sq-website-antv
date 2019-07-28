@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="selfDiv">
     <a-card :bordered="false" class="ant-pro-components-tag-select">
       <standard-form-row block style="padding-bottom: 11px;text-align:center;">
         <template>
@@ -59,7 +59,7 @@
       </standard-form-row>
     </a-card>
 
-    <div class="ant-pro-pages-list-projects-cardList">
+    <div class="ant-pro-pages-list-projects-cardList" style="padding:0 10px 0 10px;">
       <!-- <a-card hoverable style="width: 240px">
         <img
           alt="example"
@@ -381,5 +381,11 @@ export default {
 }
 .ant-card-cover {
   padding: 5px;
+}
+.selfDiv {
+  margin: -42px 0 0 0;
+  padding-bottom: 24px;
+  background: #fff;
+  border-top: solid #ddd 1px;
 }
 </style>

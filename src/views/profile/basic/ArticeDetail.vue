@@ -35,7 +35,9 @@
       </a-row>
       <!-- 文章内容 -->
       <a-row style="padding:20px 0px 0px 20px;">
-        <a-col :span="24" v-html="articeObj.detail"></a-col>
+        <a-col :span="24">
+          <dl v-html="articeObj.detail">{{articeObj.detail}}</dl>
+        </a-col>
       </a-row>
     </a-card>
   </page-view>
