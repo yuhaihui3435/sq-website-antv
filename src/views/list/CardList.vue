@@ -128,8 +128,8 @@
               <a-card-meta>
                 <div style="margin-bottom: 3px" slot="title">
                   <div style="float:left;font-weight:700;font-size:22px;">{{doctor.name}}</div>
-                  <div style="float:right;">
-                    <a-icon type="environment" style="fontSize:14px;" />
+                  <div style="float:right;font-size:14px;">
+                    <a-icon type="environment" style="font-size:14px;" />
                     {{doctor.province}}{{doctor.city}}{{doctor.area}}
                   </div>
                 </div>
@@ -651,5 +651,6 @@ export default {
   padding-bottom: 24px;
   background: #fff;
   border-top: solid #ddd 1px;
+  padding: 0 10px 0 10px;
 }
 </style>

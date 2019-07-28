@@ -3,7 +3,14 @@
     <a-card :bordered="false" class="ant-pro-components-tag-select">
       <a-row>
         <a-col :xl="16" :lg="16" :md="16" :sm="24" :xs="24">&nbsp;</a-col>
-        <a-col :xl="8" :lg="8" :md="8" :sm="24" :xs="24" style="text-align:center;padding:0 0 10px 0 ;">
+        <a-col
+          :xl="8"
+          :lg="8"
+          :md="8"
+          :sm="24"
+          :xs="24"
+          style="text-align:center;padding:0 0 10px 0 ;"
+        >
           <a-input-search
             v-model="lessonName"
             style="width:80%;"
@@ -384,5 +391,6 @@ export default {
   padding-bottom: 24px;
   background: #fff;
   border-top: solid #ddd 1px;
+  padding: 0 10px 0 10px;
 }
 </style>

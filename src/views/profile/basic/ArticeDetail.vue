@@ -9,12 +9,12 @@
         </a-row>-->
         <!-- 文章标题 -->
         <a-row>
-          <a-col :span="24" style="text-align:left;padding-left:20px;">
+          <a-col :span="24" style="text-align:left;padding-left:0px;">
             <h2 style="font-weight:600;">{{articeObj.title}}</h2>
           </a-col>
         </a-row>
         <!-- 文章作者 -->
-        <a-row style="padding:0px 0px 0px 20px;">
+        <a-row style="padding:0px 0px 0px 0px;">
           <a-col
             style="font-size:13px;color:#aaa"
             :xl="24"
@@ -35,12 +35,12 @@
           </a-col>
         </a-row>-->
         <!-- 标签 -->
-        <a-row style="padding:20px 0px 0px 20px;">
+        <a-row style="padding:20px 0px 0px 0px;">
           <a-col :span="24">
             <dl v-html="articeObj.detail">{{articeObj.detail}}</dl>
           </a-col>
         </a-row>
-        <a-row v-if="articeObj.tails">
+        <a-row v-if="articeObj.tails" style="padding:20px 0px 0px 0px;">
           <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
             <a-tag
               v-for="tagObj in articeObj.tails.articeTag"
@@ -149,5 +149,6 @@ export default {
   padding-bottom: 24px;
   background: #fff;
   border-top: solid #ddd 1px;
+  padding: 0 10px 0 10px;
 }
 </style>
