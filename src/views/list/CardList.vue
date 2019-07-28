@@ -139,7 +139,14 @@
                   class="meta-content-jiage"
                   slot="description"
                   style="font-weight:700;font-size:18px;color:#1890ff;"
-                >{{doctor.price}}元/次</div>
+                >
+                  <a-row>
+                    <a-col :xl="20" :lg="20" :md="20" :sm="24" :xs="24">{{doctor.price}}元/次</a-col>
+                    <a-col :xl="4" :lg="4" :md="4" :sm="24" :xs="24">
+                      <a-button icon="customer-service" type="primary">咨询</a-button>
+                    </a-col>
+                  </a-row>
+                </div>
               </a-card-meta>
             </a-card>
           </a-list-item>
