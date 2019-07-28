@@ -20,13 +20,13 @@ export default {
   },
   metaInfo () {
     return {
-      title: this.allConfig['websiteTitle'],
+      title: this.allConfig['websiteTitle']?this.allConfig['websiteTitle']:'loading...',
       meta:[{
-        name:'keyWords',
-        content:this.allConfig['website_keys']
+        name:'keywords',
+        content:this.allConfig['websiteKeys']
       },{
-        name:'keyWords',
-        content:this.allConfig['website_keys']
+        name:'description',
+        content:this.allConfig['websiteDesc']
       }]
     }
   },
