@@ -234,7 +234,7 @@ export default {
     this.pageDoctor()
   },
   methods: {
-    // 医生详细
+    // 咨询师详细
     doctorDetail(id) {
       console.log('详细id', id)
       // this.$router.push('/profile/lesson')
@@ -243,7 +243,7 @@ export default {
         params: { id: id }
       })
     },
-    // 查询医生
+    // 查询咨询师
     pageDoctor() {
       this.loading = true
       if (this.doctorWay) {

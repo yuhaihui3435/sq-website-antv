@@ -12,7 +12,7 @@
       <a-card :bordered="false">
         <a-row style="padding:20px 0px 20px 0px;">
           <a-col style="padding:10px 10px 10px 10px;border-left:solid red 3px;">
-            <strong style="font-size:18px;">医生详情</strong>
+            <strong style="font-size:18px;">咨询师详情</strong>
           </a-col>
         </a-row>
         <a-row style="padding:0px 0px 0px 0px;">
@@ -24,7 +24,7 @@
             <a-row>
               <a-col
                 style="padding:0px 0px 10px 5%;font-size:20px;font-weight:700;"
-              >{{doctorObj.name}}</a-col>
+              >{{ doctorObj.name }}</a-col>
             </a-row>
             <!-- 标签 -->
             <a-row v-if="doctorObj.tails" style="padding:0px 0px 0px 5%;">
@@ -33,7 +33,7 @@
                   v-for="tag in doctorObj.tails.doctorTag"
                   :key="tag.id"
                   color="blue"
-                >{{tag.tails.dictItem.itemName}}</a-tag>
+                >{{ tag.tails.dictItem.itemName }}</a-tag>
               </a-col>
             </a-row>
             <!-- 价格 -->
@@ -53,7 +53,7 @@
                 :sm="15"
                 :xs="15"
                 style="padding:10px 0px 10px 20px;font-size:16px;font-weight:700;color:#1890ff;"
-              >¥{{doctorObj.price}}元/次</a-col>
+              >¥{{ doctorObj.price }}元/次</a-col>
             </a-row>
             <!-- 经验 -->
             <a-row>
@@ -72,7 +72,7 @@
                 :sm="15"
                 :xs="15"
                 style="padding:10px 0px 10px 20px;font-size:16px;font-weight:700;color:#000;"
-              >{{doctorObj.duration}}+小时</a-col>
+              >{{ doctorObj.duration }}+小时</a-col>
             </a-row>
             <!-- 城市 -->
             <a-row>
@@ -91,7 +91,7 @@
                 :sm="15"
                 :xs="15"
                 style="padding:10px 0px 10px 20px;font-size:16px;font-weight:700;color:#000;"
-              >{{doctorObj.province}}&nbsp;{{doctorObj.city}}&nbsp;{{doctorObj.area}}</a-col>
+              >{{ doctorObj.province }}&nbsp;{{ doctorObj.city }}&nbsp;{{ doctorObj.area }}</a-col>
             </a-row>
             <!-- 位置 -->
             <a-row>
@@ -110,7 +110,7 @@
                 :sm="15"
                 :xs="15"
                 style="padding:10px 0px 10px 20px;font-size:16px;font-weight:700;color:#000;"
-              >{{doctorObj.site}}</a-col>
+              >{{ doctorObj.site }}</a-col>
             </a-row>
           </a-col>
         </a-row>
@@ -121,7 +121,7 @@
           </a-col>
         </a-row>
         <a-row style="padding-left:20px;">
-          <a-col :span="24" style="font-size:16px;font-weight:500;">{{doctorObj.introduction}}</a-col>
+          <a-col :span="24" style="font-size:16px;font-weight:500;">{{ doctorObj.introduction }}</a-col>
         </a-row>
         <!-- 给来访者 -->
         <a-row style="padding:20px 0px 20px 0px;">
@@ -130,7 +130,7 @@
           </a-col>
         </a-row>
         <a-row style="padding-left:20px;">
-          <a-col :span="24" style="font-size:16px;font-weight:500;">{{doctorObj.forVisitors}}</a-col>
+          <a-col :span="24" style="font-size:16px;font-weight:500;">{{ doctorObj.forVisitors }}</a-col>
         </a-row>
         <!-- 个人相册 -->
         <a-row style="padding:20px 0px 20px 0px;">
@@ -181,37 +181,37 @@ export default {
     DetailList,
     DetailListItem
   },
-  data () {
+  data() {
     return {
       doctorId: 0,
       doctorObj: {}
     }
   },
   computed: {
-    title () {
+    title() {
       return this.$route.meta.title
     }
   },
-  mounted () {
+  mounted() {
     // this.lessonDetail()
   },
-  activated: function () {
+  activated: function() {
     this.doctorDetail()
   },
   methods: {
     //  格式化时间
-    formartDate (date) {
+    formartDate(date) {
       var time = new Date(date)
       var y = time.getFullYear()
       var m = time.getMonth() + 1
       var d = time.getDate()
       return y + '-' + this.add0(m) + '-' + this.add0(d)
     },
-    add0 (m) {
+    add0(m) {
       return m < 10 ? '0' + m : m
     },
     // 课程详细
-    doctorDetail () {
+    doctorDetail() {
       this.doctorId = this.$route.params.id
       axios({
         url: '/api/doctor/view',
@@ -247,7 +247,7 @@ export default {
   // width: 25%;
 }
 .selfDiv {
-  margin: -10px 0 0 0;
+  margin: -42px 0 0 0;
   padding-bottom: 24px;
   background: #fff;
   border-top: solid #ddd 1px;

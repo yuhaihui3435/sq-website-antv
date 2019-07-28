@@ -3,11 +3,11 @@
     <a-card :bordered="false">
       <a-row style="padding:20px 0px 20px 0px;">
         <a-col style="padding:10px 10px 10px 10px;border-left:solid red 3px;">
-          <strong style="font-size:18px;">医生详情</strong>
+          <strong style="font-size:18px;">咨询师详情</strong>
         </a-col>
       </a-row>
       <detail-list style="padding-left:20px;">
-        <!-- 医生头像 -->
+        <!-- 咨询师头像 -->
         <detail-list-item>
           <img height="240" width="100%" :src="doctorObj.imageUrl" />
         </detail-list-item>
