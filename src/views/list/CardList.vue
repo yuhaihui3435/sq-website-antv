@@ -430,6 +430,9 @@ export default {
     },
     // 省市区
     handleChangeArea(value) {
+      this.province = ''
+      this.city = ''
+      this.area = ''
       console.log(this.selectedOptions)
       for (let i = 0; i < this.selectedOptions.length; i++) {
         if (i == 0) {

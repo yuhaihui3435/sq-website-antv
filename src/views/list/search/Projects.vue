@@ -103,9 +103,9 @@
               </template>
             </a-card-meta>
             <div class="cardItemContent" style="font-size:14px;">
-              <span v-if="item.lessonStatus=='00'" style="color:black;">未开始</span>
-              <span v-if="item.lessonStatus=='01'" style="color:black;">进行中</span>
-              <span v-if="item.lessonStatus=='02'" style="color:black;">已结课</span>
+              <span v-if="item.lessonStatus=='00'" style="color:black;padding-top:6px;">未开始</span>
+              <span v-if="item.lessonStatus=='01'" style="color:black;padding-top:6px;">进行中</span>
+              <span v-if="item.lessonStatus=='02'" style="color:black;padding-top:6px;">已结课</span>
               <div class="avatarList" style="font-weight:700;font-size:16px;color:#1890ff;">
                 ¥{{item.price}}
                 <!-- <avatar-list size="mini">
@@ -116,6 +116,7 @@
                     :tips="member.name"
                   />
                 </avatar-list>-->
+                <a-button icon="customer-service" type="primary">咨询</a-button>
               </div>
             </div>
           </a-card>
@@ -250,6 +251,9 @@ export default {
     },
     // 省市区
     handleChangeArea(value) {
+      this.province = ''
+      this.city = ''
+      this.area = ''
       console.log(this.selectedOptions)
       for (let i = 0; i < this.selectedOptions.length; i++) {
         if (i == 0) {
