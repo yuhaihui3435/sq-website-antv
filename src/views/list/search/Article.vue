@@ -135,7 +135,7 @@ export default {
   },
   activated: function() {
     this.queryColumn()
-    this.pageArticle()
+    // this.pageArticle()
   },
   methods: {
     // 文章详细
@@ -199,6 +199,7 @@ export default {
             console.log('当前栏目下所有标签', tagList)
             // 处理标签
             this.tagOptions = []
+            this.tag = []
             this.tagOptions.push({
               label: '不限',
               value: '',
@@ -224,6 +225,7 @@ export default {
               this.tag.push(tagId)
             }
           }
+          this.pageArticle()
         })
         .catch(ret => {})
     },
