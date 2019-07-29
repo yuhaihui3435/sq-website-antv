@@ -200,7 +200,6 @@ export default {
   methods: {
     // 课程详细
     lessonDetail(id) {
-      console.log('详细id', id)
       // this.$router.push('/profile/lesson')
       this.$router.push({
         name: 'ProfileLesson',
@@ -225,7 +224,6 @@ export default {
         }
       })
         .then(res => {
-          console.log('查询结果', res)
           this.lessonList = res.list
           for (let i = 0; i < this.lessonList.length; i++) {
             const element = this.lessonList[i]
@@ -242,7 +240,6 @@ export default {
     },
     // pageSize改变
     onShowSizeChange(current, pageSize) {
-      console.log(current, pageSize)
       this.pageLesson()
     },
     // 关键字搜索
@@ -254,7 +251,6 @@ export default {
       this.province = ''
       this.city = ''
       this.area = ''
-      console.log(this.selectedOptions)
       for (let i = 0; i < this.selectedOptions.length; i++) {
         if (i == 0) {
           this.province = CodeToText[this.selectedOptions[i]] == '全部' ? '' : CodeToText[this.selectedOptions[i]]
@@ -264,7 +260,6 @@ export default {
           this.area = CodeToText[this.selectedOptions[i]] == '全部' ? '' : CodeToText[this.selectedOptions[i]]
         }
       }
-      console.log(this.province, this.city, this.area)
       this.pageLesson()
     },
     // 课程状态选择
@@ -284,9 +279,7 @@ export default {
         if (lessonStatus.checked) {
           this.lessonStatus.push(lessonStatus.value)
         } else {
-          console.log('点击值', lessonStatus.value)
           let index = this.lessonStatus.indexOf(lessonStatus.value)
-          console.log('下标', index)
           this.lessonStatus.splice(index, 1)
         }
       }
@@ -294,7 +287,6 @@ export default {
       if (this.lessonStatus.length == 0) {
         this.lessonStatusOptions[0].checked = true
       }
-      console.log('课程状态选择结果', this.lessonStatus)
       this.pageLesson()
     },
     // 授课方式选择
@@ -325,17 +317,13 @@ export default {
       //     this.theWay.splice(index, 1)
       //   }
       // }
-      console.log('授课方式选择结果', this.theWay)
       this.pageLesson()
     },
     handleChange(value) {
-      console.log(`selected ${value}`)
     },
     getList() {
       this.$http.get('/list/article', { params: { count: 8 } }).then(res => {
-        console.log('res', res)
         this.data = res.result
-        console.log(this.data)
         this.loading = false
       })
     }
@@ -388,9 +376,10 @@ export default {
 }
 .selfDiv {
   margin: -42px 0 0 0;
-  padding-bottom: 24px;
+  
   background: #fff;
   border-top: solid #ddd 1px;
   padding: 0 10px 0 10px;
+  padding-bottom: 24px;
 }
 </style>

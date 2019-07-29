@@ -83,7 +83,7 @@
 
         </div>
         <div class="setting-drawer-index-handle" @click="consultationToggle" :style="{width:visible?'48px':'110px'}">
-          <span v-if="!visible"><a-icon type="setting"  />咨询流程</span>
+          <span v-if="!visible"><a-icon type="question-circle"  />咨询流程</span>
           <a-icon type="close" v-else />
         </div>
       </a-drawer>
@@ -215,7 +215,8 @@ export default {
 .setting-drawer-index-handle {
   position: absolute;
   top: 240px;
-  background: #002147;
+  background-color: #1890ff;
+    border-color: #1890ff;
   width: 110px;
   height: 48px;
   right: 300px;

@@ -1,5 +1,6 @@
 <template>
-  <div class="page-header-index-wide">
+  <div style="    max-width: 1200px;
+    margin: 0 auto;">
     <a-card
       :bordered="false"
       :bodyStyle="{ padding: '16px 0', height: '100%' }"
