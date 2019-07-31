@@ -298,6 +298,7 @@ export default {
       this.tagOptions = []
       if (column.tags) {
         this.tagOptions = []
+        this.tag = []
         this.tagOptions.push({
           label: '不限',
           value: '',
