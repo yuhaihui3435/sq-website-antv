@@ -60,6 +60,17 @@
             <a-select-option value="09">其他</a-select-option>
           </a-select>
         </a-form-item>
+        <a-form-item label="生日" :required="false">
+          <a-date-picker v-model="form.birthday">
+            <template slot="dateRender" slot-scope="current, today">
+              <div
+                class="ant-calendar-date"
+                :style="getCurrentStyle(current, today)"
+              >{{current.date()}}</div>
+            </template>
+          </a-date-picker>
+        </a-form-item>
+
         <a-form-item>
           <a-button style="margin-left: 8px" @click="submit">保存</a-button>
         </a-form-item>
@@ -87,6 +98,7 @@ import {
   CodeToText,
   TextToCode
 } from 'element-china-area-data'
+var moment = require('moment')
 function getBase64(img, callback) {
   const reader = new FileReader()
   reader.addEventListener('load', () => callback(reader.result))
@@ -139,7 +151,8 @@ export default {
         address: '',
         education: '00',
         sex: '00',
-        loginId: 0
+        loginId: 0,
+        birthday: null
       },
       options: regionDataPlus,
       selectedOptions: []
@@ -148,7 +161,18 @@ export default {
   activated: function() {
     this.queryUserLogin()
   },
+  // mounted() {
+  //   this.queryUserLogin()
+  // },
   methods: {
+    getCurrentStyle(current, today) {
+      const style = {}
+      if (current.date() === 1) {
+        style.border = '1px solid #1890ff'
+        style.borderRadius = '50%'
+      }
+      return style
+    },
     // 查询用户信息
     queryUserLogin() {
       axios({
@@ -159,18 +183,44 @@ export default {
         .then(res => {
           this.form.loginId = res.userLogin.id
           this.selectedOptions = []
-          this.form = res.userInfo
-          if (this.form.avatar) {
-            this.imageUrl = serverUrl + '/cc/loadPic/' + this.form.avatar
-          }
-          if (this.form.province) {
-            this.selectedOptions.push(TextToCode[this.form.province].code)
-          }
-          if (this.form.city) {
-            this.selectedOptions.push(TextToCode[this.form.province][this.form.city].code)
-          }
-          if (this.form.area) {
-            this.selectedOptions.push(TextToCode[this.form.province][this.form.city][this.form.area].code)
+          if (res.userInfo) {
+            res.userInfo.birthday = moment(res.userInfo.birthday)
+            this.$store.commit('SET_INFO', {
+              info: res.userInfo
+            })
+            console.log('用户信息', this.info)
+            if (this.info.info.nickname) {
+              this.$store.commit('SET_NAME', {
+                name: this.info.info.nickname
+              })
+              console.log('用户名', this.name)
+            }
+            if (this.info.info.avatar) {
+              this.$store.commit('SET_AVATAR', {
+                avatar: serverUrl + '/cc/loadPic/' + this.info.info.avatar
+              })
+              console.log('头像', this.avatar.avatar)
+            }
+            // res.userInfo.birthday = new Date(res.userInfo.birthday)
+            console.log('用户信息', res.userInfo)
+            this.form = res.userInfo
+            // this.form.birthday = this.formartDate(this.form.birthday)
+            if (this.form.avatar) {
+              console.log('this.form.avatar', this.form.avatar)
+              this.imageUrl = serverUrl + '/cc/loadPic/' + this.form.avatar
+            }
+            if (this.form.province) {
+              console.log('this.form.province', this.form.province)
+              this.selectedOptions.push(TextToCode[this.form.province].code)
+            }
+            if (this.form.city) {
+              console.log('this.form.city', this.form.city)
+              this.selectedOptions.push(TextToCode[this.form.province][this.form.city].code)
+            }
+            if (this.form.area) {
+              console.log('this.form.area', this.form.area)
+              this.selectedOptions.push(TextToCode[this.form.province][this.form.city][this.form.area].code)
+            }
           }
         })
         .catch(err => {})
@@ -196,15 +246,14 @@ export default {
         .then(res => {
           if (res.code == 1000) {
             this.$message.success(res.msg)
-            this.queryUserInfo()
+            this.queryUserLogin()
           } else {
             this.$message.error(res.msg)
           }
         })
         .catch(err => {})
     },
-    handleChangeArea(value) {
-    },
+    handleChangeArea(value) {},
     handleChange(info) {
       if (info.file.status === 'uploading') {
         this.loading = true

@@ -111,7 +111,35 @@
         </template>
       </standard-form-row>
     </a-card>
-    <div class="card-list" ref="content">
+    <div class="card-list" ref="content" v-if="doctorList">
+      <!-- <a-row v-for="doctor in doctorList" :key="doctor.id" style="border:solid red 1px;"> -->
+      <!-- 头像 -->
+      <!-- <a-col
+          :xl="6"
+          :lg="6"
+          :md="6"
+          :sm="24"
+          :xs="24"
+          style="text-align:center;padding:30px 0px;border:solid red 1px;"
+        >
+          <a-avatar
+            :src="doctor.imageUrl"
+            size="large"
+            style="height:200px;width:75%;border-radius:10px;"
+          />
+        </a-col>
+        <a-col :xl="18" :lg="18" :md="18" :sm="24" :xs="24" style="border:solid red 1px;">
+      <a-row>-->
+      <!-- 姓名 -->
+      <!-- <a-col :xl="16" :lg="16" :md="16" :sm="24" :xs="24" style="font-weight:700;font-size:22px;padding:0px 0 0 30px;">{{doctor.name}}</a-col> -->
+      <!-- 地理位置 -->
+      <!-- <a-col :xl="8" :lg="8" :md="8" :sm="24" :xs="24">
+              <a-icon type="environment" style="font-size:14px;padding:3% 0 0 30px;" />
+              {{doctor.province}}{{doctor.city}}{{doctor.area}}
+            </a-col>
+          </a-row>
+        </a-col>
+      </a-row>-->
       <template>
         <a-list
           :loading="loading"
@@ -253,6 +281,8 @@ export default {
     pageDoctor() {
       this.loading = true
       if (this.doctorWay) {
+        let index = this.tagCondition.indexOf(this.doctorWay)
+        this.splice(index, 1)
         this.tagCondition.push(this.doctorWay)
       }
       if (this.doctorSex) {
@@ -277,8 +307,7 @@ export default {
         .then(res => {
           this.doctorList = res.list
           for (let i = 0; i < this.doctorList.length; i++) {
-            const element = this.doctorList[i]
-            element.imageUrl = serverUrl + '/cc/loadPic/' + element.avatar
+            this.doctorList[i].imageUrl = serverUrl + '/cc/loadPic/' + this.doctorList[i].avatar
           }
           this.doctorListTotal = res.totalRow
           this.loading = false
@@ -537,6 +566,7 @@ export default {
         doctorWay.checked = !doctorWay.checked
         this.doctorWay = doctorWay.value
       }
+      this.pageDoctor()
     },
     // 咨询师性别选择
     doctorSexChange(doctorSex) {
@@ -628,7 +658,7 @@ export default {
 }
 .selfDiv {
   margin: -42px 0 0 0;
-  
+
   background: #fff;
   border-top: solid #ddd 1px;
   padding: 0 10px 0 10px;
