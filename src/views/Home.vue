@@ -612,6 +612,15 @@ a:focus {
     display: none;
   }
 }
+.layout.ant-layout.tablet{
+  .ant-layout-content{
+    .home{
+    .content{
+      margin: 0 0 0;
+    }
+    }
+  }
+}
 </style>
 
 <style scoped>

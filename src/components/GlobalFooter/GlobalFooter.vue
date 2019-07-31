@@ -96,7 +96,7 @@ export default {
   color: @site-text-color;
   box-shadow: 0 1000px 0 1000px #002147;
   .ant-row {
-    max-width: 1200px;
+    max-width: 1600px;
     text-align: center;
     .footer-center {
       

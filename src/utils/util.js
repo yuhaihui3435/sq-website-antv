@@ -60,28 +60,25 @@ export function removeLoadingAnimate (id = '', timeout = 1500) {
   }, timeout)
 }
 
-
-export function formatDate(date, format) {
-  if (date == undefined) {
-    return "";
+export function formatDate (date, format) {
+  if (date === undefined) {
+    return ''
   }
-  if(format){
-    return moment(date).format(format);
-  }else{
-    return moment(date).format("YYYY-MM-DD HH:mm:ss");
+  if (format) {
+    return moment(date).format(format)
+  } else {
+    return moment(date).format('YYYY-MM-DD HH:mm:ss')
   }
-  
 }
 
-export function cleanObj(obj){
-  for(let key in obj){
-    if(obj[key] instanceof Object&&!Array.isArray(obj[key])){
-      obj[key]={};
-    }else if(obj[key] instanceof Array){
-      obj[key]=[];
-    }else{
-      obj[key]  = ''
+export function cleanObj (obj) {
+  for (const key in obj) {
+    if (obj[key] instanceof Object && !Array.isArray(obj[key])) {
+      obj[key] = {}
+    } else if (obj[key] instanceof Array) {
+      obj[key] = []
+    } else {
+      obj[key] = ''
     }
-    
   }
 }

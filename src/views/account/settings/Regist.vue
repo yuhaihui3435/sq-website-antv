@@ -1,5 +1,5 @@
 <template>
-  <div style="    max-width: 1200px;
+  <div style="    max-width: 1600px;
     margin: 0 auto;">
     <a-card
       :bordered="false"
