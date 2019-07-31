@@ -71,7 +71,7 @@
           <a-input placeholder="请输入地址" v-model="form.address" />
         </a-form-item>
         <a-form-item>
-          <a-button style="margin-left: 8px" @click="submit">保存</a-button>
+          <a-button type="primary" style="margin-left: 8px" @click="submit">保存</a-button>
         </a-form-item>
       </a-form>
     </a-col>
@@ -193,37 +193,29 @@ export default {
             this.$store.commit('SET_INFO', {
               info: res.userInfo
             })
-            console.log('用户信息', this.info)
             if (this.info.info.nickname) {
               this.$store.commit('SET_NAME', {
                 name: this.info.info.nickname
               })
-              console.log('用户名', this.name)
             }
             if (this.info.info.avatar) {
               this.$store.commit('SET_AVATAR', {
                 avatar: serverUrl + '/cc/loadPic/' + this.info.info.avatar
               })
-              console.log('头像', this.avatar.avatar)
             }
             // res.userInfo.birthday = new Date(res.userInfo.birthday)
-            console.log('用户信息', res.userInfo)
             this.form = res.userInfo
             // this.form.birthday = this.formartDate(this.form.birthday)
             if (this.form.avatar) {
-              console.log('this.form.avatar', this.form.avatar)
               this.imageUrl = serverUrl + '/cc/loadPic/' + this.form.avatar
             }
             if (this.form.province) {
-              console.log('this.form.province', this.form.province)
               this.selectedOptions.push(TextToCode[this.form.province].code)
             }
             if (this.form.city) {
-              console.log('this.form.city', this.form.city)
               this.selectedOptions.push(TextToCode[this.form.province][this.form.city].code)
             }
             if (this.form.area) {
-              console.log('this.form.area', this.form.area)
               this.selectedOptions.push(TextToCode[this.form.province][this.form.city][this.form.area].code)
             }
           }
@@ -278,9 +270,9 @@ export default {
       // if (!isJPG) {
       //   this.$message.error('You can only upload JPG file!')
       // }
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = file.size / 1024 < 300
       if (!isLt2M) {
-        this.$message.error('图片大小不能大于2MB!')
+        this.$message.error('图片大小不能大于300K!')
       }
       return isLt2M
     }

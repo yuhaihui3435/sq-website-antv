@@ -270,7 +270,6 @@ export default {
         data: {}
       })
         .then(res => {
-          console.log('userlogin结果', res)
           this.userLogin = res.userLogin
           this.oldPhone = this.userLogin.phone
           var len = this.userLogin.phone.length
@@ -324,7 +323,6 @@ export default {
       }, 1000)
     },
     onSearch() {
-      console.log('手机号', this.oldPhone)
       if (!this.oldPhone) {
         this.$message.warning('请输入手机号')
       } else {
@@ -355,7 +353,6 @@ export default {
     handleOkEmail(e) {
       this.emailForm.validateFields((err, values) => {
         if (!err) {
-          console.log('修改邮箱表单', values)
           this.confirmLoading = true
           axios({
             url: '/api/user/modifyEmail?smsCode=' + values.identifyCode,
@@ -395,7 +392,6 @@ export default {
     handleOkPhone(e) {
       this.phoneForm.validateFields((err, values) => {
         if (!err) {
-          console.log('修改手机号表单', values)
           this.confirmLoading = true
           axios({
             url: '/api/user/modifyPhone?smsCode=' + values.identifyCode,
@@ -435,7 +431,6 @@ export default {
     handleOk(e) {
       this.passwordForm.validateFields((err, values) => {
         if (!err) {
-          console.log('修改密码表单', values)
           this.confirmLoading = true
           axios({
             url: '/api/user/modifyPwd',
@@ -462,7 +457,6 @@ export default {
       })
     },
     handleCancel(e) {
-      console.log('Clicked cancel button')
       this.visible = false
     }
   }

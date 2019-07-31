@@ -26,7 +26,7 @@
           <div class="account-settings-info-title">
             <span>{{ $route.meta.title }}</span>
           </div>
-          <route-view></route-view>
+          <route-view ></route-view>
         </div>
       </div>
     </a-card>
@@ -47,29 +47,8 @@ export default {
     return {
       // horizontal  inline
       mode: 'inline',
-
       openKeys: [],
       selectedKeys: [],
-
-      // cropper
-      preview: {},
-      option: {
-        img: '/avatar2.jpg',
-        info: true,
-        size: 1,
-        outputType: 'jpeg',
-        canScale: false,
-        autoCrop: true,
-        // 只有自动截图开启 宽度高度才生效
-        autoCropWidth: 180,
-        autoCropHeight: 180,
-        fixedBox: true,
-        // 开启宽度和高度比例
-        fixed: true,
-        fixedNumber: [1, 1]
-      },
-
-      pageTitle: ''
     }
   },
   created () {
@@ -81,14 +60,15 @@ export default {
     },
     updateMenu () {
       const routes = this.$route.matched.concat()
-      this.selectedKeys = [ routes.pop().path ]
+      this.selectedKeys.pop();
+      this.selectedKeys .push( routes.pop().path )
     }
   },
   watch: {
     '$route' (val) {
       this.updateMenu()
     }
-  }
+  },
 }
 </script>
 
