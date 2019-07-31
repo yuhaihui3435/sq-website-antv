@@ -90,7 +90,7 @@
         ]"
                     style="width: 100%"
                   >
-                    <a-select
+                    <!-- <a-select
                       slot="addonBefore"
                       v-decorator="[
             'prefix',
@@ -100,7 +100,7 @@
                     >
                       <a-select-option value="86">+86</a-select-option>
                       <a-select-option value="87">+87</a-select-option>
-                    </a-select>
+                    </a-select> -->
                   </a-input>
                 </a-form-item>
                 <!-- 验证码 -->
