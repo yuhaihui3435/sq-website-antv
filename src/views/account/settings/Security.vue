@@ -191,7 +191,11 @@ export default {
   },
   activated: function() {
     this.$nextTick(() => {
+      if(this.token){
       this.queryUserLogin()
+      }else{
+        this.$router.push({name:"index"})
+      }
     })
   },
   beforeCreate() {

@@ -24,27 +24,24 @@
         <a-form-item label="昵称">
           <a-input placeholder="给自己起个名字" v-model="form.nickname" />
         </a-form-item>
+        <a-form-item label="真实姓名" :required="false">
+          <a-input placeholder="请输入真实姓名" v-model="form.realname" />
+        </a-form-item>
+        <a-form-item label="生日" :required="false">
+          <a-date-picker v-model="form.birthday">
+            <template slot="dateRender" slot-scope="current, today">
+              <div
+                class="ant-calendar-date"
+                :style="getCurrentStyle(current, today)"
+              >{{current.date()}}</div>
+            </template>
+          </a-date-picker>
+        </a-form-item>
         <a-form-item label="性别" :required="false">
           <a-select placeholder="请选择学历" v-model="form.sex">
             <a-select-option value="00">男</a-select-option>
             <a-select-option value="01">女</a-select-option>
           </a-select>
-        </a-form-item>
-        <a-form-item label="真实姓名" :required="false">
-          <a-input placeholder="请输入真实姓名" v-model="form.realname" />
-        </a-form-item>
-        <a-form-item label="省市区" :required="false">
-          <div id="app" style="width:100%">
-            <el-cascader
-              size="large"
-              :options="options"
-              v-model="selectedOptions"
-              @change="handleChangeArea"
-            ></el-cascader>
-          </div>
-        </a-form-item>
-        <a-form-item label="地址" :required="false">
-          <a-input placeholder="请输入地址" v-model="form.address" />
         </a-form-item>
         <a-form-item label="学历" :required="false">
           <a-select placeholder="请选择学历" v-model="form.education">
@@ -60,17 +57,19 @@
             <a-select-option value="09">其他</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="生日" :required="false">
-          <a-date-picker v-model="form.birthday">
-            <template slot="dateRender" slot-scope="current, today">
-              <div
-                class="ant-calendar-date"
-                :style="getCurrentStyle(current, today)"
-              >{{current.date()}}</div>
-            </template>
-          </a-date-picker>
+        <a-form-item label="省市区" :required="false">
+          <div id="app" style="width:100%">
+            <el-cascader
+              size="large"
+              :options="options"
+              v-model="selectedOptions"
+              @change="handleChangeArea"
+            ></el-cascader>
+          </div>
         </a-form-item>
-
+        <a-form-item label="地址" :required="false">
+          <a-input placeholder="请输入地址" v-model="form.address" />
+        </a-form-item>
         <a-form-item>
           <a-button style="margin-left: 8px" @click="submit">保存</a-button>
         </a-form-item>
@@ -159,7 +158,13 @@ export default {
     }
   },
   activated: function() {
-    this.queryUserLogin()
+    if(this.token){
+      this.queryUserLogin()
+    }else{
+      this.$router.push({
+                  name: 'index'
+                })
+    }
   },
   // mounted() {
   //   this.queryUserLogin()

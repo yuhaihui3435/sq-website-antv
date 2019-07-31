@@ -76,7 +76,6 @@ export default {
           data: {}
         })
           .then(res => {
-            console.log('APPPPPPPPPuserlogin结果', res)
             this.$store.commit('SET_LOGIN', {
               login: res.userLogin
             })

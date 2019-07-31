@@ -28,7 +28,7 @@ export const asyncRouterMap = [
             path: '/sqsy/Projects',
             name: 'SearchProjects',
             component: () => import('../views/list/search/Projects'),
-            meta: { title: '深泉书院' ,isList:true}
+            meta: { title: '深泉书院', isList: true }
           }
         ]
       },
@@ -45,7 +45,7 @@ export const asyncRouterMap = [
             path: '/sqzx/CardList',
             name: 'SearchCardList',
             component: () => import('../views/list/CardList'),
-            meta: { title: '深泉咨询' ,isList:true}
+            meta: { title: '深泉咨询', isList: true }
           }
         ]
       },
@@ -63,8 +63,8 @@ export const asyncRouterMap = [
             path: '/sqdz/article',
             name: 'SearchArticles',
             component: () => import('../views/list/search/Article'),
-            meta: { title: '深泉大众' ,isList:true}
-          },
+            meta: { title: '深泉大众', isList: true }
+          }
         ]
       },
       // IANCHINA
@@ -94,7 +94,7 @@ export const asyncRouterMap = [
             path: '/account/settings',
             name: 'settings',
             component: () => import('@/views/account/settings/Index'),
-            meta: { title: '个人设置', hideHeader: true},
+            meta: { title: '个人设置', hideHeader: true },
             redirect: '/account/settings/base',
             hideChildrenInMenu: true,
             children: [
@@ -102,7 +102,7 @@ export const asyncRouterMap = [
                 path: '/account/settings/base',
                 name: 'BaseSettings',
                 component: () => import('@/views/account/settings/BaseSetting'),
-                meta: { title: '基本设置', hidden: true}
+                meta: { title: '基本设置', hidden: true }
               },
               {
                 path: '/account/settings/security',
@@ -120,8 +120,8 @@ export const asyncRouterMap = [
         name: 'regist',
         hidden: true,
         component: () => import('@/views/account/settings/Regist'),
-            meta: { title: '注册', hideHeader: true},
-            hideChildrenInMenu: true
+        meta: { title: '注册', hideHeader: true },
+        hideChildrenInMenu: true
       },
       // 忘记密码
       {
@@ -129,10 +129,10 @@ export const asyncRouterMap = [
         name: 'forgetPassword',
         hidden: true,
         component: () => import('@/views/account/settings/ForgetPassword'),
-            meta: { title: '忘记密码', hideHeader: true },
-            hideChildrenInMenu: true
+        meta: { title: '忘记密码', hideHeader: true },
+        hideChildrenInMenu: true
       },
-      //详细页面
+      // 详细页面
       {
         path: '/profile',
         name: 'profile',
@@ -145,19 +145,19 @@ export const asyncRouterMap = [
             path: '/profile/lesson/:id',
             name: 'ProfileLesson',
             component: () => import('@/views/profile/basic/Index'),
-            meta: { title: '课程详情', keepAlive: true ,pr:'SearchProjects'}
+            meta: { title: '课程详情', keepAlive: true, pr: 'SearchProjects' }
           },
           {
             path: '/profile/doctor/:id',
             name: 'ProfileDoctor',
             component: () => import('@/views/profile/basic/DoctorDetail'),
-            meta: { title: '咨询师详情',  keepAlive: true ,pr:'SearchCardList'}
+            meta: { title: '咨询师详情', keepAlive: true, pr: 'SearchCardList' }
           },
           {
             path: '/profile/artice/:id',
             name: 'ProfileArtice',
             component: () => import('@/views/profile/basic/ArticeDetail'),
-            meta: { title: '文章详情', keepAlive: true,pr:'SearchArticles' }
+            meta: { title: '文章详情', keepAlive: true, pr: 'SearchArticles' }
           }
         ]
       }
