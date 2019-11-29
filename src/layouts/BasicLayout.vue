@@ -1,5 +1,5 @@
 <template>
-  <a-layout :class="['layout', device]" >
+  <a-layout :class="['layout', device]">
     <!-- SideMenu -->
     <a-drawer
       v-if="isMobile()"
@@ -60,30 +60,33 @@
 
       <!-- Setting Drawer (show in development mode) -->
       <!-- <setting-drawer v-if="!production"></setting-drawer> -->
-      
     </a-layout>
     <div ref="container">
-    <a-drawer width="300" placement="right" @close="onClose" :closable="false" :visible="visible" :getContainer="() => $refs.container">
+      <a-drawer
+        width="300"
+        placement="right"
+        @close="onClose"
+        :closable="false"
+        :visible="visible"
+        :getContainer="() => $refs.container"
+      >
         <div class="setting-drawer-index-content">
-            <h2>咨询流程</h2>
-            <ul style="list-style-type:none;margin:0px;padding:0;">
-              <li>
-                1.选择咨询方式及时间
-              </li>
-              <li>
-                2.选择咨询师
-              </li>
-              <li>
-                3.联络客服确认预约信息并缴费
-              </li>
-              <li>
-                4.如约咨询
-              </li>
-            </ul>
-
+          <h2>咨询流程</h2>
+          <ul style="list-style-type:none;margin:0px;padding:0;">
+            <li>1.选择咨询方式及时间</li>
+            <li>2.选择咨询师</li>
+            <li>3.联络客服确认预约信息并缴费</li>
+            <li>4.如约咨询</li>
+          </ul>
         </div>
-        <div class="setting-drawer-index-handle" @click="consultationToggle" :style="{width:visible?'48px':'110px'}">
-          <span v-if="!visible"><a-icon type="question-circle"  />咨询流程</span>
+        <div
+          class="setting-drawer-index-handle"
+          @click="consultationToggle"
+          :style="{width:visible?'48px':'110px'}"
+        >
+          <span v-if="!visible">
+            <a-icon type="question-circle" />咨询流程
+          </span>
           <a-icon type="close" v-else />
         </div>
       </a-drawer>
@@ -189,7 +192,7 @@ export default {
     onClose() {
       this.visible = false
     },
-    consultationToggle () {
+    consultationToggle() {
       this.visible = !this.visible
     }
   }
@@ -216,7 +219,7 @@ export default {
   position: absolute;
   top: 240px;
   background-color: #1890ff;
-    border-color: #1890ff;
+  border-color: #1890ff;
   width: 110px;
   height: 48px;
   right: 300px;
@@ -234,10 +237,11 @@ export default {
     color: rgb(255, 255, 255);
     font-size: 20px;
   }
-  span{
+  span {
     color: rgb(255, 255, 255);
     font-size: 20px;
   }
 }
-.setting-drawer-index-content {}
+.setting-drawer-index-content {
+}
 </style>

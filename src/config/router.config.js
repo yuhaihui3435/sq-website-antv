@@ -22,13 +22,31 @@ export const asyncRouterMap = [
         component: PageView,
         redirect: '/sqsy/Projects',
         meta: { title: '深泉书院' },
-        hideChildrenInMenu: true,
+        // hideChildrenInMenu: true,
         children: [
           {
             path: '/sqsy/Projects',
             name: 'SearchProjects',
             component: () => import('../views/list/search/Projects'),
             meta: { title: '深泉书院', isList: true }
+          },
+          {
+            path: '/sqsy/qw',
+            name: 'qw',
+            component: () => import('../views/list/search/Projects'),
+            meta: { title: '书院介绍', isList: true }
+          },
+          {
+            path: '/sqsy/er',
+            name: 'er',
+            component: () => import('../views/list/search/Projects'),
+            meta: { title: '书院范围', isList: true }
+          },
+          {
+            path: '/sqsy/df',
+            name: 'df',
+            component: () => import('../views/list/search/Projects'),
+            meta: { title: '书院展示', isList: true }
           }
         ]
       },

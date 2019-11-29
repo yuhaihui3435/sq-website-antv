@@ -10,7 +10,20 @@ body {
   }
   //覆盖下来菜单颜色
   .ant-menu-dark, .ant-menu-dark .ant-menu-sub{
-    background-color: #002147;
+    // background-color: #002147;
+    background-color: #fff;
+  }
+
+  // .ant-menu-dark, .ant-menu-dark .ant-menu-sub > a {
+  //   color: black !important;
+  // }
+  .ant-menu-vertical{
+    .ant-menu-item > a {
+      color: black !important;
+    }
+  }
+  .ant-menu-vertical .ant-menu-item:hover {
+    background-color: #ccc !important;
   }
   &.colorWeak {
     filter: invert(80%);

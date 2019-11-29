@@ -134,4 +134,8 @@ export default {
 #app {
   height: 100%;
 }
+.ant-menu-dark,
+.ant-menu-dark .ant-menu-sub {
+  background-color: #000;
+}
 </style>
