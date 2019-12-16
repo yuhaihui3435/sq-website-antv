@@ -57,13 +57,25 @@ export const asyncRouterMap = [
         component: PageView,
         redirect: '/sqzx/CardList',
         meta: { title: '深泉咨询' },
-        hideChildrenInMenu: true,
+        // hideChildrenInMenu: true,
         children: [
           {
             path: '/sqzx/CardList',
             name: 'SearchCardList',
             component: () => import('../views/list/CardList'),
             meta: { title: '深泉咨询', isList: true }
+          },
+          {
+            path: '/sqzx/CardList',
+            name: 'SearchCardList',
+            component: () => import('../views/list/CardList'),
+            meta: { title: '咨询详情', isList: true }
+          },
+          {
+            path: '/sqzx/CardList',
+            name: 'SearchCardList',
+            component: () => import('../views/list/CardList'),
+            meta: { title: '咨询流程', isList: true }
           }
         ]
       },
@@ -75,13 +87,25 @@ export const asyncRouterMap = [
         component: PageView,
         redirect: '/sqdz/article',
         meta: { title: '深泉大众' },
-        hideChildrenInMenu: true,
+        // hideChildrenInMenu: true,
         children: [
           {
             path: '/sqdz/article',
             name: 'SearchArticles',
             component: () => import('../views/list/search/Article'),
             meta: { title: '深泉大众', isList: true }
+          },
+          {
+            path: '/sqdz/article',
+            name: 'SearchArticles',
+            component: () => import('../views/list/search/Article'),
+            meta: { title: '大众分类', isList: true }
+          },
+          {
+            path: '/sqdz/article',
+            name: 'SearchArticles',
+            component: () => import('../views/list/search/Article'),
+            meta: { title: '大众体系', isList: true }
           }
         ]
       },
@@ -89,7 +113,27 @@ export const asyncRouterMap = [
       {
         name: 'iachina',
         path: 'https://www.baidu.com/',
-        meta: { title: 'IANCHINA', target: '_blank' }
+        meta: { title: 'IANCHINA', target: '_blank' },
+        children: [
+          {
+            path: 'https://www.baidu.com/',
+            name: 'SearchArticles',
+            // component: () => import('../views/list/search/Article'),
+            meta: { title: 'baidu', isList: true }
+          },
+          {
+            path: 'https://www.baidu.com/',
+            name: 'SearchArticles',
+            // component: () => import('../views/list/search/Article'),
+            meta: { title: 'google', isList: true }
+          },
+          {
+            path: 'https://www.baidu.com/',
+            name: 'SearchArticles',
+            // component: () => import('../views/list/search/Article'),
+            meta: { title: '大众体系', isList: true }
+          }
+        ]
       },
 
       // 关于我们
@@ -105,13 +149,25 @@ export const asyncRouterMap = [
         component: PageView,
         redirect: '/gywm/aboutMe',
         meta: { title: '关于我们' },
-        hideChildrenInMenu: true,
+        // hideChildrenInMenu: true,
         children: [
           {
             path: '/gywm/aboutMe',
             name: 'AboutMe',
             component: () => import('../views/account/center/AboutMe'),
             meta: { title: '关于我们', isList: true }
+          },
+          {
+            path: '/gywm/aboutMe',
+            name: 'AboutMe',
+            component: () => import('../views/account/center/AboutMe'),
+            meta: { title: '我们的故事', isList: true }
+          },
+          {
+            path: '/gywm/aboutMe',
+            name: 'AboutMe',
+            component: () => import('../views/account/center/AboutMe'),
+            meta: { title: '我们的里程碑', isList: true }
           }
         ]
       },

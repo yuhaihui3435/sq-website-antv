@@ -231,6 +231,7 @@ export default {
           }
           this.lessonListTotal = res.totalRow
           this.loading = false
+          console.log('课程列表', this.lessonList)
         })
         .catch(err => {})
     },
@@ -319,8 +320,7 @@ export default {
       // }
       this.pageLesson()
     },
-    handleChange(value) {
-    },
+    handleChange(value) {},
     getList() {
       this.$http.get('/list/article', { params: { count: 8 } }).then(res => {
         this.data = res.result
@@ -375,7 +375,7 @@ export default {
   padding: 5px;
 }
 .selfDiv {
-  margin: -42px 0 0 0;  
+  margin: -42px 0 0 0;
   background: #fff;
   border-top: solid #ddd 1px;
   padding: 0 10px 0 10px;
