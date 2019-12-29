@@ -138,4 +138,7 @@ export default {
 .ant-menu-dark .ant-menu-sub {
   background-color: #000;
 }
+.ant-menu-submenu .ant-menu-submenu-vertical {
+  color: #000;
+}
 </style>

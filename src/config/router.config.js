@@ -21,32 +21,73 @@ export const asyncRouterMap = [
         name: 'sqsy',
         component: PageView,
         redirect: '/sqsy/Projects',
-        meta: { title: '深泉书院' },
+        // meta: { title: '深泉书院' },
+        meta: { title: '教育项目' },
         // hideChildrenInMenu: true,
         children: [
           {
             path: '/sqsy/Projects',
             name: 'SearchProjects',
             component: () => import('../views/list/search/Projects'),
-            meta: { title: '深泉书院', isList: true }
+            meta: { title: '精神分析治疗咨询师培养项目', isList: true }
           },
           {
-            path: '/sqsy/qw',
-            name: 'qw',
+            path: '/sqsy/2',
+            name: '2',
             component: () => import('../views/list/search/Projects'),
-            meta: { title: '书院介绍', isList: true }
+            meta: { title: '英国精神分析学会系统培训项目', isList: true },
+            children: [
+              {
+                path: '/sqsy/21',
+                name: '21',
+                component: () => import('../views/list/search/Projects'),
+                meta: { title: 'KP中英克莱因学派培训项目', isList: true }
+              },
+              {
+                path: '/sqsy/22',
+                name: '22',
+                component: () => import('../views/list/search/Projects'),
+                meta: { title: 'BP中英比昂培训项目', isList: true }
+              },
+              {
+                path: '/sqsy/23',
+                name: '23',
+                component: () => import('../views/list/search/Projects'),
+                meta: { title: 'WP中英温尼科特培训项目', isList: true }
+              },
+              {
+                path: '/sqsy/24',
+                name: '24',
+                component: () => import('../views/list/search/Projects'),
+                meta: { title: 'CD中英儿童青少年发展与养育项目', isList: true }
+              },
+            ]
           },
           {
-            path: '/sqsy/er',
-            name: 'er',
+            path: '/sqsy/3',
+            name: '3',
             component: () => import('../views/list/search/Projects'),
-            meta: { title: '书院范围', isList: true }
-          },
-          {
-            path: '/sqsy/df',
-            name: 'df',
-            component: () => import('../views/list/search/Projects'),
-            meta: { title: '书院展示', isList: true }
+            meta: { title: '依恋理论研究与应用项目', isList: true },
+            children: [
+              {
+                path: '/sqsy/31',
+                name: '31',
+                component: () => import('../views/list/search/Projects'),
+                meta: { title: 'AAI', isList: true }
+              },
+              {
+                path: '/sqsy/32',
+                name: '32',
+                component: () => import('../views/list/search/Projects'),
+                meta: { title: 'CPG', isList: true }
+              },
+              {
+                path: '/sqsy/33',
+                name: '33',
+                component: () => import('../views/list/search/Projects'),
+                meta: { title: 'NDP神奇戏剧治疗师', isList: true }
+              },
+            ]
           }
         ]
       },
@@ -56,56 +97,27 @@ export const asyncRouterMap = [
         name: 'sqzx',
         component: PageView,
         redirect: '/sqzx/CardList',
-        meta: { title: '深泉咨询' },
+        // meta: { title: '深泉咨询' },
+        meta: { title: '智库/观点' },
         // hideChildrenInMenu: true,
         children: [
           {
             path: '/sqzx/CardList',
             name: 'SearchCardList',
             component: () => import('../views/list/CardList'),
-            meta: { title: '深泉咨询', isList: true }
+            meta: { title: '深泉智库', isList: true }
           },
           {
             path: '/sqzx/CardList',
             name: 'SearchCardList',
             component: () => import('../views/list/CardList'),
-            meta: { title: '咨询详情', isList: true }
+            meta: { title: '观点与研究', isList: true }
           },
           {
             path: '/sqzx/CardList',
             name: 'SearchCardList',
             component: () => import('../views/list/CardList'),
-            meta: { title: '咨询流程', isList: true }
-          }
-        ]
-      },
-
-      // 文章
-      {
-        path: '/sqdz',
-        name: 'sqdz',
-        component: PageView,
-        redirect: '/sqdz/article',
-        meta: { title: '深泉大众' },
-        // hideChildrenInMenu: true,
-        children: [
-          {
-            path: '/sqdz/article',
-            name: 'SearchArticles',
-            component: () => import('../views/list/search/Article'),
-            meta: { title: '深泉大众', isList: true }
-          },
-          {
-            path: '/sqdz/article',
-            name: 'SearchArticles',
-            component: () => import('../views/list/search/Article'),
-            meta: { title: '大众分类', isList: true }
-          },
-          {
-            path: '/sqdz/article',
-            name: 'SearchArticles',
-            component: () => import('../views/list/search/Article'),
-            meta: { title: '大众体系', isList: true }
+            meta: { title: '最新事件', isList: true }
           }
         ]
       },
@@ -119,22 +131,100 @@ export const asyncRouterMap = [
             path: 'https://www.baidu.com/',
             name: 'SearchArticles',
             // component: () => import('../views/list/search/Article'),
-            meta: { title: 'baidu', isList: true }
+            meta: { title: '依恋的历史', isList: true }
           },
           {
             path: 'https://www.baidu.com/',
             name: 'SearchArticles',
             // component: () => import('../views/list/search/Article'),
-            meta: { title: 'google', isList: true }
+            meta: { title: 'IAN与IAN国际', isList: true }
           },
           {
             path: 'https://www.baidu.com/',
             name: 'SearchArticles',
             // component: () => import('../views/list/search/Article'),
-            meta: { title: '大众体系', isList: true }
+            meta: { title: '关于IAN CHINA', isList: true }
+          },
+          {
+            path: 'https://www.baidu.com/',
+            name: 'SearchArticles',
+            // component: () => import('../views/list/search/Article'),
+            meta: { title: '最新活动与新闻', isList: true }
           }
         ]
       },
+
+      // 文章
+      {
+        path: '/sqdz',
+        name: 'sqdz',
+        component: PageView,
+        redirect: '/sqdz/article',
+        // meta: { title: '深泉大众' },
+        meta: { title: '公众服务' },
+        // hideChildrenInMenu: true,
+        children: [
+          {
+            path: '/sqdz/article',
+            name: 'SearchArticles',
+            component: () => import('../views/list/search/Article'),
+            meta: { title: '心理咨询服务', isList: true },
+            children: [
+              {
+                path: '/sqdz/article',
+                name: 'SearchArticles',
+                component: () => import('../views/list/search/Article'),
+                meta: { title: '心理文章', isList: true }
+              },
+              {
+                path: '/sqdz/article',
+                name: 'SearchArticles',
+                component: () => import('../views/list/search/Article'),
+                meta: { title: '咨询指南', isList: true }
+              },
+              {
+                path: '/sqdz/article',
+                name: 'SearchArticles',
+                component: () => import('../views/list/search/Article'),
+                meta: { title: '咨询师列表', isList: true }
+              },
+              {
+                path: '/sqdz/article',
+                name: 'SearchArticles',
+                component: () => import('../views/list/search/Article'),
+                meta: { title: '低价咨询', isList: true }
+              },
+            ]
+          },
+          {
+            path: '/sqdz/article',
+            name: 'SearchArticles',
+            component: () => import('../views/list/search/Article'),
+            meta: { title: '组织机构服务', isList: true },
+            children: [
+              {
+                path: '/sqdz/article',
+                name: 'SearchArticles',
+                component: () => import('../views/list/search/Article'),
+                meta: { title: '项目展示', isList: true }
+              },
+              {
+                path: '/sqdz/article',
+                name: 'SearchArticles',
+                component: () => import('../views/list/search/Article'),
+                meta: { title: '服务定制流程', isList: true }
+              },
+            ]
+          },
+          {
+            path: '/sqdz/article',
+            name: 'SearchArticles',
+            component: () => import('../views/list/search/Article'),
+            meta: { title: '专家限时免费服务', isList: true }
+          }
+        ]
+      },
+
 
       // 关于我们
       // {
@@ -148,26 +238,55 @@ export const asyncRouterMap = [
         name: 'gywm',
         component: PageView,
         redirect: '/gywm/aboutMe',
-        meta: { title: '关于我们' },
+        meta: { title: '关于深泉' },
         // hideChildrenInMenu: true,
         children: [
           {
             path: '/gywm/aboutMe',
             name: 'AboutMe',
             component: () => import('../views/account/center/AboutMe'),
-            meta: { title: '关于我们', isList: true }
+            meta: { title: '深泉溯源', isList: true }
           },
           {
             path: '/gywm/aboutMe',
             name: 'AboutMe',
             component: () => import('../views/account/center/AboutMe'),
-            meta: { title: '我们的故事', isList: true }
+            meta: { title: '深泉发展', isList: true }
           },
           {
             path: '/gywm/aboutMe',
             name: 'AboutMe',
             component: () => import('../views/account/center/AboutMe'),
-            meta: { title: '我们的里程碑', isList: true }
+            meta: { title: '大事记', isList: true }
+          },
+          {
+            path: '/gywm/aboutMe',
+            name: 'AboutMe',
+            component: () => import('../views/account/center/AboutMe'),
+            meta: { title: '关联组织与伙伴', isList: true }
+          }
+        ]
+      },
+      // 会员专区
+      {
+        path: '/hyzq',
+        name: 'hyzq',
+        component: PageView,
+        redirect: '/hyzq/aboutMe',
+        meta: { title: '会员专区' },
+        // hideChildrenInMenu: true,
+        children: [
+          {
+            path: '/gywm/aboutMe',
+            name: 'AboutMe',
+            component: () => import('../views/account/center/AboutMe'),
+            meta: { title: '独家文献', isList: true }
+          },
+          {
+            path: '/gywm/aboutMe',
+            name: 'AboutMe',
+            component: () => import('../views/account/center/AboutMe'),
+            meta: { title: '音频与视频', isList: true }
           }
         ]
       },
