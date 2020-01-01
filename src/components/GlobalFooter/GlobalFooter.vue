@@ -1,44 +1,57 @@
 <template>
   <div id="footer">
     <div class="footer-wrap">
-      <a-row :gutter="24" style="margin:0 auto">
-        <a-col :md="6" :xs="24" :sm="24">
+      <a-row
+        :gutter="24"
+        style="margin:0 auto;    border-top: 1px solid #122f53;
+    padding-top: 12px;padding-bottom: 12px;border-bottom: 1px solid #122f53;
+"
+      >
+        <a-col :md="6" :xs="24" :sm="24" style="   border-left: 1px solid #122f53;">
           <div class="footer-center">
             <h2>深泉心理</h2>
             <div>
-              <a href>深泉书院</a>
+              <a href>教育项目</a>
             </div>
             <div>
-              <a href>深泉咨询</a>
+              <a href>智库/观点</a>
             </div>
             <div>
-              <a href>深泉大众</a>
+              <a href>IACHINA</a>
             </div>
             <div>
-              <a href="#" target="_blank">IANCHINA</a>
+              <a href="#" target="_blank">公共服务</a>
+            </div>
+            <div>
+              <a href="#" target="_blank">关于深泉</a>
             </div>
           </div>
         </a-col>
-        <a-col :md="6" :xs="24" :sm="24">
+        <a-col :md="6" :xs="24" :sm="24" style="   border-left: 1px solid #122f53;">
           <div class="footer-center">
-            <h2>关于我们</h2>
+            <h2>公众号</h2>
             <div>
-              <a :href="'mailto:'+allConfig['websiteEmail']">联系我们</a>
+              <img
+                style="width:96px;height:96px"
+                v-show="allConfig['websiteGghimg']"
+                :src="loadPicUrl+allConfig['websiteGghimg']"
+              />
+            </div>
+          </div>
+        </a-col>
+        <a-col :md="6" :xs="24" :sm="24" style="   border-left: 1px solid #122f53;">
+          <div class="footer-center">
+            <h2>联系我们</h2>
+            <div>
+              <a :href="'mailto:'+allConfig['websiteEmail']">联络</a>
             </div>
             <div>
               <span>服务热线：{{allConfig['websitePhone']}}</span>
             </div>
           </div>
         </a-col>
-        <a-col :md="6" :xs="24" :sm="24">
-          <div class="footer-center">
-            <h2>公众号</h2>
-            <div>
-              <img style="width:96px;height:96px" v-show="allConfig['websiteGghimg']" :src="loadPicUrl+allConfig['websiteGghimg']"/>
-            </div>
-          </div>
-        </a-col>
-        <a-col :md="6" :xs="24" :sm="24">
+        
+        <a-col :md="6" :xs="24" :sm="24" style="   border-left: 1px solid #122f53;">
           <div class="footer-center">
             <h2>{{allConfig['websiteCopyright']}}</h2>
             <div>
@@ -55,29 +68,25 @@
 import { mapState } from 'vuex'
 import { mixinDevice } from '@/utils/mixin'
 export default {
-  computed:{
+  computed: {
     ...mapState({
-      allConfig:state=>state.app.allConfig
+      allConfig: state => state.app.allConfig
     })
   },
   name: 'GlobalFooter',
-  data () {
+  data() {
     return {
-      loadPicUrl: process.env.VUE_APP_API_BASE_URL + '/cc/loadPic/',
+      loadPicUrl: process.env.VUE_APP_API_BASE_URL + '/cc/loadPic/'
     }
   },
-  methods:{
-  },
+  methods: {},
 
-  created(){
-    
-  },
+  created() {},
   mixins: [mixinDevice]
 }
 </script>
 
 <style lang="less" scoped>
-
 @padding-space: 144px;
 @site-text-color: #fff;
 #footer {
@@ -99,7 +108,6 @@ export default {
     max-width: 1600px;
     text-align: center;
     .footer-center {
-      
       display: inline-block;
       text-align: left;
       > h2 {
@@ -141,6 +149,5 @@ export default {
 }
 </style>
 <style >
-  
 </style>
 

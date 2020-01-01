@@ -61,7 +61,7 @@
       <!-- Setting Drawer (show in development mode) -->
       <!-- <setting-drawer v-if="!production"></setting-drawer> -->
     </a-layout>
-    <div ref="container">
+    <!-- <div ref="container">
       <a-drawer
         width="300"
         placement="right"
@@ -90,7 +90,7 @@
           <a-icon type="close" v-else />
         </div>
       </a-drawer>
-    </div>
+    </div> -->
   </a-layout>
 </template>
 

@@ -3,7 +3,8 @@ const webpack = require('webpack')
 const ThemeColorReplacer = require('webpack-theme-color-replacer')
 const generate = require('@ant-design/colors/lib/generate').default
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
-function resolve (dir) {
+
+function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
@@ -23,8 +24,7 @@ module.exports = {
         filename: '[path].gz[query]',
         algorithm: 'gzip',
         test: new RegExp(
-          '\\.(' +
-          ['js', 'css'].join('|') +
+          '\\.(' + ['js', 'css'].join('|') +
           ')$',
         ),
         threshold: 10240,
@@ -36,7 +36,7 @@ module.exports = {
         fileName: 'css/theme-colors-[contenthash:8].css',
         matchColors: getAntdSerials('#1890ff'), // 主色系列
         // 改变样式选择器，解决样式覆盖问题
-        changeSelector (selector) {
+        changeSelector(selector) {
           console.log('selector', selector)
           switch (selector) {
             case '.ant-calendar-today .ant-calendar-date':
@@ -50,7 +50,7 @@ module.exports = {
             case '.ant-menu-horizontal>.ant-menu-item-active,.ant-menu-horizontal>.ant-menu-item-open,.ant-menu-horizontal>.ant-menu-item-selected,.ant-menu-horizontal>.ant-menu-item:hover,.ant-menu-horizontal>.ant-menu-submenu-active,.ant-menu-horizontal>.ant-menu-submenu-open,.ant-menu-horizontal>.ant-menu-submenu-selected,.ant-menu-horizontal>.ant-menu-submenu:hover':
             case '.ant-menu-horizontal > .ant-menu-item-active,.ant-menu-horizontal > .ant-menu-item-open,.ant-menu-horizontal > .ant-menu-item-selected,.ant-menu-horizontal > .ant-menu-item:hover,.ant-menu-horizontal > .ant-menu-submenu-active,.ant-menu-horizontal > .ant-menu-submenu-open,.ant-menu-horizontal > .ant-menu-submenu-selected,.ant-menu-horizontal > .ant-menu-submenu:hover':
               return '.ant-menu-horizontal > .ant-menu-item-active,.ant-menu-horizontal > .ant-menu-item-open,.ant-menu-horizontal > .ant-menu-item-selected,.ant-menu-horizontal > .ant-menu-item:hover,.ant-menu-horizontal > .ant-menu-submenu-active,.ant-menu-horizontal > .ant-menu-submenu-open,.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected,.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover'
-            default :
+            default:
               return selector
           }
         }
@@ -111,7 +111,7 @@ module.exports = {
 
   devServer: {
     // development server port 8000
-    port: 8000
+    port: 8000,
     // proxy: {
     //   '/api': {
     //     // target: 'https://mock.ihx.me/mock/5baf3052f7da7e07e04a5116/antd-pro',
@@ -120,16 +120,18 @@ module.exports = {
     //     changeOrigin: true
     //   }
     // }
+
+
   },
 
   // disable source map in production
   productionSourceMap: false,
-  lintOnSave: undefined,
+  lintOnSave: false,
   // babel-loader no-ignore node_modules/*
   transpileDependencies: []
 }
 
-function getAntdSerials (color) {
+function getAntdSerials(color) {
   // 淡化（即less的tint）
   const lightens = new Array(9).fill().map((t, i) => {
     return ThemeColorReplacer.varyColor.lighten(color, i / 10)

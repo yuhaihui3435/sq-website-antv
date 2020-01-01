@@ -1,75 +1,55 @@
 <template>
   <div class="user-wrapper">
-    <div class="content-box">
-      <!-- <a href="https://pro.loacg.com/docs/getting-started" target="_blank">
-        <span class="action">
-          <a-icon type="question-circle-o"></a-icon>
-        </span>
-      </a>-->
+    <div class="content-box" style="display: inline-flex;">
+      <div style="display: flex;
+    flex-direction: column;align-self: center;">
+          <!-- <span class="action"> -->
+          <icon-font type="icon-guoqi" style="fontSize:32px;cursor: pointer;" @click="changeLanguage('en')" v-show="currLanguage==='zh'"/>
+          <!-- </span> -->
+          <icon-font type="icon-meiguo" style="fontSize:32px;cursor: pointer;" @click="changeLanguage('zh')" v-show="currLanguage==='en'"/>
+      </div>
       <!-- <notice-icon class="action"/> -->
       <!-- <a-button ghost>注册</a-button> -->
       <!-- <a-button ghost style="margin-left:12px">登录</a-button> -->
-      <a-dropdown>
-        <span class="action ant-dropdown-link user-dropdown-menu" v-if="!token" @click="loginRegist()">
-          <a-avatar class="avatar" size="default" :src="formatAvatar()" />
-          <span>{{formatName()}}</span>
-        </span>
-        <span class="action ant-dropdown-link user-dropdown-menu" v-if="token">
-          <a-avatar class="avatar" size="default" :src="formatAvatar()" />
-          <span>{{formatName()}}</span>
-        </span>
-        <a-menu slot="overlay" class="user-dropdown-menu-wrapper" v-show="token">
-          <!-- <a-menu-item key="0">
-            <router-link :to="{ name: 'center' }">
-              <a-icon type="user"/>
-              <span>个人中心</span>
-            </router-link>
-          </a-menu-item>-->
-          <a-menu-item key="1" v-show="token">
-          <!-- <a-menu-item key="1"> -->
-            <router-link :to="{ name: 'settings' }">
-              <a-icon type="setting" />
-              <span>账户设置</span>
-            </router-link>
-          </a-menu-item>
-          <!-- <a-menu-item key="4" v-show="!token()"> -->
-          <!-- <a-menu-item key="4" v-show="true">
-            <router-link :to="{ name: 'regist' }">
-              <icon-font type="icon-zhuce" />
-              <span>注册</span>
-            </router-link>
-          </a-menu-item>-->
-          <!-- <a-menu-item key="5" v-show="!token()"> -->
-          <!-- <a-menu-item key="5" v-show="true">
-            <router-link :to="{ name: 'regist' }">
-              <icon-font type="icon-denglu" />
-              <span>登录&注册</span>
-            </router-link>
-          </a-menu-item> -->
-          <a-menu-item key="2">
-            <router-link :to="{ name: 'settings' }">
-              <icon-font type="icon-yuyan" />
-              <span>英文</span>
-            </router-link>
-          </a-menu-item>
-          <!-- <a-menu-item key="2" disabled>
-            <a-icon type="setting"/>
-            <span>测试</span>
-          </a-menu-item>-->
-          <a-menu-divider />
-          <a-menu-item key="3" v-show="token">
-            <a href="javascript:;" @click="handleLogout">
-              <a-icon type="logout" />
-              <span>退出登录</span>
-            </a>
-          </a-menu-item>
-        </a-menu>
-      </a-dropdown>
+      <div style="display: flex;
+    flex-direction: column-reverse;">
+        <a-dropdown>
+          <span
+            class="action ant-dropdown-link user-dropdown-menu"
+            v-if="!token"
+            @click="loginRegist()"
+          >
+            <a-avatar class="avatar" size="default" :src="formatAvatar()" />
+            <span>{{formatName()}}</span>
+          </span>
+          <span class="action ant-dropdown-link user-dropdown-menu" v-if="token">
+            <a-avatar class="avatar" size="default" :src="formatAvatar()" />
+            <span>{{formatName()}}</span>
+          </span>
+          <a-menu slot="overlay" class="user-dropdown-menu-wrapper" v-show="token">
+            <a-menu-item key="1" v-show="token">
+              <!-- <a-menu-item key="1"> -->
+              <router-link :to="{ name: 'settings' }">
+                <a-icon type="setting" />
+                <span>账户设置</span>
+              </router-link>
+            </a-menu-item>
+            <a-menu-divider />
+            <a-menu-item key="3" v-show="token">
+              <a href="javascript:;" @click="handleLogout">
+                <a-icon type="logout" />
+                <span>退出登录</span>
+              </a>
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 // import NoticeIcon from '@/components/NoticeIcon'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { mixinDevice } from '@/utils/mixin'
@@ -92,12 +72,16 @@ export default {
   name: 'UserMenu',
   data() {
     return {
-      defaultAvatarImg: defaultSetting.defaultAvatar
+      defaultAvatarImg: defaultSetting.defaultAvatar,
+      currLanguage:'zh',
     }
   },
   components: {
-    // NoticeIcon
     IconFont
+  },
+  created(){
+    let language=Vue.ls.get('language')
+    this.currLanguage=language?language:'zh'
   },
   methods: {
     ...mapActions(['Logout']),
@@ -135,6 +119,10 @@ export default {
         return this.defaultAvatarImg
       }
     },
+    changeLanguage(language) {
+      Vue.ls.set('language',language)
+      this.currLanguage=language
+    },
     formatName() {
       if (this.token) {
         //有token，判断有没有头像，有头像显示头像，没有显示默认图片
@@ -155,5 +143,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-</style>
