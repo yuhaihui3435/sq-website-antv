@@ -1,44 +1,33 @@
 <template>
-  <div style="    max-width: 1600px;
-    margin: 0 auto;">
-    <a-card
-      :bordered="false"
-      :bodyStyle="{ padding: '16px 0', height: '100%' }"
-      :style="{ height: '100%' }"
-    >
+  <div
+    style="    max-width: 1600px;
+    margin: 0 auto;"
+  >
+    <a-card :bordered="false" :bodyStyle="{ padding: '16px 0', height: '100%' }" :style="{ height: '100%' }">
       <a-tabs defaultActiveKey="1" style="text-align:center;">
         <a-tab-pane key="1">
-          <span slot="tab">
-            <a-icon type="user" />登陆
-          </span>
+          <span slot="tab"> <a-icon type="user" />登陆 </span>
           <a-row>
             <a-col :xl="8" :lg="8" :md="8" :sm="2" :xs="2">&nbsp;</a-col>
             <a-col :xl="8" :lg="8" :md="8" :sm="20" :xs="20">
-              <a-form
-                id="components-form-demo-normal-login"
-                :form="form"
-                class="login-form"
-                @submit="handleSubmit"
-              >
+              <a-form id="components-form-demo-normal-login" :form="form" class="login-form" @submit="handleSubmit">
                 <!-- 手机号 -->
                 <a-form-item>
                   <a-input
                     v-decorator="[
-          'userName',
-          { rules: [{ required: true, message: '请输入手机号!', pattern: /^1[3456789]\d{9}$/ }] }
-        ]"
+                      'userName',
+                      { rules: [{ required: true, message: '请输入手机号!', pattern: /^1[3456789]\d{9}$/ }] }
+                    ]"
                     placeholder="输入手机号"
                   >
                     <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
                   </a-input>
                 </a-form-item>
+
                 <!-- 密码 -->
                 <a-form-item>
                   <a-input
-                    v-decorator="[
-          'password',
-          { rules: [{ required: true, message: '请输入密码!' }] }
-        ]"
+                    v-decorator="['password', { rules: [{ required: true, message: '请输入密码!' }] }]"
                     type="password"
                     placeholder="输入密码"
                   >
@@ -50,13 +39,14 @@
                   <a-checkbox
                     style="float:left;"
                     v-decorator="[
-          'remember',
-          {
-            valuePropName: 'checked',
-            initialValue: true,
-          }
-        ]"
-                  >记住我</a-checkbox>
+                      'remember',
+                      {
+                        valuePropName: 'checked',
+                        initialValue: true
+                      }
+                    ]"
+                    >记住我</a-checkbox
+                  >
                   <a class="login-form-forgot" @click="forgetPassword">忘记密码</a>
                   <a-button type="primary" html-type="submit" class="login-form-button">登陆</a-button>
                 </a-form-item>
@@ -66,9 +56,7 @@
           </a-row>
         </a-tab-pane>
         <a-tab-pane key="2">
-          <span slot="tab">
-            <a-icon type="user-add" />注册
-          </span>
+          <span slot="tab"> <a-icon type="user-add" />注册 </span>
           <a-row>
             <a-col :xl="8" :lg="8" :md="8" :sm="2" :xs="2">&nbsp;</a-col>
             <a-col :xl="8" :lg="8" :md="8" :sm="20" :xs="20">
@@ -83,24 +71,38 @@
                   <a-input
                     placeholder="输入手机号"
                     v-decorator="[
-          'phone',
-          {
-            rules: [{ required: true, message: '请输入手机号!', pattern: /^1[3456789]\d{9}$/ }],
-          }
-        ]"
+                      'phone',
+                      {
+                        rules: [{ required: true, message: '请输入手机号!', pattern: /^1[3456789]\d{9}$/ }]
+                      }
+                    ]"
                     style="width: 100%"
                   >
-                    <!-- <a-select
-                      slot="addonBefore"
-                      v-decorator="[
-            'prefix',
-            { initialValue: '86' }
-          ]"
-                      style="width: 70px"
-                    >
-                      <a-select-option value="86">+86</a-select-option>
-                      <a-select-option value="87">+87</a-select-option>
-                    </a-select> -->
+                    <a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
+                  </a-input>
+                </a-form-item>
+                <a-form-item>
+                  <a-input
+                    v-decorator="['wx', { rules: [{ required: true, message: '请输入微信号!' }] }]"
+                    placeholder="输入微信号"
+                  >
+                    <a-icon slot="prefix" type="wechat" style="color: rgba(0,0,0,.25)" />
+                  </a-input>
+                </a-form-item>
+                <a-form-item>
+                  <a-input
+                    v-decorator="['realname', { rules: [{ required: true, message: '请输入真实姓名!' }] }]"
+                    placeholder="输入真实姓名"
+                  >
+                    <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+                  </a-input>
+                </a-form-item>
+                <a-form-item>
+                  <a-input
+                    v-decorator="['email', { rules: [{ required: true, message: '请输入电子邮箱!' }] }]"
+                    placeholder="输入电子邮箱"
+                  >
+                    <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)" />
                   </a-input>
                 </a-form-item>
                 <!-- 验证码 -->
@@ -110,28 +112,33 @@
                     @search="onSearch"
                     :enterButton="identifyCodeButton"
                     v-decorator="[
-          'identifyCode',
-          {
-            rules: [{ required: true, message: '请输入验证码!' }],
-          }
-        ]"
+                      'identifyCode',
+                      {
+                        rules: [{ required: true, message: '请输入验证码!' }]
+                      }
+                    ]"
                     style="width: 100%"
-                  />
+                  >
+                  </a-input-search>
                 </a-form-item>
                 <!-- 密码 -->
                 <a-form-item>
                   <a-input
                     placeholder="输入密码"
                     v-decorator="[
-          'password',
-          {
-            rules: [{
-              required: true, message: '请输入新密码!',
-            }, {
-              validator: validateToNextPassword,
-            }],
-          }
-        ]"
+                      'password',
+                      {
+                        rules: [
+                          {
+                            required: true,
+                            message: '请输入新密码!'
+                          },
+                          {
+                            validator: validateToNextPassword
+                          }
+                        ]
+                      }
+                    ]"
                     type="password"
                   >
                     <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
@@ -142,15 +149,19 @@
                   <a-input
                     placeholder="再次确认密码"
                     v-decorator="[
-          'confirm',
-          {
-            rules: [{
-              required: true, message: '请再次确认新密码!',
-            }, {
-              validator: compareToFirstPassword,
-            }],
-          }
-        ]"
+                      'confirm',
+                      {
+                        rules: [
+                          {
+                            required: true,
+                            message: '请再次确认新密码!'
+                          },
+                          {
+                            validator: compareToFirstPassword
+                          }
+                        ]
+                      }
+                    ]"
                     type="password"
                     @blur="handleConfirmBlur"
                   >
