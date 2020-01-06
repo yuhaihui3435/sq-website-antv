@@ -48,8 +48,32 @@
       </standard-form-row>
       <!-- </a-form> -->
     </a-card>
-    <a-card  :bordered="false">
-      <a-list
+    <a-card :bordered="false">
+      <div v-for="item in articleList" :key="item.id">
+        <a-row type="flex">
+          <a-col :span="1" style="background:#002147;text-align:center;padding-bottom:5px;">
+            <a-row style="color:#fff;">
+              <a-col :span="24" style="font-size:26px;">{{formartDay(item.crAt)}}</a-col>
+              <a-col :span="24">{{formartMonth(item.crAt)}}月</a-col>
+            </a-row>
+          </a-col>
+          <a-col :span="23">
+            <a-row style="padding-left:15px;">
+              <a-col :span="24" style="font-size:18px;font-weight:600;">
+                <a @click="articeDetail(item.id)" style="color:#000;">{{item.title}}</a>
+              </a-col>
+              <a-col
+                :span="24"
+                style="font-size:16px;overflow:hidden;white-space:nowrap;"
+              >{{item.summary}}</a-col>
+              <a-col :span="24" style="font-size:13px;">{{item.author}}|{{formartDate(item.crAt)}}</a-col>
+            </a-row>
+          </a-col>
+        </a-row>
+        <a-divider v-if="(index+1)!=articleList.length" />
+      </div>
+
+      <!-- <a-list
         size="large"
         rowKey="id"
         :loading="loading"
@@ -68,7 +92,6 @@
               </span>
             </template>
           </a-list-item-meta>
-          <!-- <article-list-content :description="item.summary" /> -->
           <a-row>
             <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">{{item.summary}}</a-col>
           </a-row>
@@ -93,10 +116,7 @@
           @change="pageChange"
           :pageSizeOptions="['20','40']"
         />
-        <!-- <div slot="footer" v-if="data.length > 0" style="text-align: center; margin-top: 16px;">
-          <a-button @click="loadMore" :loading="loadingMore">加载更多</a-button>
-        </div>-->
-      </a-list>
+      </a-list>-->
     </a-card>
   </div>
 </template>
@@ -255,6 +275,20 @@ export default {
       var m = time.getMonth() + 1
       var d = time.getDate()
       return y + '-' + this.add0(m) + '-' + this.add0(d)
+      // return dateParse(time, "dd,mmm,yyyy")
+      // return y + '-' + m + '-' + d
+    },
+    // 格式化背景月份
+    formartMonth(date) {
+      var time = new Date(date)
+      var m = time.getMonth() + 1
+      return m
+    },
+    // 格式化背景日
+    formartDay(date) {
+      var time = new Date(date)
+      var d = time.getDate()
+      return this.add0(d)
     },
     add0(m) {
       return m < 10 ? '0' + m : m
@@ -388,7 +422,7 @@ export default {
 }
 .selfDiv {
   margin: -42px 0 0 0;
-  
+
   background: #fff;
   border-top: solid #ddd 1px;
   padding: 0 10px 0 10px;
