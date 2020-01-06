@@ -117,7 +117,7 @@ export default {
         <Item {...{ key: menu.path }}>
           <tag {...{ props, attrs }}>
             {this.renderIcon(menu.meta.icon)}
-            <span>{menu.meta.title}</span>
+            <span>{this.$parent.$i18n.t(menu.meta.title)}</span>
           </tag>
         </Item>
       )

@@ -122,6 +122,8 @@ export default {
     changeLanguage(language) {
       Vue.ls.set('language',language)
       this.currLanguage=language
+      console.info(this)
+      this.$parent.$i18n.locale=language
     },
     formatName() {
       if (this.token) {

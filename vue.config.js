@@ -61,7 +61,13 @@ module.exports = {
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@$', resolve('src'))
-
+    config.module
+      .rule("i18n")
+      .resourceQuery(/blockType=i18n/)
+      .type('javascript/auto')
+      .use("i18n")
+      .loader("@kazupon/vue-i18n-loader")
+      .end();
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()
     svgRule
@@ -126,9 +132,20 @@ module.exports = {
 
   // disable source map in production
   productionSourceMap: false,
+
   lintOnSave: false,
+
   // babel-loader no-ignore node_modules/*
-  transpileDependencies: []
+  transpileDependencies: [],
+
+  pluginOptions: {
+    i18n: {
+      locale: 'zh',
+      fallbackLocale: 'zh',
+      localeDir: 'locales',
+      enableInSFC: true
+    }
+  }
 }
 
 function getAntdSerials(color) {

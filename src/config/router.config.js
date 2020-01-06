@@ -1,5 +1,6 @@
 // eslint-disable-next-line
 import { BasicLayout, RouteView, PageView } from '@/layouts'
+import i18n from '@/i18n'
 export const asyncRouterMap = [
   {
     path: '/',
@@ -13,7 +14,7 @@ export const asyncRouterMap = [
         path: '/index',
         name: 'index',
         component: () => import('@/views/Home'),
-        meta: { title: '首页', hiddenHeaderContent: true }
+        meta: { title: 'common.home', hiddenHeaderContent: true }
       },
       // 课程
       {
