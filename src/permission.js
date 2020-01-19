@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import router from './router'
 import store from './store'
-
+import i18n from './i18n'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import notification from 'ant-design-vue/es/notification'
@@ -14,7 +14,8 @@ const whiteList = ['login', 'register', 'registerResult', 'index'] // no redirec
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
-  to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`))
+  const metaTitle=i18n.t(to.meta.title)
+  to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${metaTitle} - ${domTitle}`))
   next();
   
   // if (Vue.ls.get(ACCESS_TOKEN)) {

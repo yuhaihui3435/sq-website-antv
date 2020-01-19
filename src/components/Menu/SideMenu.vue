@@ -8,7 +8,8 @@
     v-model="collapsed"
     :trigger="null"
   >
-    <logo /> 
+    <logo />
+
     <s-menu
       :collapsed="collapsed"
       :menu="menus"
@@ -63,7 +64,7 @@ export default {
 }
 </script>
 <style >
-.ant-menu.ant-menu-dark .ant-menu-item-selected{
+/* .ant-menu.ant-menu-dark .ant-menu-item-selected{
   background-color: unset !important;
 }
 .ant-menu-submenu > .ant-menu-submenu-content > .ant-menu-item-selected {
@@ -113,5 +114,5 @@ export default {
 }
 .ant-menu-submenu-popup> .ant-menu-submenu-content > .ant-menu-item-selected:hover{
   background-color: #3479b2 !important;
-}
+} */
 </style>
