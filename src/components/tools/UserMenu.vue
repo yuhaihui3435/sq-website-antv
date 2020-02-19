@@ -82,6 +82,7 @@ export default {
   created(){
     let language=Vue.ls.get('language')
     this.currLanguage=language?language:'zh'
+    this.$parent.$i18n.locale=language
   },
   methods: {
     ...mapActions(['Logout']),
@@ -122,8 +123,8 @@ export default {
     changeLanguage(language) {
       Vue.ls.set('language',language)
       this.currLanguage=language
-      console.info(this)
       this.$parent.$i18n.locale=language
+      location.reload()
     },
     formatName() {
       if (this.token) {

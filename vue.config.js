@@ -10,13 +10,22 @@ function resolve(dir) {
 
 // vue.config.js
 module.exports = {
+ 
   configureWebpack: {
-    // externals: {
-    //   vue: "Vue",
-    //   vuex:"Vuex",
-    //   "vue-router":"VueRouter",
-    //   'Axios':'axios'
-    // },
+    resolve: {
+      alias: {
+        "@ant-design/icons/lib/dist$": path.resolve(__dirname, "./src/core/icons.js")
+      }
+    },
+    externals: {
+      vue: "Vue",
+      vuex: "Vuex",
+      "vue-router": "VueRouter",
+      axios: 'axios',
+      moment: 'moment',
+      "vue-ls": "VueStorage",
+      'element-ui': 'element-ui',
+    },
     plugins: [
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
@@ -32,33 +41,38 @@ module.exports = {
       }),
       // 生成仅包含颜色的替换样式（主题色等）
       // TODO 需要增加根据环境不开启主题需求
-      new ThemeColorReplacer({
-        fileName: 'css/theme-colors-[contenthash:8].css',
-        matchColors: getAntdSerials('#1890ff'), // 主色系列
-        // 改变样式选择器，解决样式覆盖问题
-        changeSelector(selector) {
-          console.log('selector', selector)
-          switch (selector) {
-            case '.ant-calendar-today .ant-calendar-date':
-              return ':not(.ant-calendar-selected-date):not(.ant-calendar-selected-day)' + selector
-            case '.ant-btn:focus,.ant-btn:hover':
-              return '.ant-btn:focus:not(.ant-btn-primary),.ant-btn:hover:not(.ant-btn-primary)'
-            case '.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon':
-              return ':not(.ant-steps-item-process)' + selector
-            case '.ant-btn.active,.ant-btn:active':
-              return '.ant-btn.active:not(.ant-btn-primary),.ant-btn:active:not(.ant-btn-primary)'
-            case '.ant-menu-horizontal>.ant-menu-item-active,.ant-menu-horizontal>.ant-menu-item-open,.ant-menu-horizontal>.ant-menu-item-selected,.ant-menu-horizontal>.ant-menu-item:hover,.ant-menu-horizontal>.ant-menu-submenu-active,.ant-menu-horizontal>.ant-menu-submenu-open,.ant-menu-horizontal>.ant-menu-submenu-selected,.ant-menu-horizontal>.ant-menu-submenu:hover':
-            case '.ant-menu-horizontal > .ant-menu-item-active,.ant-menu-horizontal > .ant-menu-item-open,.ant-menu-horizontal > .ant-menu-item-selected,.ant-menu-horizontal > .ant-menu-item:hover,.ant-menu-horizontal > .ant-menu-submenu-active,.ant-menu-horizontal > .ant-menu-submenu-open,.ant-menu-horizontal > .ant-menu-submenu-selected,.ant-menu-horizontal > .ant-menu-submenu:hover':
-              return '.ant-menu-horizontal > .ant-menu-item-active,.ant-menu-horizontal > .ant-menu-item-open,.ant-menu-horizontal > .ant-menu-item-selected,.ant-menu-horizontal > .ant-menu-item:hover,.ant-menu-horizontal > .ant-menu-submenu-active,.ant-menu-horizontal > .ant-menu-submenu-open,.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected,.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover'
-            default:
-              return selector
-          }
-        }
-      })
+      // new ThemeColorReplacer({
+      //   fileName: 'css/theme-colors-[contenthash:8].css',
+      //   matchColors: getAntdSerials('#1890ff'), // 主色系列
+      //   // 改变样式选择器，解决样式覆盖问题
+      //   changeSelector(selector) {
+      //     console.log('selector', selector)
+      //     switch (selector) {
+      //       case '.ant-calendar-today .ant-calendar-date':
+      //         return ':not(.ant-calendar-selected-date):not(.ant-calendar-selected-day)' + selector
+      //       case '.ant-btn:focus,.ant-btn:hover':
+      //         return '.ant-btn:focus:not(.ant-btn-primary),.ant-btn:hover:not(.ant-btn-primary)'
+      //       case '.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon':
+      //         return ':not(.ant-steps-item-process)' + selector
+      //       case '.ant-btn.active,.ant-btn:active':
+      //         return '.ant-btn.active:not(.ant-btn-primary),.ant-btn:active:not(.ant-btn-primary)'
+      //       case '.ant-menu-horizontal>.ant-menu-item-active,.ant-menu-horizontal>.ant-menu-item-open,.ant-menu-horizontal>.ant-menu-item-selected,.ant-menu-horizontal>.ant-menu-item:hover,.ant-menu-horizontal>.ant-menu-submenu-active,.ant-menu-horizontal>.ant-menu-submenu-open,.ant-menu-horizontal>.ant-menu-submenu-selected,.ant-menu-horizontal>.ant-menu-submenu:hover':
+      //       case '.ant-menu-horizontal > .ant-menu-item-active,.ant-menu-horizontal > .ant-menu-item-open,.ant-menu-horizontal > .ant-menu-item-selected,.ant-menu-horizontal > .ant-menu-item:hover,.ant-menu-horizontal > .ant-menu-submenu-active,.ant-menu-horizontal > .ant-menu-submenu-open,.ant-menu-horizontal > .ant-menu-submenu-selected,.ant-menu-horizontal > .ant-menu-submenu:hover':
+      //         return '.ant-menu-horizontal > .ant-menu-item-active,.ant-menu-horizontal > .ant-menu-item-open,.ant-menu-horizontal > .ant-menu-item-selected,.ant-menu-horizontal > .ant-menu-item:hover,.ant-menu-horizontal > .ant-menu-submenu-active,.ant-menu-horizontal > .ant-menu-submenu-open,.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected,.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover'
+      //       default:
+      //         return selector
+      //     }
+      //   }
+      // })
     ]
   },
 
   chainWebpack: (config) => {
+    if (process.env.use_analyzer) {     // 分析
+      config
+        .plugin('webpack-bundle-analyzer')
+        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+    }
     config.resolve.alias
       .set('@$', resolve('src'))
     config.module

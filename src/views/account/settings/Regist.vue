@@ -16,7 +16,7 @@
                   <a-input
                     v-decorator="[
                       'userName',
-                      { rules: [{ required: true, message: '请输入手机号!', pattern: /^1[3456789]\d{9}$/ }] }
+                      { rules: [{ required: true, message: '请输入正确手机号!', pattern: /^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$/ }] }
                     ]"
                     placeholder="输入手机号"
                   >
@@ -48,7 +48,7 @@
                     >记住我</a-checkbox
                   >
                   <a class="login-form-forgot" @click="forgetPassword">忘记密码</a>
-                  <a-button type="primary" html-type="submit" class="login-form-button">登陆</a-button>
+                  <a-button type="primary" html-type="submit" class="login-form-button" :loading="loginLoading">登陆</a-button>
                 </a-form-item>
               </a-form>
             </a-col>
@@ -99,7 +99,10 @@
                 </a-form-item>
                 <a-form-item>
                   <a-input
-                    v-decorator="['email', { rules: [{ required: true, message: '请输入电子邮箱!' }] }]"
+                    v-decorator="['email', { rules: [{
+                type: 'email',
+                message: '无效的电子邮箱',
+              },{ required: true, message: '请输入电子邮箱!' }] }]"
                     placeholder="输入电子邮箱"
                   >
                     <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)" />
@@ -212,7 +215,8 @@ export default {
     return {
       identifyCodeButtonShow: true,
       identifyCodeButton: '获取验证码',
-      identifyCode: ''
+      identifyCode: '',
+      loginLoading:false,
     }
   },
   created() {},
@@ -222,7 +226,7 @@ export default {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('登陆表单', values)
+          this.loginLoading=true
           axios({
             url: '/api/user/login',
             method: 'post',
@@ -233,7 +237,6 @@ export default {
             }
           })
             .then(res => {
-              console.log('登录返回', res)
               if (res.code == 1000) {
                 this.$message.success(res.msg)
                 if (values.remember) {
@@ -249,7 +252,9 @@ export default {
                 this.$message.error(res.msg)
               }
             })
-            .catch(err => {})
+            .catch(err => {}).finally(()=>{
+              this.loginLoading=false
+            })
         }
       })
     },

@@ -42,9 +42,9 @@
         <slot>
           <!-- keep-alive  -->
           <keep-alive v-if="multiTab">
-            <router-view ref="content" />
+            <router-view ref="content" :key="$route.fullPath"/>
           </keep-alive>
-          <router-view v-else ref="content" />
+          <router-view v-else ref="content" :key="$route.fullPath"/>
         </slot>
       </div>
     </div>

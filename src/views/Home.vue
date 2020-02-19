@@ -1,63 +1,69 @@
 <template>
   <page-view :title="false" class="home">
-    <a-row :gutter="24" style="padding-top:0px" v-show="imgList.length>0">
+    <a-row :gutter="24" style="padding-top:0px" v-show="imgList.length > 0">
       <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
-        <a-carousel
-          arrows
-          autoplay
-          v-if="imgList.length>0"
-          :style="{height:isMobile()?'200px':'550px'}"
-        >
+        <a-carousel arrows autoplay v-if="imgList.length > 0" :style="{ height: isMobile() ? '200px' : '550px' }">
+          <div slot="prevArrow" slot-scope="props" class="custom-slick-arrow" style="left: 10px;zIndex: 1">
+            <a-icon type="left-circle" />
+          </div>
+          <div slot="nextArrow" slot-scope="props" class="custom-slick-arrow" style="right: 10px">
+            <a-icon type="right-circle" />
+          </div>
           <template v-for="img in imgList">
-            <!-- <a :href="img.url" :key="img.id"> -->
-            <img :src="loadPicUrl+img" :key="img.id" :style="{height:isMobile()?'200px':'550px'}" />
-            <!-- </a> -->
+            <a :href="img.url" :key="img.id">
+              <img :src="loadPicUrl + img" :key="img.id" :style="{ height: isMobile() ? '200px' : '550px' ,width:'100%'}" />
+            </a>
           </template>
         </a-carousel>
       </a-col>
     </a-row>
     <a-row style=" background-color: #f3f1ec;border-bottom: 1px solid #c3bdb7;">
-      <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
+      <a-col :xl="18" :lg="18" :md="24" :sm="24" :xs="24">
         <div class="project-list">
           <div class="project-header">
             <h2 class="title">
               <font style="vertical-align: inherit;">
-                <font style="vertical-align: inherit;">书院·研究·学习</font>
+                <font style="vertical-align: inherit;">教育项目</font>
               </font>
             </h2>
-            <div class="more">
+            <!-- <div class="more">
               <router-link to="/sqsy/Projects">
                 <font style="vertical-align: inherit;">
                   <font style="vertical-align: inherit;">所有课程</font>
                 </font>
               </router-link>
-            </div>
+            </div> -->
           </div>
           <div class="project-content">
+            <a-skeleton active :loading="loading01" />
+            <div class="ant-list-empty-text" v-if="!loading01 && lessonLData.length === 0">暂无数据</div>
             <a-row :gutter="12">
               <a-col :key="i" v-for="(item, i) in lessonLData" :xl="8">
-                <div class="ant-list-empty-text" v-if="lessonLData.length===0">暂无课程数据</div>
                 <a-card :bordered="false" :body-style="{ padding: 0 }">
-                  <div style="height:240px">
+                  <div class="card">
+                    <a :href="'/article/' + item.id"
+                        >
                     <img
-                      style="height:100%;width:100%"
+                      style="height:222px;width:100%"
                       slot="cover"
-                      v-if="item.publicizeType==='1'"
-                      :src="loadPicUrl+item.publicize"
+                      :src="loadPicUrl + item.coverPic"
                       :onerror="errorImg"
                     />
-                    <iframe
-                      v-if="item.publicizeType=='2'"
+                    </a>
+                    <!-- <iframe
+                      v-if="item.publicizeType == '2'"
                       frameborder="0"
                       :src="item.publicize"
                       allowfullscreen="true"
                       width="100%"
                       height="100%"
-                    ></iframe>
+                    ></iframe> -->
                   </div>
                   <a-card-meta>
-                    <div slot="title" class="card-title" v-if="item&&item.name">
-                      <a>{{ item.name }}</a>
+                    <div slot="title" class="card-title" v-if="item && item.title">
+                      <a :href="'/article/' + item.id"
+                        ><div>{{ item.title }}</div></a
+                      >
                     </div>
                     <!-- <div slot="description" class="card-description">
                     <ellipsis :length="50">{{ item.summary }}</ellipsis>
@@ -65,7 +71,7 @@
                   </a-card-meta>
                   <div class="project-item">
                     <!-- <span class="label">{{getLessonLabel(item.lessonStatus)}}</span> -->
-                    <span class="datetime">{{formatDate(item.crAt)}}</span>
+                    <span class="datetime">{{ item.upAt | dayjs('YYYY-MM-DD ') }}</span>
                   </div>
                 </a-card>
               </a-col>
@@ -73,31 +79,42 @@
           </div>
         </div>
       </a-col>
-      <a-col :xl="8" :lg="24" :md="24" :sm="24" :xs="24">
+      <a-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
         <div class="project-list">
           <div class="project-header">
             <h2 class="title">
               <font style="vertical-align: inherit;">
-                <font style="vertical-align: inherit;">动态</font>
+                <font style="vertical-align: inherit;">预告与安排</font>
               </font>
             </h2>
-            <!-- <div class="more">
-              <a href="#">
+            <div class="more">
+              <a href="/ygyap">
                 <font style="vertical-align: inherit;">
-                  <font style="vertical-align: inherit;">所有动态</font>
+                  <font style="vertical-align: inherit;">全部</font>
                 </font>
               </a>
-            </div>-->
+            </div>
           </div>
           <div class="project-content">
-            <div class="sq-title-list" :loading="loading01" v-show="lessonLData.length>0">
-              <div class="sql-title" v-for="item in lessonLData" :key="item.id">
+            <a-skeleton active :loading="loading01" />
+            <div class="ant-list-empty-text" v-if="!loading01 && lessonRData.length === 0">暂无数据</div>
+            <a-row class="sq-title-list" v-show="lessonRData.length > 0" v-for="item in lessonRData" :key="item.id">
+              <a-col :span="4" class="dateLabel">
+                <span>
+                  <span class="dateLabel-day">{{ formartDay(item.upAt) }}</span>
+                  <span class="dateLabel-month">{{ formartMonth(item.upAt) }}月</span>
+                </span>
+              </a-col>
+              <a-col :span="19"><a style="display:block" :href="'/article/' + item.id"><ellipsis :length="45">{{ item.title }}</ellipsis></a></a-col>
+            </a-row>
+            <!-- <div class="sq-title-list" v-show="lessonRData.length > 0">
+              <div class="sql-title" v-for="item in lessonRData" :key="item.id">
                 <div>
-                  <a href>{{ item.name }}</a>
+                  <a :href="'/article/' + item.id">{{ item.title }}</a>
                 </div>
-                <span style="font-size:12px;color:rgba(0, 0, 0, 0.45);">{{formatDate(item.crAt)}}</span>
+                <span style="font-size:12px;color:rgba(0, 0, 0, 0.45);">{{ formatDate(item.upAt) }}</span>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </a-col>
@@ -107,46 +124,110 @@
       style="background: #e0ded9;margin-left:0px;margin-right:0px;
   border-bottom: 1px solid #c3bdb7;"
     >
-      <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
+      <a-col :xl="18" :lg="18" :md="24" :sm="24" :xs="24">
         <div class="project-list">
           <div class="project-header">
             <h2 class="title">
               <font style="vertical-align: inherit;">
-                <font style="vertical-align: inherit;">咨询</font>
+                <font style="vertical-align: inherit;">智库</font>
               </font>
             </h2>
             <div class="more-light">
-              
-              <router-link to='/sqzx/CardList'>
+              <router-link to="/zkgd/00/01">
                 <font style="vertical-align: inherit;">
-                  <font style="vertical-align: inherit;">所有咨询</font>
+                  <font style="vertical-align: inherit;">全部</font>
                 </font>
               </router-link>
-            
             </div>
           </div>
           <div class="project-content">
-            <div class="ant-list-empty-text" v-show="doctorLData.length===0">暂无咨询师数据</div>
-            <swiper :options="swiperOption" ref="mySwiper" v-if="doctorLData.length>0">
-              <!-- slides -->
-              <swiper-slide v-for="doctor in doctorLData" :key="doctor.id">
-                <!-- <a href="#" target="_blank"> -->
-                <img
-                  :src="loadPicUrl+doctor.avatar"
+            <!-- <div class="ant-list-empty-text" v-show="doctorLData.length === 0">暂无咨询师数据</div> -->
+            <!-- <swiper :options="swiperOption" ref="mySwiper" v-if="doctorLData.length > 0"> -->
+            <!-- slides -->
+            <!-- <swiper-slide v-for="doctor in doctorLData" :key="doctor.id"> -->
+            <!-- <a href="#" target="_blank"> -->
+            <!-- <img
+                  :src="loadPicUrl + doctor.avatar"
                   :onerror="errorImg"
                   style="min-height: 100%;width: 100%;object-fit: fill;"
-                />
-                <!-- </a> -->
-              </swiper-slide>
+                /> -->
+            <!-- </a> -->
+            <!-- </swiper-slide>
               <div class="swiper-button-prev" slot="button-prev"></div>
               <div class="swiper-button-next" slot="button-next"></div>
-            </swiper>
+            </swiper> -->
+            <a-skeleton active :loading="loading02" />
+            <div class="ant-list-empty-text" v-if="!loading02 && doctorLData.length === 0">暂无数据</div>
+            <a-row :gutter="12">
+              <a-col :key="i" v-for="(item, i) in doctorLData" :xl="8">
+                <a-card :bordered="false" :body-style="{ padding: 0 }">
+                  <div class="card">
+                    <a :href="'/article/' + item.id"
+                        >
+                    <img
+                      style="height:222px;width:100%"
+                      slot="cover"
+                      :src="loadPicUrl + item.coverPic"
+                      :onerror="errorImg"
+                    />
+                    </a>
+                  </div>
+                  <a-card-meta>
+                    <div slot="title" class="card-title" v-if="item && item.title">
+                      <a :href="'/article/' + item.id"><div>{{ item.title }}</div></a>
+                    </div>
+                  </a-card-meta>
+                  <div class="project-item">
+                    <span class="datetime">{{ item.upAt | dayjs('YYYY-MM-DD ') }}</span>
+                  </div>
+                </a-card>
+              </a-col>
+            </a-row>
+          </div>
+        </div>
+      </a-col>
+      <a-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
+        <div class="project-list">
+          <div class="project-header">
+            <h2 class="title">
+              <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">观点</font>
+              </font>
+            </h2>
+            <div class="more-light">
+              <a href="/zkgd/01/01">
+                <font style="vertical-align: inherit;">
+                  <font style="vertical-align: inherit;">全部</font>
+                </font>
+              </a>
+            </div>
+          </div>
+          <div class="project-content">
+            <a-skeleton active :loading="loading02" />
+            <div class="ant-list-empty-text" v-if="!loading02 && doctorRData.length === 0">暂无数据</div>
+            <a-row class="sq-title-list" v-show="doctorRData.length > 0" v-for="item in doctorRData" :key="item.id">
+              <a-col :span="4" class="dateLabel">
+                <span>
+                  <span class="dateLabel-day">{{ formartDay(item.upAt) }}</span>
+                  <span class="dateLabel-month">{{ formartMonth(item.upAt) }}月</span>
+                </span>
+              </a-col>
+              <a-col :span="19" ><a style="display:block" :href="'/article/' + item.id"><ellipsis :length="45">{{ item.title }}</ellipsis></a></a-col>
+            </a-row>
+            <!-- <div class="sq-title-list" v-show="lessonRData.length > 0">
+              <div class="sql-title" v-for="item in lessonRData" :key="item.id">
+                <div>
+                  <a :href="'/article/' + item.id">{{ item.title }}</a>
+                </div>
+                <span style="font-size:12px;color:rgba(0, 0, 0, 0.45);">{{ formatDate(item.upAt) }}</span>
+              </div>
+            </div> -->
           </div>
         </div>
       </a-col>
     </a-row>
     <a-row
-      :gutter="24 "
+      :gutter="24"
       style=" background-color: #f3f1ec;margin-left:0px;margin-right:0px;
   border-bottom: 1px solid #c3bdb7;"
     >
@@ -155,35 +236,35 @@
           <div class="project-header">
             <h2 class="title">
               <font style="vertical-align: inherit;">
-                <font style="vertical-align: inherit;">合作项目·活动·大众普及</font>
+                <font style="vertical-align: inherit;">公众服务</font>
               </font>
             </h2>
-            <div class="more">
-              <router-link to='/sqdz/article'>
+            <!-- <div class="more">
+              <router-link to="/sqdz/article">
                 <font style="vertical-align: inherit;">
-                  <font style="vertical-align: inherit;">所有活动</font>
+                  <font style="vertical-align: inherit;">全部</font>
                 </font>
               </router-link>
-            </div>
+            </div> -->
           </div>
           <div class="project-content">
-            <div class="ant-list-empty-text" v-show="articeData.length===0">暂无相关数据</div>
-            <a-row :gutter="12" v-show="articeData.length>0">
+            <!-- <div class="ant-list-empty-text" v-show="articeData.length === 0">暂无相关数据</div> -->
+            <!-- <a-row :gutter="12" v-show="articeData.length > 0">
               <a-col
-                :xl="24/articeDataSize"
+                :xl="24 / articeDataSize"
                 :lg="24"
                 :md="24"
                 :sm="24"
                 :xs="24"
                 v-for="item in articeData"
-                :key="item.id "
+                :key="item.id"
               >
                 <a-card :bordered="false" :body-style="{ padding: 0 }">
                   <img
                     slot="cover"
                     v-if="item.coverPic"
                     style="height:300px;width:100%;object-fit:fill"
-                    :src="loadPicUrl+item.coverPic"
+                    :src="loadPicUrl + item.coverPic"
                     :onerror="errorImg"
                   />
 
@@ -198,10 +279,47 @@
                     </div>
                   </a-card-meta>
                   <div class="project-item">
-                    <span class="label">{{item.author}}</span>
-                    <span class="datetime">{{formatDate(item.cAt)}}</span>
+                    <span class="label">{{ item.author }}</span>
+                    <span class="datetime">{{ formatDate(item.cAt) }}</span>
                   </div>
                 </a-card>
+              </a-col>
+            </a-row> -->
+            <a-skeleton active :loading="loading03" />
+            <div class="ant-list-empty-text" v-if="!loading03 && articeLData.length === 0">暂无数据</div>
+            <a-row :gutter="12">
+              <a-col :key="i" v-for="(item, i) in articeLData" :xl="6">
+                <!-- <a-card :bordered="false" :body-style="{ padding: 0 }"> -->
+                  <div class="card">
+                    <a style="display: block;" :href="item.url">
+                    <img
+                      style="height:300px;width:100%"
+                      slot="cover"
+                      :src="'/img/'+item.img"
+                      :onerror="errorImg"
+                    />
+                    <h3 style="position: absolute;
+    font-weight: bold;
+    bottom: 0;
+    margin-bottom: 0;
+    padding: 0.8em 0.4em;
+    padding-right: 1.5em;
+    background: url(/img/highlight-chevron-medium.png) no-repeat 94% 50% rgba(243,241,236,0.9);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#E6f1f3ec',endColorstr='#E6f1f3ec');
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;color: #000">{{item.title}}</h3>
+                    </a>
+                  </div>
+                  <!-- <a-card-meta>
+                    <div slot="title" class="card-title" v-if="item && item.title">
+                      <a :href="'/article/' + item.id"><div>{{ item.title }}</div></a>
+                    </div>
+                  </a-card-meta> -->
+                  <!-- <div class="project-item">
+                    <span class="datetime">{{ item.upAt | dayjs('YYYY-MM-DD ') }}</span>
+                  </div> -->
+                <!-- </a-card> -->
               </a-col>
             </a-row>
           </div>
@@ -210,7 +328,7 @@
     </a-row>
     <a-row
       :gutter="12"
-      v-show="certificateData.length>0"
+      v-show="certificateData.length > 0"
       style="background: #e0ded9;margin-left:0px;margin-right:0px;
   border-bottom: 1px solid #c3bdb7;"
     >
@@ -226,17 +344,22 @@
           <div class="project-content">
             <a-row :gutter="12">
               <a-col
-                :xl="24/certificateDataSize"
+                :xl="24 / certificateDataSize"
                 :lg="24"
                 :md="24"
                 :sm="24"
                 :xs="24"
                 v-for="item in certificateData"
-                :key="item.id "
+                :key="item.id"
               >
                 <img
-                  :src="loadPicUrl+item.img"
-                  :style="{height:isMobile()?'230px':'330px',width:'100%','object-fit':'fill','margin-bottom':isMobile()?'10px':'0px'}"
+                  :src="loadPicUrl + item.img"
+                  :style="{
+                    height: isMobile() ? '230px' : '330px',
+                    width: '100%',
+                    'object-fit': 'fill',
+                    'margin-bottom': isMobile() ? '10px' : '0px'
+                  }"
                   :onerror="errorImg"
                 />
               </a-col>
@@ -247,7 +370,7 @@
     </a-row>
     <a-row
       :gutter="12"
-      v-show="certificateData.length>0"
+      v-show="linksData.length > 0"
       style="background: #f3f1ec;margin-left:0px;margin-right:0px;"
     >
       <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
@@ -255,30 +378,38 @@
           <div class="project-header">
             <h2 class="title">
               <font style="vertical-align: inherit;">
-                <font style="vertical-align: inherit;">友情链接</font>
+                <font style="vertical-align: inherit;">主要关联组织与伙伴</font>
               </font>
             </h2>
           </div>
           <div
             class="project-content"
-            :style="{'min-height':linksData.lenght>linksDataSize*2?'350px':'175px'}"
+            :style="{ 'min-height': linksData.lenght > linksDataSize * 2 ? '350px' : '175px' }"
           >
             <a-list
               :loading="loading04"
-              v-show="linksData.length>0"
-              :grid="{ gutter: 16, xs: 1, sm: linksDataSize, md: linksDataSize*2, lg: linksDataSize*2, xl: linksDataSize*2, xxl: linksDataSize*2 }"
+              v-show="linksData.length > 0"
+              :grid="{
+                gutter: 16,
+                xs: 1,
+                sm: linksDataSize,
+                md: linksDataSize * 2,
+                lg: linksDataSize * 2,
+                xl: linksDataSize * 2,
+                xxl: linksDataSize * 2
+              }"
               :dataSource="linksData"
               style="margin : 0 25px"
             >
               <a-list-item slot="renderItem" slot-scope="item, index">
                 <a :href="item.url" target="_blank">
                   <img
-                    :src="loadPicUrl+item.img"
+                    :src="loadPicUrl + item.img"
                     style="height:150px;width:100%;object-fit:fill"
                     :onerror="errorImg"
                   />
                 </a>
-                <span style="textAlign:center;display: flex;flex-direction: column;">{{item.name}}</span>
+                <span style="textAlign:center;display: flex;flex-direction: column;">{{ item.name }}</span>
               </a-list-item>
             </a-list>
           </div>
@@ -296,17 +427,18 @@ import { formatDate } from '../utils/util'
 import { axios } from '../utils/request'
 import ellipsis from '@/components/Ellipsis'
 import config from '../config/defaultSettings'
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import 'swiper/dist/css/swiper.css'
+// import { swiper, swiperSlide } from 'vue-awesome-swiper'
+// import 'swiper/dist/css/swiper.css'
 import { mapGetters } from 'vuex'
+Vue.use(VueAwesomeSwiper)
 export default {
   mixins: [AppDict, mixinDevice],
   name: 'Home',
   components: {
     PageView,
     ellipsis,
-    swiper,
-    swiperSlide
+    swiper: VueAwesomeSwiper.swiper,
+    swiperSlide: VueAwesomeSwiper.swiperSlide
   },
   data() {
     return {
@@ -356,7 +488,25 @@ export default {
       lessonRData: [],
       lessonLData: [],
       doctorLData: [],
-      articeData: [],
+      doctorRData:[],
+      articeLData: [{
+        title:'心理文章',
+        url:'/gzfw/03',
+        img:'ggfw01.jpg'
+      },{
+        title:'心理咨询服务',
+        url:'/gzfw/00',
+        img:'ggfw02.jpg'
+      },{
+        title:'织机构服务',
+        url:'/gzfw/01',
+        img:'ggfw03.jpg'
+      },{
+        title:'专家限时免费服务',
+        url:'/gzfw/02',
+        img:'ggfw04.jpg'
+      }],
+      articeRData: [],
       articeDataSize: 4,
       linksData: [],
       linksDataSize: 3,
@@ -369,13 +519,11 @@ export default {
     this.f0()
     this.f1()
     this.f2()
-    this.f3()
-    this.f4()
+    // this.f3()
+    // this.f4()
     this.f5()
   },
-  activated() {
-    
-  },
+  activated() {},
   methods: {
     formatDate(date) {
       return formatDate(date)
@@ -404,12 +552,12 @@ export default {
       const vm = this
       vm.loading01 = true
       axios({
-        url: '/api/index01?lSize=5&rSize=5',
+        url: '/api/index01?lSize=3&rSize=5&lColumnId=1&rColumnId=73',
         method: 'post'
       })
         .then(res => {
-          vm.lessonRData = res['lessonRData']
-          vm.lessonLData = res['lessonLData']
+          vm.lessonRData = res['rData']
+          vm.lessonLData = res['lData']
           vm.loading01 = false
         })
         .catch(err => {
@@ -420,11 +568,12 @@ export default {
       const vm = this
       vm.loading02 = true
       axios({
-        url: '/api/index02?lSize=5',
+        url: '/api/index02?lSize=3&rSize=5&lColumnId=69&rColumnId=70',
         method: 'post'
       })
         .then(res => {
-          vm.doctorLData = res['doctorLData']
+          vm.doctorLData = res['lData']
+          vm.doctorRData = res['rData']
           vm.loading02 = false
         })
         .catch(err => {
@@ -435,11 +584,12 @@ export default {
       const vm = this
       vm.loading03 = true
       axios({
-        url: '/api/index03?size=' + this.articeDataSize,
+        url: '/api/index03?lSize=3&rSize=5&lColumnId=42&rColumnId=70',
         method: 'post'
       })
         .then(res => {
-          vm.articeData = res['articeData']
+          vm.articeLData = res['lData']
+          vm.articeRData = res['rData']
           vm.loading03 = false
         })
         .catch(err => {
@@ -467,12 +617,35 @@ export default {
           vm.linksData = res['linksData']
         })
         .catch(err => {})
+    },
+    // 格式化背景月份
+    formartMonth(date) {
+      var time = new Date(date)
+      var m = time.getMonth() + 1
+      return m
+    },
+    // 格式化背景日
+    formartDay(date) {
+      var time = new Date(date)
+      var d = time.getDate()
+      return this.add0(d)
+    },
+    add0(m) {
+      return m < 10 ? '0' + m : m
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2em;
+}
 /deep/ a {
   color: #3277ae;
 }
@@ -498,7 +671,8 @@ a:focus {
       text-transform: uppercase;
       float: left;
       margin-bottom: 0;
-      color: #333333;
+      font-weight: bold;
+      color: #2c2c2c;
       line-height: 30px;
       padding-right: 0.4em;
     }
@@ -523,6 +697,19 @@ a:focus {
     }
   }
   .project-content {
+    .card{
+      a{
+        display: block;
+      }
+      a:hover{
+        h3{
+          color: #be0f34 !important;
+        }
+        img{
+                opacity: 0.65;
+        }
+      }
+    }
     min-height: 350px;
     .ant-card {
       background: none;
@@ -534,8 +721,16 @@ a:focus {
     .sq-title-list {
       padding: 12px 24px;
       a {
-        color: rgba(0, 0, 0, 0.85);
+        color: rgba(0, 0, 0);
+        margin-left: 12px;
+        line-height: 24px;
+        height: 24px;
+        font-weight: 700;
+        white-space: normal;
+        // display: inline-block;
+        vertical-align: top;
         font-size: 1.313em;
+
         &:hover {
           color: #be0f34;
         }
@@ -546,21 +741,22 @@ a:focus {
     }
   }
   .card-title {
-    font-size: 1.313em;
     margin-top: 0.6em;
     margin-bottom: 0.25em;
 
     a {
-      color: rgba(0, 0, 0, 0.85);
+      color: rgba(0, 0, 0);
       margin-left: 12px;
       line-height: 24px;
       height: 24px;
-      display: inline-block;
+      font-weight: 700;
+      white-space: normal;
+      // display: inline-block;
       vertical-align: top;
-      // font-size: 14px;
+      font-size: 1.313em;
 
       &:hover {
-        color: #3476ad;
+        color: #be0f34;
       }
     }
   }
@@ -582,7 +778,7 @@ a:focus {
       flex: 1 1 0;
     }
     .datetime {
-      color: rgba(0, 0, 0, 0.25);
+      color: #7a736e;
       flex: 0 0 auto;
       float: right;
     }
@@ -612,18 +808,45 @@ a:focus {
     display: none;
   }
 }
-.layout.ant-layout.tablet{
-  .ant-layout-content{
-    .home{
-    .content{
-      margin: 0 0 0;
-    }
+.layout.ant-layout.tablet {
+  .ant-layout-content {
+    .home {
+      .content {
+        margin: 0 0 0;
+      }
     }
   }
 }
 </style>
 
 <style scoped>
+.dateLabel {
+  background: #002147;
+  color: #fff;
+  float: left;
+  line-height: 1;
+  margin-top: 5px;
+  margin-right: 1em;
+  padding: 0.25em 0.5em;
+  text-align: center;
+  text-transform: uppercase;
+  width: 2.75em;
+}
+.dateLabel-day {
+  display: block;
+  font-size: 1.313em;
+  letter-spacing: 2px;
+}
+.dateLabel-month {
+  display: block;
+  font-size: 0.813em;
+}
+/deep/ .ant-skeleton-content .ant-skeleton-title {
+  background: rgb(0, 0, 0, 0.25) !important;
+}
+/deep/ .ant-skeleton-content .ant-skeleton-paragraph > li {
+  background: rgb(0, 0, 0, 0.25) !important;
+}
 /deep/ .ant-carousel .slick-dots {
   position: absolute;
   bottom: 12px;
@@ -634,5 +857,23 @@ a:focus {
   padding: 0 10px;
   width: 100%;
   height: 3px;
+}
+.ant-carousel >>> .custom-slick-arrow {
+  width: 25px;
+  height: 25px;
+  font-size: 25px;
+  color: #fff;
+  background-color: rgba(31, 45, 61, 0.11);
+  opacity: 0.3;
+}
+.ant-carousel >>> .custom-slick-arrow:before {
+  display: none;
+}
+.ant-carousel >>> .custom-slick-arrow:hover {
+  opacity: 0.5;
+}
+
+.ant-carousel >>> .slick-slide h3 {
+  color: #fff;
 }
 </style>

@@ -10,7 +10,7 @@ import {
 } from './utils/request'
 import MetaInfo from 'vue-meta-info'
 import bootstrap from './core/bootstrap'
-import './core/use'
+import './core/lazy_use'
 import './permission' // permission control
 import './utils/filter' // global filter
 import i18n from './i18n'

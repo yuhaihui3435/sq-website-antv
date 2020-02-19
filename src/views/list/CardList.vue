@@ -204,7 +204,7 @@
 <script>
 import Vue from 'vue'
 import moment from 'moment'
-import { TagSelect, StandardFormRow, Ellipsis, AvatarList } from '@/components'
+import { TagSelect, StandardFormRow, Ellipsis } from '@/components'
 import { Cascader } from 'element-ui'
 import { axios } from '@/utils/request'
 const serverUrl = process.env.VUE_APP_API_BASE_URL
@@ -218,19 +218,8 @@ import {
   TextToCode
 } from 'element-china-area-data'
 const dataSource = []
-dataSource.push(null)
-for (let i = 0; i < 11; i++) {
-  dataSource.push({
-    title: 'Alipay',
-    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png',
-    content:
-      '在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽离成一套标准规范。'
-  })
-}
-
 export default {
   components: {
-    AvatarList,
     Ellipsis,
     TagSelect,
     StandardFormRow,

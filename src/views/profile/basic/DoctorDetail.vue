@@ -170,16 +170,12 @@
 
 <script>
 import { PageView } from '@/layouts'
-import DetailList from '@/components/tools/DetailList'
 import { axios } from '@/utils/request'
-const DetailListItem = DetailList.Item
 const serverUrl = process.env.VUE_APP_API_BASE_URL
 
 export default {
   components: {
     PageView,
-    DetailList,
-    DetailListItem
   },
   data() {
     return {

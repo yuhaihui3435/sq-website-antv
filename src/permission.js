@@ -18,7 +18,7 @@ router.beforeEach((to, from, next) => {
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${metaTitle} - ${domTitle}`))
   next();
   
-  // if (Vue.ls.get(ACCESS_TOKEN)) {
+  if (Vue.ls.get(ACCESS_TOKEN)) {
   //   /* has token */
   //   if (to.path === '/user/login') {
   //     next({ path: '/dashboard/workplace' })
@@ -65,7 +65,7 @@ router.beforeEach((to, from, next) => {
   //     next({ name: 'index',path:'/index'})
   //     NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
   //   }
-  // }
+  }
 })
 
 router.afterEach(() => {

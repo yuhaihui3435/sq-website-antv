@@ -1,7 +1,7 @@
 <template>
   <a-layout :class="['layout', device]">
     <!-- SideMenu -->
-    <a-drawer
+    <!-- <a-drawer
       v-if="isMobile()"
       placement="left"
       :wrapClassName="`drawer-sider ${navTheme}`"
@@ -17,10 +17,10 @@
         :collapsible="true"
         @menuSelect="menuSelect"
       ></side-menu>
-    </a-drawer>
+    </a-drawer> -->
 
     <side-menu
-      v-else-if="isSideMenu()"
+      v-if="isSideMenu()"
       mode="inline"
       :menus="menus"
       :theme="navTheme"

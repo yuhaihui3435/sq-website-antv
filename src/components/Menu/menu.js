@@ -1,6 +1,7 @@
 import Menu from 'ant-design-vue/es/menu'
 import Icon from 'ant-design-vue/es/icon'
-
+import Vue from 'vue'
+import { ACCESS_TOKEN } from '@/store/mutation-types'
 const { Item, SubMenu } = Menu
 
 export default {
@@ -26,7 +27,7 @@ export default {
       default: false
     }
   },
-  data () {
+  data() {
     return {
       openKeys: [],
       selectedKeys: [],
@@ -40,11 +41,11 @@ export default {
       return keys
     }
   },
-  mounted () {
+  mounted() {
     this.updateMenu()
   },
   watch: {
-    collapsed (val) {
+    collapsed(val) {
       if (val) {
         this.cachedOpenKeys = this.openKeys.concat()
         this.openKeys = []
@@ -58,7 +59,7 @@ export default {
   },
   methods: {
     // select menu item
-    onOpenChange (openKeys) {
+    onOpenChange(openKeys) {
       // 在水平模式下时执行，并且不再执行后续
       if (this.mode === 'horizontal') {
         this.openKeys = openKeys
@@ -72,7 +73,7 @@ export default {
         this.openKeys = latestOpenKey ? [latestOpenKey] : []
       }
     },
-    updateMenu () {
+    updateMenu() {
       const routes = this.$route.matched.concat()
       const { hidden } = this.$route.meta
       if (routes.length >= 3 && hidden) {
@@ -92,13 +93,21 @@ export default {
     },
 
     // render
-    renderItem (menu) {
+    renderItem(menu) {
+      //如果菜单需要用户登录才能看见，则进行处理看一下当前用户是否已经登录了
+      let reqMember = menu.meta.reqMember
+      if (reqMember) {
+        let currMember = Vue.ls.get(ACCESS_TOKEN)
+        if (!currMember) {
+          return null
+        }
+      }
       if (!menu.hidden) {
         return menu.children && !menu.hideChildrenInMenu ? this.renderSubMenu(menu) : this.renderMenuItem(menu)
       }
       return null
     },
-    renderMenuItem (menu) {
+    renderMenuItem(menu) {
       const target = menu.meta.target || null
       const tag = target && 'a' || 'router-link'
       const props = { to: { name: menu.name } }
@@ -122,34 +131,56 @@ export default {
         </Item>
       )
     },
-    renderSubMenu (menu) {
+    renderSubMenu(menu) {
+      const props={to:{ name: menu.name.split('_')[1]}}
       const itemArr = []
       if (!menu.hideChildrenInMenu) {
         menu.children.forEach(item => itemArr.push(this.renderItem(item)))
+      }
+      if(menu.meta.pageMode){
+        return (
+          <SubMenu {...{ key: menu.path }}>
+            <span slot="title">
+              {this.renderIcon(menu.meta.icon)}
+              <router-link {...{props}}>{this.$parent.$i18n.t(menu.meta.title)}</router-link>
+            </span>
+            {itemArr}
+          </SubMenu>
+        )
+      }else{
+        return (
+          <SubMenu {...{ key: menu.path }}>
+            <span slot="title">
+              {this.renderIcon(menu.meta.icon)}
+                <span>{this.$parent.$i18n.t(menu.meta.title)}</span>
+            </span>
+            {itemArr}
+          </SubMenu>
+        )
       }
       return (
         <SubMenu {...{ key: menu.path }}>
           <span slot="title">
             {this.renderIcon(menu.meta.icon)}
-            <span>{this.$parent.$i18n.t(menu.meta.title)}</span>
+              <span>{this.$parent.$i18n.t(menu.meta.title)}</span>
           </span>
           {itemArr}
         </SubMenu>
       )
     },
-    renderIcon (icon) {
+    renderIcon(icon) {
       if (icon === 'none' || icon === undefined) {
         return null
       }
       const props = {}
       typeof (icon) === 'object' ? props.component = icon : props.type = icon
       return (
-        <Icon {... { props } }/>
+        <Icon {... { props }} />
       )
     }
   },
 
-  render () {
+  render() {
     const { mode, theme, menu } = this
     const props = {
       mode: mode,

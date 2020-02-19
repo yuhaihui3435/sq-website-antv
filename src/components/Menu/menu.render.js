@@ -79,13 +79,22 @@ export default {
       const subItem = [h('span', { slot: 'title' }, [this.renderIcon(h, menu.meta.icon), h('span', [menu.meta.title])])]
       const itemArr = []
       const pIndex_ = pIndex + '_' + index
-      console.log('menu', menu)
       if (!menu.hideChildrenInMenu) {
         menu.children.forEach(function (item, i) {
           itemArr.push(this2_.renderItem(h, item, pIndex_, i))
         })
       }
-      return h(SubMenu, { key: menu.path ? menu.path : 'submenu_' + pIndex + '_' + index }, subItem.concat(itemArr))
+      if(menu.meta.pageMode){
+        return h(Item, { key: menu.path ? menu.path : 'item_' + pIndex + '_' + index }, [
+          h('router-link', { attrs: { to: { name: menu.name.split('_')[1] }, target: target } }, [
+            this.renderIcon(h, menu.meta.icon),
+            h('span', [menu.meta.title])
+          ])
+        ])
+      }else{
+        return h(SubMenu, { key: menu.path ? menu.path : 'submenu_' + pIndex + '_' + index }, subItem.concat(itemArr))
+      }
+      
     },
     renderItem: function (h, menu, pIndex, index) {
       if (!menu.hidden) {

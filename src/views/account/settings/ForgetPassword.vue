@@ -1,15 +1,9 @@
 <template>
   <div class="page-header-index-wide">
-    <a-card
-      :bordered="false"
-      :bodyStyle="{ padding: '16px 0', height: '100%' }"
-      :style="{ height: '100%' }"
-    >
+    <a-card :bordered="false" :bodyStyle="{ padding: '16px 0', height: '100%' }" :style="{ height: '100%' }">
       <a-tabs defaultActiveKey="1" style="text-align:center;">
         <a-tab-pane key="1">
-          <span slot="tab">
-            <a-icon type="lock" />忘记密码
-          </span>
+          <span slot="tab"> <a-icon type="lock" />忘记密码 </span>
           <a-row>
             <a-col :xl="8" :lg="8" :md="8" :sm="2" :xs="2">&nbsp;</a-col>
             <a-col :xl="8" :lg="8" :md="8" :sm="20" :xs="20">
@@ -24,24 +18,14 @@
                   <a-input
                     placeholder="输入手机号"
                     v-decorator="[
-          'phone',
-          {
-            rules: [{ required: true, message: '请输入手机号!' }],
-          }
-        ]"
+                      'phone',
+                      {
+                        rules: [{ required: true,message: '请输入正确手机号!', pattern: /^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$/ }]
+                      }
+                    ]"
                     style="width: 100%"
                   >
-                    <a-select
-                      slot="addonBefore"
-                      v-decorator="[
-            'prefix',
-            { initialValue: '86' }
-          ]"
-                      style="width: 70px"
-                    >
-                      <a-select-option value="86">+86</a-select-option>
-                      <a-select-option value="87">+87</a-select-option>
-                    </a-select>
+                    <a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
                   </a-input>
                 </a-form-item>
                 <!-- 验证码 -->
@@ -51,11 +35,11 @@
                     @search="onSearch"
                     :enterButton="identifyCodeButton"
                     v-decorator="[
-          'identifyCode',
-          {
-            rules: [{ required: true, message: '请输入验证码!' }],
-          }
-        ]"
+                      'identifyCode',
+                      {
+                        rules: [{ required: true, message: '请输入验证码!' }]
+                      }
+                    ]"
                     style="width: 100%"
                   />
                 </a-form-item>
@@ -64,15 +48,19 @@
                   <a-input
                     placeholder="输入新密码"
                     v-decorator="[
-          'password',
-          {
-            rules: [{
-              required: true, message: '请输入新密码!',
-            }, {
-              validator: validateToNextPassword,
-            }],
-          }
-        ]"
+                      'password',
+                      {
+                        rules: [
+                          {
+                            required: true,
+                            message: '请输入新密码!'
+                          },
+                          {
+                            validator: validateToNextPassword
+                          }
+                        ]
+                      }
+                    ]"
                     type="password"
                   >
                     <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
@@ -83,15 +71,19 @@
                   <a-input
                     placeholder="再次确认新密码"
                     v-decorator="[
-          'confirm',
-          {
-            rules: [{
-              required: true, message: '请再次确认新密码!',
-            }, {
-              validator: compareToFirstPassword,
-            }],
-          }
-        ]"
+                      'confirm',
+                      {
+                        rules: [
+                          {
+                            required: true,
+                            message: '请再次确认新密码!'
+                          },
+                          {
+                            validator: compareToFirstPassword
+                          }
+                        ]
+                      }
+                    ]"
                     type="password"
                     @blur="handleConfirmBlur"
                   >
@@ -187,7 +179,7 @@ export default {
         this.$message.warning('60秒内不能重复操作')
       }
     },
-    backLogin(){
+    backLogin() {
       this.$router.push({
         name: 'regist'
       })

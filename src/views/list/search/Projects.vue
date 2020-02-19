@@ -108,14 +108,6 @@
               <span v-if="item.lessonStatus=='02'" style="color:black;padding-top:6px;">已结课</span>
               <div class="avatarList" style="font-weight:700;font-size:16px;color:#1890ff;">
                 ¥{{item.price}}
-                <!-- <avatar-list size="mini">
-                  <avatar-list-item
-                    v-for="(member, i) in item.members"
-                    :key="`${item.id}-avatar-${i}`"
-                    :src="member.avatar"
-                    :tips="member.name"
-                  />
-                </avatar-list>-->
                 <a-button icon="customer-service" type="primary">咨询</a-button>
               </div>
             </div>
@@ -139,9 +131,8 @@
 import Vue from 'vue'
 import moment from 'moment'
 import { axios } from '@/utils/request'
-import { TagSelect, StandardFormRow, Ellipsis, AvatarList } from '@/components'
+import { TagSelect, StandardFormRow, Ellipsis } from '@/components'
 const TagSelectOption = TagSelect.Option
-const AvatarListItem = AvatarList.AvatarItem
 const serverUrl = process.env.VUE_APP_API_BASE_URL
 import { Cascader } from 'element-ui'
 Vue.component(Cascader.name, Cascader)
@@ -155,8 +146,6 @@ import {
 } from 'element-china-area-data'
 export default {
   components: {
-    AvatarList,
-    AvatarListItem,
     Ellipsis,
     TagSelect,
     TagSelectOption,
