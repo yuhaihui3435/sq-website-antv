@@ -171,18 +171,18 @@ body {
   .topmenu {
     .ant-header-fixedHeader {
       position: fixed;
-      top: 0;
-      right: 0;
+      // top: 0;
+      // right: 0;
       // ==yhh
-      // bottom: 100%;
-      // left: 50%;
-      // transform: translate(-50%,100%);
+      bottom: 100%;
+      left: 50%;
+      transform: translate(-50%,100%);
       z-index: 9;
-      width: 100%;
+      // width: 100%;
       transition: width 0.2s;
 
       &.ant-header-side-opened {
-        width: 100%;
+        width: 1600px;
       }
 
       &.ant-header-side-closed {
@@ -208,7 +208,9 @@ body {
     }
 
     .ant-layout-header {
+      height: 90px;
       background-color: #002147;
+      line-height: 90px;
     }
 
   }
@@ -356,14 +358,14 @@ body {
       margin: auto;
       padding-left: 0;
       display: flex;
-      height: 64px;
+      height: 90px;
 
       .ant-menu.ant-menu-horizontal {
         max-width: 835px;
         flex: 0 1 835px;
         border: none;
-        height: 64px;
-        line-height: 64px;
+        height: 90px;
+        line-height: 90px;
       }
 
       .header-index-left {
@@ -373,9 +375,9 @@ body {
         .logo.top-nav-header {
           flex: 0 0 165px;
           width: 165px;
-          height: 64px;
+          height: 90px;
           position: relative;
-          line-height: 64px;
+          line-height: 90px;
           transition: all 0.3s;
           overflow: hidden;
 
@@ -400,7 +402,7 @@ body {
 
       .header-index-right {
         flex: 1 0 auto;
-        height: 64px;
+        height: 90px;
         overflow: hidden;
 
         .content-box {
@@ -520,10 +522,10 @@ body {
 
   .logo {
     position: relative;
-    height: 64px;
+    height: 90px;
     padding-left: 24px;
     overflow: hidden;
-    line-height: 64px;
+    line-height: 90px;
     background: #002140;
     transition: all .3s;
 

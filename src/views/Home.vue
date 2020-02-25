@@ -3,11 +3,11 @@
     <a-row :gutter="24" style="padding-top:0px" v-show="imgList.length > 0">
       <a-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
         <a-carousel arrows autoplay v-if="imgList.length > 0" :style="{ height: isMobile() ? '200px' : '550px' }">
-          <div slot="prevArrow" slot-scope="props" class="custom-slick-arrow" style="left: 10px;zIndex: 1">
-            <a-icon type="left-circle" />
+          <div slot="prevArrow" slot-scope="props" class="custom-slick-arrow" style="left: -15px;zIndex: 1">
+            <a-icon type="left" style="font-size:100px"/>
           </div>
-          <div slot="nextArrow" slot-scope="props" class="custom-slick-arrow" style="right: 10px">
-            <a-icon type="right-circle" />
+          <div slot="nextArrow" slot-scope="props" class="custom-slick-arrow" style="right: 60px">
+            <a-icon type="right" style="font-size:100px"/>
           </div>
           <template v-for="img in imgList">
             <a :href="img.url" :key="img.id">

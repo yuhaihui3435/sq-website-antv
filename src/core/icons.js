@@ -48,11 +48,11 @@ export {
     default as DoubleLeftOutline
 } from '@ant-design/icons/lib/outline/DoubleLeftOutline';
 export {
-    default as LeftCircleOutline
-} from '@ant-design/icons/lib/outline/LeftCircleOutline';
+    default as LeftOutline
+} from '@ant-design/icons/lib/outline/LeftOutline';
 export {
-    default as RightCircleOutline
-} from '@ant-design/icons/lib/outline/RightCircleOutline';
+    default as RightOutline
+} from '@ant-design/icons/lib/outline/RightOutline';
 export {
     default as EnvironmentOutline
 } from '@ant-design/icons/lib/outline/EnvironmentOutline';
