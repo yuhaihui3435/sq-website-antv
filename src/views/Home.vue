@@ -698,6 +698,7 @@ a:focus {
   }
   .project-content {
     .card{
+      padding-top:5px;
       a{
         display: block;
       }
@@ -826,7 +827,8 @@ a:focus {
   float: left;
   line-height: 1;
   margin-top: 5px;
-  margin-right: 1em;
+  /* margin-right: 1em; */
+  margin-bottom:5px;
   padding: 0.25em 0.5em;
   text-align: center;
   text-transform: uppercase;

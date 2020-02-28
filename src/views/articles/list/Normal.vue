@@ -1,13 +1,20 @@
 <template>
   <div>
-    <a-card v-show="columnData.describe" :bordered="false" :style="{ background: '#fff', margin: '-42px 0 0 0' }">
+    <a :href="columnData.url ? columnData.url : '#'" target="_blank">
+      <img
+        v-if="columnData.thumbnail"
+        :src="loadPicUrl + columnData.thumbnail"
+        style="height:450px;width:100%;margin-top:-42px"
+      />
+    </a>
+    <a-card v-show="columnData.describe" :bordered="false" :style="{ background: '#fff', margin: '-42px 0px 0 0px', padding: '0 24px' }">
       <p
         style="color: #2C2C2C;display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
     margin-inline-start: 0px;font-size:21px;
     margin-inline-end: 0px;"
-    v-html="columnData.describe"
+        v-html="columnData.describe"
       >
         <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ columnData.describe }} -->
       </p>
@@ -28,10 +35,10 @@
                 <a-col :span="24" style="font-size:18px;font-weight:600;">
                   <a @click="articeDetail(item.id)" style="color:#000;">{{ item.title }}</a>
                 </a-col>
-                <a-col :span="24" style="font-size:16px;overflow:hidden;"><ellipsis :length="180">{{ item.summary }}</ellipsis></a-col>
-                <a-col :span="24" style="font-size:13px;"
-                  >{{ item.author }} &nbsp;|&nbsp;{{ item.crAt|dayjs }}</a-col
+                <a-col :span="24" style="font-size:16px;overflow:hidden;"
+                  ><ellipsis :length="180">{{ item.summary }}</ellipsis></a-col
                 >
+                <a-col :span="24" style="font-size:13px;">{{ item.author }} &nbsp;|&nbsp;{{ item.crAt | dayjs }}</a-col>
               </a-row>
             </a-col>
           </a-row>
@@ -56,6 +63,7 @@ import Vue from 'vue'
 import { axios } from '@/utils/request'
 import { StandardFormRow } from '@/components'
 import Ellipsis from '@/components/Ellipsis'
+const serverUrl = process.env.VUE_APP_API_BASE_URL
 export default {
   components: {
     StandardFormRow,
@@ -71,7 +79,8 @@ export default {
       articleList: [],
       articleListTotal: 0,
       columnData: {},
-      columnLoading: false
+      columnLoading: false,
+      loadPicUrl: serverUrl + '/cc/loadPic/'
     }
   },
   mounted() {
@@ -147,7 +156,7 @@ export default {
     // 页码改变
     pageChange(page, pageSize) {
       this.pageArticle()
-    },
+    }
   }
 }
 </script>

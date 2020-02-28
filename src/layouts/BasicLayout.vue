@@ -18,7 +18,7 @@
         @menuSelect="menuSelect"
       ></side-menu>
     </a-drawer> -->
-
+    
     <side-menu
       v-if="isSideMenu()"
       mode="inline"
@@ -91,6 +91,7 @@
         </div>
       </a-drawer>
     </div> -->
+    <a-back-top style="z-index:9999"/>
   </a-layout>
 </template>
 

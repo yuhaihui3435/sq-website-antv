@@ -14,6 +14,7 @@ import {
   Input,
   Pagination,
   Carousel,
+  BackTop,
   // InputNumber,
   // Affix,
   Button,
@@ -54,6 +55,7 @@ import {
 } from 'ant-design-vue'
 // import VueCropper from 'vue-cropper'
 Vue.use(Empty)
+Vue.use(BackTop)
 Vue.use(LocaleProvider)
 Vue.use(Layout)
 Vue.use(Input)

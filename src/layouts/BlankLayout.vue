@@ -1,5 +1,6 @@
 <template>
   <div>
+    <a-back-top />
     <router-view />
   </div>
 </template>

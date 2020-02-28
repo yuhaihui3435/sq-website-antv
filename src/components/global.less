@@ -11,6 +11,8 @@ body {
     padding: 0 10px !important;
     a{
       color:#3479b2;
+      font-size: 14px;
+      letter-spacing: 2px;
       text-decoration: none;
     }
     // a:hover{
@@ -27,14 +29,18 @@ body {
   }
   // 调整菜单字体大小
   .ant-menu {
-    font-size: 17px
+    font-size: 18px
   }
   .ant-menu-vertical .ant-menu-item{
+    height: 50px;
+    padding-top: 5px !important;
     margin-top: 0px !important;
-    margin-bottom:  0px !important;
+    margin-bottom:  0px !important; 
   }
   .ant-menu-vertical .ant-menu-item:not(:last-child) {
     // font-size: 17px
+    height: 50px;
+    padding-top: 5px !important;
     border-bottom: 1px solid #e0ded9;
   }
   .ant-menu-vertical.ant-menu-sub{
@@ -61,6 +67,8 @@ body {
       }
       .ant-menu-submenu-title{
         margin:0 0;
+        height: 50px;
+        padding-top: 5px !important;
       }
     }
   }
@@ -143,7 +151,7 @@ body {
 
         &.ant-header-side-opened,
         &.ant-header-side-closed {
-          width: 100%;
+          width: 101%;
           // ==yhh
           // width:1600px;
         }
@@ -186,7 +194,7 @@ body {
       }
 
       &.ant-header-side-closed {
-        width: 100%;
+        width: 101%;
       }
     }
 
@@ -764,7 +772,8 @@ body {
     .ant-menu-item {
       a {
         color: #3479b2;
-        font-size: 18px;
+        letter-spacing: 2px;
+        font-size: 14px;
       }
 
       a:hover {

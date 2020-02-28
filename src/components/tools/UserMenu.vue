@@ -2,7 +2,7 @@
   <div class="user-wrapper">
     <div class="content-box" style="display: inline-flex;">
       <div style="display: flex;
-    flex-direction: column;align-self: center;">
+    flex-direction: column;align-self: center;margin-top: 5px;">
           <!-- <span class="action"> -->
           <icon-font type="icon-guoqi" style="fontSize:32px;cursor: pointer;" @click="changeLanguage('en')" v-show="currLanguage==='zh'"/>
           <!-- </span> -->

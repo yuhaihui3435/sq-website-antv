@@ -1,6 +1,13 @@
 <template>
   <div>
-    <a-card v-show="columnData.describe" :loading="columnLoading" :bordered="false" :style="{ background: '#fff', margin: '-42px 0 0 0' }">
+    <a :href="columnData.url ? columnData.url : '#'" target="_blank">
+      <img
+        v-if="columnData.thumbnail"
+        :src="loadPicUrl + columnData.thumbnail"
+        style="height:450px;width:100%;margin-top:-42px"
+      />
+    </a>
+    <a-card v-show="columnData.describe" :loading="columnLoading" :bordered="false" :style="{ background: '#fff', margin: '-42px 0px 0 0px' , padding: '0 24px' }">
       <p
         style="color: #2C2C2C;display: block;
     margin-block-start: 1em;
@@ -11,7 +18,7 @@
         <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ columnData.describe }} -->
       </p>
     </a-card>
-    <div class="selfDiv" :style="{ margin: columnData.describe ? 'unset' : '-42px 0 0 0' }">
+    <div class="selfDiv" :style="{ margin: columnData.describe ? 'unset' : '-42px 0 0 0'  }">
       <a-card :bordered="false" :loading="loading">
         <a-empty v-if="articleList.length === 0 && !loading" />
         <div v-for="item in articleList" :key="item.id">

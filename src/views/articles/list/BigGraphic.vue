@@ -1,9 +1,16 @@
 <template>
   <div>
+    <a :href="columnData.url ? columnData.url : '#'" target="_blank">
+      <img
+        v-if="columnData.thumbnail"
+        :src="loadPicUrl + columnData.thumbnail"
+        style="height:450px;width:100%;margin-top:-42px"
+      />
+    </a>
     <a-card
       v-show="columnData.describe"
       :bordered="false"
-      :style="{ background: '#fff', margin: '-42px 0 0 0' }"
+      :style="{ background: '#fff', margin: '-42px 0px 0 0px' , padding: '0 24px' }"
       :loading="columnLoading"
     >
       <p
@@ -17,7 +24,7 @@
         <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ columnData.describe }} -->
       </p>
     </a-card>
-    <div class="selfDiv" :style="{ margin: columnData.describe ? 'unset' : '-42px 0 0 0' }">
+    <div class="selfDiv" :style="{ margin: columnData.describe ? 'unset' : '-42px 0px 0 0px' , padding: '0 24px 15px' }">
       <div class="ant-pro-pages-list-projects-cardList" style="padding:0 10px 0 10px;">
         <a-list :loading="loading" :data-source="articleList" :grid="{ gutter: 24, xl: 4, lg: 3, md: 3, sm: 2, xs: 1 }">
           <a-list-item slot="renderItem" slot-scope="item">
